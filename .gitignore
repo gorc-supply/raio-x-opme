@@ -31,3 +31,6 @@ certs/*.cer
 Thumbs.db
 .vscode/
 .idea/
+
+# Saída do pipeline offline (fixtures)
+data/offline/
