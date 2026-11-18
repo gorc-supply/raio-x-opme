@@ -98,20 +98,14 @@ comex:
   # "historico" = código vigente antes de revisão da NCM, mantido para continuidade da série.
   ncms:
     - {ncm: "90219012", familia: "Stents", descricao: "Implantes expansíveis (stents)", historico: false}
-    - {ncm: "90219081", familia: "Stents", descricao: "Implantes expansíveis (stents) — código anterior", historico: true}
+    - {ncm: "90219081", familia: "Stents", descricao: "Implantes expansíveis (stents) — código usado até 2020", historico: true}
     - {ncm: "90213110", familia: "Próteses articulares", descricao: "Próteses articulares femurais", historico: false}
     - {ncm: "90213190", familia: "Próteses articulares", descricao: "Outras próteses articulares", historico: false}
-    - {ncm: "90211110", familia: "Próteses articulares", descricao: "Próteses articulares femurais — código anterior", historico: true}
-    - {ncm: "90211190", familia: "Próteses articulares", descricao: "Outras próteses articulares — código anterior", historico: true}
     - {ncm: "90211020", familia: "Placas, parafusos e hastes", descricao: "Artigos e aparelhos para fraturas", historico: false}
-    - {ncm: "90211920", familia: "Placas, parafusos e hastes", descricao: "Artigos e aparelhos para fraturas — código anterior", historico: true}
     - {ncm: "90215000", familia: "Marca-passos", descricao: "Marca-passos cardíacos", historico: false}
     - {ncm: "90213911", familia: "Válvulas cardíacas", descricao: "Válvulas cardíacas mecânicas", historico: false}
     - {ncm: "90213919", familia: "Válvulas cardíacas", descricao: "Outras válvulas cardíacas", historico: false}
-    - {ncm: "90213011", familia: "Válvulas cardíacas", descricao: "Válvulas cardíacas mecânicas — código anterior", historico: true}
-    - {ncm: "90213019", familia: "Válvulas cardíacas", descricao: "Válvulas cardíacas, exceto mecânicas — código anterior", historico: true}
     - {ncm: "90213930", familia: "Próteses vasculares", descricao: "Próteses de artérias vasculares revestidas", historico: false}
-    - {ncm: "90213030", familia: "Próteses vasculares", descricao: "Próteses de artérias vasculares revestidas — código anterior", historico: true}
     - {ncm: "90219019", familia: "Outros implantáveis", descricao: "Outros aparelhos implantáveis (residual, usar com cautela)", historico: false}
 
 bcb:

@@ -1,0 +1,299 @@
+{
+ "date": "2026-11-18",
+ "compras": {
+  "openapi_paths": 77,
+  "price_path_candidates": {
+   "/modulo-pesquisa-preco/1_consultarMaterial": "ok",
+   "/modulo-pesquisapreco/1_consultarMaterial": "falhou (404)"
+  },
+  "price_sample": {
+   "item": 476779,
+   "registros": 115,
+   "latencia_s": [
+    1.515
+   ],
+   "data_compra_min": "2021-12-23",
+   "data_compra_max": "2026-11-09",
+   "campos": {
+    "idCompra": "int",
+    "dataCompra": "str",
+    "forma": "str",
+    "modalidade": "int",
+    "dataHoraAtualizacaoCompra": "str",
+    "idItemCompra": "int",
+    "numeroItemCompra": "int",
+    "niFornecedor": "str",
+    "codigoItemCatalogo": "int",
+    "quantidade": "float",
+    "precoUnitario": "float",
+    "descricaoItem": "str",
+    "siglaUnidadeFornecimento": "str",
+    "nomeUnidadeFornecimento": "str",
+    "capacidadeUnidadeFornecimento": "float",
+    "siglaUnidadeMedida": "NoneType",
+    "nomeUnidadeMedida": "NoneType",
+    "criterioJulgamento": "str",
+    "percentualMaiorDesconto": "float",
+    "nomeFornecedor": "str",
+    "marca": "str",
+    "dataResultado": "str",
+    "dataHoraAtualizacaoItem": "str",
+    "codigoUasg": "str",
+    "nomeUasg": "str",
+    "codigoOrgao": "int",
+    "nomeOrgao": "str",
+    "estado": "str",
+    "codigoMunicipio": "int",
+    "municipio": "str",
+    "poder": "str",
+    "esfera": "str",
+    "dataHoraAtualizacaoUasg": "str",
+    "codigoClasse": "int",
+    "nomeClasse": "str",
+    "idCompraItem": "str",
+    "objetoCompra": "str",
+    "descricaoDetalhadaItem": "str",
+    "dataAtualizacaoFato": "str",
+    "codigoPdm": "str",
+    "nomePdm": "str"
+   },
+   "campos_ausentes_vs_esperado": [],
+   "ufs": [
+    "BA",
+    "CE",
+    "DF",
+    "ES",
+    "MA",
+    "MG",
+    "MS",
+    "PB",
+    "PE",
+    "PI",
+    "PR",
+    "RJ",
+    "RN",
+    "RS",
+    "SP"
+   ]
+  },
+  "detail": {
+   "latencia_s": 1.91,
+   "campos": {
+    "idCompra": "str",
+    "idItemCompra": "int",
+    "numeroItemCompra": "int",
+    "codigoItemCatalogo": "int",
+    "objetoCompra": "str",
+    "descricaoDetalhadaItem": "str",
+    "dataAtualizacaoFato": "str"
+   },
+   "total": 115
+  },
+  "catmat_por_ncm": {
+   "ncm": "90219012",
+   "latencia_s": 1.74,
+   "total": 150,
+   "campos": {
+    "codigoItem": "int",
+    "codigoGrupo": "int",
+    "nomeGrupo": "str",
+    "codigoClasse": "int",
+    "nomeClasse": "str",
+    "codigoPdm": "int",
+    "nomePdm": "str",
+    "descricaoItem": "str",
+    "statusItem": "bool",
+    "itemSustentavel": "bool",
+    "codigo_ncm": "str",
+    "descricao_ncm": "NoneType",
+    "aplica_margem_preferencia": "bool",
+    "dataHoraAtualizacao": "str"
+   },
+   "formato_com_pontos_funciona": false
+  },
+  "catmat_busca_descricao_substring": false
+ },
+ "pncp_itens": {
+  "ok": false,
+  "latencia_s": 182.21
+ },
+ "comex": {
+  "filters": {
+   "latencia_s": 0.48,
+   "ok": true
+  },
+  "details": {
+   "latencia_s": 4.75,
+   "ok": true
+  },
+  "metrics": {
+   "latencia_s": 5.01,
+   "ok": true
+  },
+  "metricas": [
+   "metricFOB",
+   "metricKG",
+   "metricStatistic",
+   "metricFreight",
+   "metricInsurance",
+   "metricCIF"
+  ],
+  "dates_updated": {
+   "latencia_s": 5.07,
+   "ok": true
+  },
+  "ultima_atualizacao": {
+   "updated": "2026-11-06",
+   "year": "2026",
+   "monthNumber": "10"
+  },
+  "ncm_validacao": {
+   "90219012": {
+    "existe": true,
+    "descricao": "Implantes expansíveis (stents), mesmo montados sobre cateter do tipo balão",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90219081": {
+    "existe": true,
+    "descricao": "Implantes expansíveis (stents), mesmo montados sobre cateter do tipo balão",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90213110": {
+    "existe": true,
+    "descricao": "Próteses articulares femurais",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90213190": {
+    "existe": true,
+    "descricao": "Outras próteses articulares",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90211110": {
+    "existe": true,
+    "descricao": "Próteses articulares, femurais",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90211190": {
+    "existe": true,
+    "descricao": "Outras próteses articulares",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90211020": {
+    "existe": true,
+    "descricao": "Artigos e aparelhos para fraturas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90211920": {
+    "existe": true,
+    "descricao": "Artigos e aparelhos para fraturas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90215000": {
+    "existe": true,
+    "descricao": "Marca-passos cardíacos, exceto as partes e acessórios",
+    "unidade_estatistica": "NUMERO (UNIDADE)"
+   },
+   "90213911": {
+    "existe": true,
+    "descricao": "Válvulas cardiacas mecânicas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90213919": {
+    "existe": true,
+    "descricao": "Outras válvulas cardíacas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90213011": {
+    "existe": true,
+    "descricao": "Válvulas cardíacas mecânicas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90213019": {
+    "existe": true,
+    "descricao": "Válvulas cardíacas, exceto as mecânicas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90213930": {
+    "existe": true,
+    "descricao": "Próteses de artérias vasculares revestidas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90213030": {
+    "existe": true,
+    "descricao": "Próteses de artérias vasculares revestidas",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   },
+   "90219019": {
+    "existe": true,
+    "descricao": "Outros aparelhos implantáveis orgânicos, para compensar defeito/incapacidade",
+    "unidade_estatistica": "QUILOGRAMA LIQUIDO"
+   }
+  },
+  "general_sample": {
+   "latencia_s": 4.09,
+   "linhas": 431,
+   "campos": {
+    "coNcm": "str",
+    "year": "str",
+    "monthNumber": "str",
+    "ncm": "str",
+    "country": "str",
+    "state": "str",
+    "metricFOB": "str",
+    "metricFreight": "str",
+    "metricInsurance": "str",
+    "metricCIF": "str",
+    "metricKG": "str",
+    "metricStatistic": "str"
+   }
+  },
+  "cobertura_anos_ncm_amostra": [
+   2020,
+   2026
+  ]
+ },
+ "bcb": {
+  "433": {
+   "latencia_s": 0.46,
+   "n_2025": 12,
+   "exemplo": {
+    "data": "01/01/2025",
+    "valor": "0.16"
+   }
+  },
+  "3698": {
+   "latencia_s": 0.14,
+   "n_2025": 12,
+   "exemplo": {
+    "data": "01/01/2025",
+    "valor": "6.0218"
+   }
+  },
+  "checagem_cambio_set2025": {
+   "media_serie_1": 5.3674,
+   "serie_3698": 5.3674,
+   "diferenca": -0.0
+  },
+  "serie_diaria_janela_16_anos_ok": false
+ },
+ "ibge": {
+  "estados": {
+   "latencia_s": 0.18,
+   "n": 27,
+   "campos": {
+    "id": "int",
+    "sigla": "str",
+    "nome": "str",
+    "regiao": "dict"
+   }
+  },
+  "malha": {
+   "latencia_s": 0.44,
+   "bytes": 98502,
+   "features": 27,
+   "propriedades": [
+    "codarea"
+   ]
+  }
+ }
+}

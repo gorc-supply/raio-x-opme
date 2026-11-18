@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 01:40 (BRT)
+Última atualização: 2026-11-18 02:30 (BRT)
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -12,11 +12,13 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] Aceite: uv sync, raiox --help, ruff, pytest (2 testes)
 
 ## Fase 1 — Reconhecimento das fontes
-- [ ] Compras.gov.br (preços, detalhe, CATMAT, módulo PNCP)
-- [ ] ComexStat (general + auxiliares)
-- [ ] BCB SGS (IPCA 433, câmbio)
-- [ ] IBGE (UFs, GeoJSON)
-- [ ] docs/FONTES.md, fixtures, divergências em DECISOES.md
+- [x] Compras.gov.br (preços, detalhe, CATMAT) — grafia com hífen; `tipo`+`codigo`
+- [!] pendente Módulo de itens PNCP 14.133: existe, mas deu 504/timeout
+- [x] ComexStat (general + auxiliares; 10 NCMs validados; só marca-passo em unidades)
+- [x] BCB SGS (IPCA 433; câmbio 3698 verificado contra a série 1)
+- [x] IBGE (UFs, GeoJSON 98 KB)
+- [x] docs/FONTES.md, fixtures em data/fixtures/recon, divergências em DECISOES.md, `raiox recon`
+- [x] http.py: retry, rate limit, cache, paginação, TLS certifi→truststore→ICP-Brasil (testado)
 
 ## Fase 2 — Catálogo curado
 - [ ] `raiox catalog build` e config/itens_opme.yaml (12–25 itens, ≥ 4 famílias)

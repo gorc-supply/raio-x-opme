@@ -1,0 +1,52 @@
+{
+ "resultado": [
+  {
+   "idCompra": "15591405000182026",
+   "idItemCompra": 12818792,
+   "numeroItemCompra": 19,
+   "codigoItemCatalogo": 476779,
+   "objetoCompra": "Aquisição de MMH - (Material para Angiografia e Hemodinâmica Cardíaca).",
+   "descricaoDetalhadaItem": "Endoprótese Coronária Endoprótese Coronária, Tipo:Stent Farmacológico, Revestimento:Biolimus, Everolimus, Sirolimus Ou Zotarolimus, Material Plataforma:Liga Metálica, Dimensão:Cerca De 4,0 X Até 40 Mm, Espessura Haste:Haste Menor Ou Igual A 120 MICROM, Modelo:Permanente, Expansível Por Balão, Esterilidade:Estéril EM REGIME DE CONSIGNAÇÃO ",
+   "dataAtualizacaoFato": "2026-09-25T04:37:43.838208"
+  },
+  {
+   "idCompra": "15502205901122024",
+   "idItemCompra": 7871182,
+   "numeroItemCompra": 108,
+   "codigoItemCatalogo": 476779,
+   "objetoCompra": "Objeto: Pregão Eletrônico -  Registro de preços visando eventual aquisição centralizada de Órteses, Próteses e Materiais Especiais (OPME) Cardiovasculares para as unidades hospitalares daRede Ebserh",
+   "descricaoDetalhadaItem": "ENDOPRÓTESE CORONÁRIA, TIPO STENT FARMACOLÓGICO, REVESTIMENTO BIOLIMUS,EVEROLIMUS, SIROLIMUS OU ZOTAROLIMUS, MATERIAL PLATAFORMA LIGA METÁLICA,DIMENSÃO CERCA DE 4,0 X ATÉ 40 MM, ESPESSURA HASTE HASTE MENOR OU IGUAL A 120MICROM, MODELO PERMANENTE, EXPANSÍVEL POR BALÃO, ESTERILIDADE ESTÉRIL",
+   "dataAtualizacaoFato": "2026-04-05T04:00:00.005073"
+  },
+  {
+   "idCompra": "15502105900502025",
+   "idItemCompra": 10821246,
+   "numeroItemCompra": 47,
+   "codigoItemCatalogo": 476779,
+   "objetoCompra": "Objeto: Pregão Eletrônico -  Aquisição de OPMEpara o Serviço de Hemodinâmica, em regime de consignação.",
+   "descricaoDetalhadaItem": "ENDOPRÓTESE CORONÁRIA, TIPO STENT FARMACOLÓGICO, REVESTIMENTO BIOLIMUS,EVEROLIMUS, SIROLIMUS OU ZOTAROLIMUS, MATERIAL PLATAFORMA LIGA METÁLICA,DIMENSÃO CERCA DE 4,0 X ATÉ 40 MM, ESPESSURA HASTE HASTE MENOR OU IGUAL A 120MICROM, MODELO PERMANENTE, EXPANSÍVEL POR BALÃO, ESTERILIDADE ESTÉRIL",
+   "dataAtualizacaoFato": "2026-03-10T03:00:16.497929"
+  },
+  {
+   "idCompra": "15502005900292026",
+   "idItemCompra": 12842255,
+   "numeroItemCompra": 84,
+   "codigoItemCatalogo": 476779,
+   "objetoCompra": "Objeto: Pregão Eletrônico -  Aquisição de Produtos para Saúde para os serviços de Vascular, Hemodinâmica, Endopróteses e Conjunto de Drenagem, incluindo itens em regime de comodato e consignação, a fim de atender às necessidades do Complexo Hospitalar formado pelo Hospital Universitário Walter Cantídio e pela Maternidade Escola Assis Chateaubriand (CH-UFC), Unidade Gestora(UG) 155020, pertencente à Rede da Empresa Brasileira de Serviços Hospitalares (Rede Ebserh).",
+   "descricaoDetalhadaItem": "ENDOPRÓTESE CORONÁRIA, TIPO STENT FARMACOLÓGICO, REVESTIMENTO BIOLIMUS,EVEROLIMUS, SIROLIMUS OU ZOTAROLIMUS, MATERIAL PLATAFORMA LIGA METÁLICA,DIMENSÃO CERCA DE 4,0 X ATÉ 40 MM, ESPESSURA HASTE HASTE MENOR OU IGUAL A 120MICROM, MODELO PERMANENTE, EXPANSÍVEL POR BALÃO, ESTERILIDADE ESTÉRIL",
+   "dataAtualizacaoFato": "2026-11-10T03:00:57.41106"
+  },
+  {
+   "idCompra": "15501605000122026",
+   "idItemCompra": 13120051,
+   "numeroItemCompra": 6,
+   "codigoItemCatalogo": 476779,
+   "objetoCompra": "Aquisição de dispositivos médicos para procedimentos de hemodinâmica, incluindo OPME",
+   "descricaoDetalhadaItem": "Endoprótese Coronária tipo: stent farmacológico, revestimento: biolimus, everolimus, sirolimus ou zotarolimus, material plataforma: liga metálica, dimensão: cerca de 4,0 x até 40 mm, espessura haste: haste menor ou igual a 120, modelo: permanente, expansível por balão, esterilidade: estéril ",
+   "dataAtualizacaoFato": "2026-11-05T02:28:18.711887"
+  }
+ ],
+ "totalRegistros": 115,
+ "totalPaginas": 12,
+ "paginasRestantes": 11
+}
