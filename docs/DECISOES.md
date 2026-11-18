@@ -124,3 +124,4 @@ Gerada por `raiox.viz.theme.contrast_report()` e verificada em `tests/test_theme
 | Escuro: categórica | `#E58AC0` | `#15263A` | 6,37:1 | 3,0:1 |
 | Escuro: categórica | `#D9BE4E` | `#15263A` | 8,34:1 | 3,0:1 |
 | Escuro: categórica | `#C9D6E3` | `#15263A` | 10,37:1 | 3,0:1 |
+| 2026-11-18 | `data/bronze/` inteira volta para o `.gitignore` (seção 4 do SUPERPROMPT); `refresh.yml` deixa de fazer commit da bronze | Manter `compras_precos` e `catmat_itens` versionadas | Decisão do Gabriel. Antes, auditoria de todo o histórico (20 commits, 383 blobs): nenhum CPF sem máscara; nos campos de fornecedor só há CNPJ (14 dígitos). Trade-off aceito: o histórico de preços passa a depender do que a API devolve a cada mês (hoje, desde 12/2021). |
