@@ -78,3 +78,23 @@ def test_charts_and_carousel_offline(offline_gold):
     out = offline_gold.path("linkedin")
     assert "offline" in out.parts  # nunca sobrescreve o kit real
     assert (out / "carrossel" / "raio-x-opme.pdf").stat().st_size > 10_000
+
+
+def test_finding_titles_never_round_to_zero_or_hundred(offline_gold):
+    """Título e frase de um achado devem mostrar o mesmo percentual: nada de "cobre 0%"
+    no título quando o texto diz 0,1%."""
+    import re
+
+    ach = pl.read_parquet(offline_gold.path("gold") / "achados.parquet")
+    for r in ach.iter_rows(named=True):
+        nums = json.loads(r["numeros"])
+        shares = [
+            v
+            for k, v in nums.items()
+            if isinstance(v, float) and (k.startswith("share") or k in ("cobertura", "variacao"))
+        ]
+        for text in (r["titulo"], r["frase"]):
+            if re.search(r"(?<![\d,.])0%", text):
+                assert any(v == 0 for v in shares), text
+            if re.search(r"(?<![\d,.])100%", text):
+                assert any(abs(v) == 1 for v in shares), text

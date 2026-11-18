@@ -7,7 +7,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 | # | Robustez | Achado | n | Período |
 |---:|---|---|---|---|
 | 1 | forte | Parafuso cortical de bloqueio 3,5 mm (titânio): mesmo código CATMAT, preços 11,0× diferentes (P90/P10) | 118 compras, 46 órgãos | 11/2024 a 10/2026 |
-| 2 | forte | Marca-passos: exportação cobre 0% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
+| 2 | forte | Marca-passos: exportação cobre 0,1% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
 | 3 | forte | Marca-passos: 100% dos registros só com fabricante estrangeiro | 51 registros vigentes | registros vigentes em 2026-11-18 |
 | 4 | forte | Marca-passo bicameral (dupla câmara): 3 fornecedores = 84% do valor | 31 registros-compra, 5 fornecedores | 11/2024 a 10/2026 |
 | 5 | forte | NCM 90213911: 76% do valor importado veio de um só país (Estados Unidos) | registro censitário do comércio exterior | 2025 |
@@ -28,7 +28,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços)
 - **Números:** `p10` = 100.5528; `p90` = 1107.0188; `mediana` = 298.0999; `p90_p10` = 11.0093; `n_compras` = 118; `n_orgaos` = 46; `item_heterogeneo` = True
 
-### 2. Marca-passos: exportação cobre 0% da importação
+### 2. Marca-passos: exportação cobre 0,1% da importação
 
 > Em 2025, o Brasil importou US$ 29,0 mi (FOB) em marca-passos (NCM 90215000) e exportou US$ 34,6 mil: as exportações cobriram 0,1% das importações.
 

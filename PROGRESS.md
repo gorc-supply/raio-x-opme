@@ -74,3 +74,6 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] LGPD reforçada: CPF mascarado também na bronze versionada e nas fixtures
 - [x] Gold idempotente byte a byte (floats estáveis)
 - [x] Relatório final em PENDENCIAS.md
+
+## Pós-entrega — rodada 2 (2026-11-18)
+- [x] Parte B: percentuais nunca arredondam para "0%"/"100%" quando o valor não é esse (`fmt.pct`); títulos dos achados revisados; testes em `tests/test_fmt.py` e no pipeline offline

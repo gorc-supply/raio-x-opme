@@ -51,10 +51,25 @@ def usd_compact(v: float | None) -> str:
 
 
 def pct(v: float | None, nd: int = 1) -> str:
-    """Recebe fração (0,123) e devolve '12,3%'."""
+    """Recebe fração (0,123) e devolve '12,3%'.
+
+    Arredondamento nunca esconde a informação: um valor diferente de zero nunca aparece
+    como "0%" e um valor diferente de 100% nunca aparece como "100%". Abaixo de 1% usa
+    ao menos uma casa decimal; se ainda assim arredondar para zero, vira "menos de 0,1%".
+    """
     if v is None:
         return "—"
-    return f"{num(v * 100, nd)}%"
+    p = v * 100
+    a = abs(p)
+    if 0 < a < 1:
+        nd = max(nd, 1)
+        if round(a, nd) == 0:
+            return f"menos de {num(10.0**-nd, nd)}%"
+    elif a != 100 and round(a, nd) == 100:
+        nd = max(nd, 1)
+        if round(a, nd) == 100:
+            return f"mais de {num(100 - 10.0**-nd, nd)}%" if a < 100 else "pouco mais de 100%"
+    return f"{num(p, nd)}%"
 
 
 def ratio(v: float | None, nd: int = 1) -> str:
