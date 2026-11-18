@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 03:30 (BRT)
+Última atualização: 2026-11-18 04:00 (BRT)
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -43,7 +43,11 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] 5.7 achados (82; trava de homogeneidade) + docs/ACHADOS.md + compras_detalhe + DICIONARIO_DADOS.md
 
 ## Fase 6 — Painel Streamlit
-- [ ] Home + 5 páginas, tema, AppTest
+- [x] Home + 5 páginas (navegação própria com rótulos acentuados; filtros globais persistentes)
+- [x] Mapa coroplético com GeoJSON local (anéis reorientados p/ plotly), boxplot, tabela + CSV
+- [x] Tema `.streamlit/config.toml` + paleta única (viz/theme.py); números em pt-BR
+- [x] AppTest: todas as páginas, todos os itens, persistência de filtros, nenhuma chamada de rede
+- [x] Servidor real sobe sem erro/aviso; screenshots em docs/img (Playwright + Chrome local)
 
 ## Fase 7 — Kit de LinkedIn
 - [ ] 5 PNGs, carrossel PDF, 5 posts + calendário

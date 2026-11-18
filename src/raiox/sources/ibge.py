@@ -23,6 +23,35 @@ def _round_coords(obj: Any, nd: int) -> Any:
     return obj
 
 
+def _ring_area(ring: list) -> float:
+    """Área com sinal (fórmula do laço); > 0 = anti-horário em lon/lat."""
+    return sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(ring, ring[1:], strict=False)) / 2
+
+
+def rewind_for_d3(geometry: dict) -> dict:
+    """Orienta os anéis no padrão do d3/plotly (exterior horário, buracos anti-horários).
+
+    A malha do IBGE segue o RFC 7946 (exterior anti-horário); sem isso o plotly pinta
+    "o mundo menos o estado" e o mapa vira um retângulo.
+    """
+
+    def fix(poly: list) -> list:
+        out = []
+        for i, ring in enumerate(poly):
+            ccw = _ring_area(ring) > 0
+            want_cw = i == 0
+            out.append(
+                list(reversed(ring)) if (ccw and want_cw) or (not ccw and not want_cw) else ring
+            )
+        return out
+
+    if geometry["type"] == "Polygon":
+        geometry["coordinates"] = fix(geometry["coordinates"])
+    elif geometry["type"] == "MultiPolygon":
+        geometry["coordinates"] = [fix(p) for p in geometry["coordinates"]]
+    return geometry
+
+
 def ingest(settings: Settings, client: HttpClient) -> dict[str, int]:
     cfg = settings.ibge
     ref = settings.path("reference")
@@ -59,6 +88,7 @@ def ingest(settings: Settings, client: HttpClient) -> dict[str, int]:
             feat["properties"]["uf"] = code_to_uf.get(code)
             feat["properties"]["nome"] = code_to_nome.get(code)
             feat["id"] = code_to_uf.get(code)
+            feat["geometry"] = rewind_for_d3(feat["geometry"])
         text = json.dumps(geo, ensure_ascii=False, separators=(",", ":"))
         nd = 4
         while len(text.encode()) > cfg.geojson_max_bytes and nd > 1:

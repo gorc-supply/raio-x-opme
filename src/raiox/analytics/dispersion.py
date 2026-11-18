@@ -317,6 +317,7 @@ def compras_detalhe(
             "mes",
             "uf",
             "municipio",
+            "codigo_uasg",
             "nome_uasg",
             "nome_orgao",
             "esfera",
