@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 05:00 (BRT)
+Última atualização: 2026-11-18 05:20 (BRT)
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -61,7 +61,11 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] YAMLs validados (PyYAML + actionlint) e passos do CI executados localmente
 
 ## Fase 9 — Documentação e publicação
-- [ ] README, METODOLOGIA, deploy, topics
+- [x] README na ordem pedida (badges, screenshots reais, 3 perguntas, 3 achados fortes, Mermaid, 4 comandos, fontes, limitações, roadmap, autor, resumo em inglês)
+- [x] docs/METODOLOGIA.md completo (renderizado no painel)
+- [x] Instruções de deploy no Streamlit Community Cloud + requirements.txt
+- [x] Descrição curta e topics do GitHub (no README, bloco recolhível)
+- [x] Links internos e externos conferidos (curl)
 
 ## Fase 10 — Auditoria final
 - [ ] Clone limpo, conferência de 5 números, varredura de segredos/CPF/caminhos, relatório
