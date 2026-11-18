@@ -48,7 +48,7 @@ para ser chamada de forte (7 indícios moderados, 12 fracos, 6 itens sem amostra
 ## Painel
 
 **https://raio-x-opme.streamlit.app** — mapa por UF, distribuição de preços, série real, fornecedores,
-compras individuais com link para o registro, importação e metodologia. O painel só lê `data/gold/` e
+compras individuais com link para o registro, importação, Tabela SUS × preço praticado e metodologia. O painel só lê `data/gold/` e
 `data/reference/`: não chama nenhuma API.
 
 ## Como funciona
@@ -61,8 +61,9 @@ flowchart LR
         C[BCB<br/>IPCA e câmbio]
         D[IBGE<br/>UFs e malha]
         E[ANVISA<br/>registros]
+        F[SIGTAP/DATASUS<br/>Tabela SUS]
     end
-    A & B & C & D & E --> R[(raw<br/>JSON por snapshot)]
+    A & B & C & D & E & F --> R[(raw<br/>JSON por snapshot)]
     R --> BZ[(bronze<br/>Parquet fiel à fonte)]
     BZ --> S[(silver<br/>limpo, unidades, CPF mascarado,<br/>outliers, R$ constantes)]
     S --> G[(gold<br/>preço por UF, dispersão com IC,<br/>séries, importação, achados)]
@@ -110,6 +111,7 @@ Outros comandos: `uv run raiox --help`, `uv run pytest`, `uv run ruff check .`, 
 | [Banco Central — SGS](https://www3.bcb.gov.br/sgspub) | IPCA (433) e câmbio (3698) | Dados abertos |
 | [IBGE — API de localidades e malhas](https://servicodados.ibge.gov.br/api/docs/localidades) | UFs e malha territorial | Dados abertos |
 | [ANVISA — dados abertos](https://dados.anvisa.gov.br/dados/) | Registros de produtos para saúde | Dados abertos |
+| [SIGTAP/DATASUS — Tabela Unificada](http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp) | Valor de tabela SUS para OPME (2015–2026) | CC BY 3.0 |
 
 Código sob licença [MIT](LICENSE). Dados pertencem às fontes; cite-as ao reutilizar. Detalhes técnicos de
 cada endpoint em [docs/FONTES.md](docs/FONTES.md); colunas das tabelas em
@@ -125,14 +127,14 @@ cada endpoint em [docs/FONTES.md](docs/FONTES.md); colunas das tabelas em
 - Diferença de preço **não** é sinônimo de irregularidade: volume, prazo, logística, consignação,
   especificação e urgência explicam boa parte da variação.
 
-Lista completa em [docs/METODOLOGIA.md](docs/METODOLOGIA.md#10-limitações-conhecidas).
+Lista completa em [docs/METODOLOGIA.md](docs/METODOLOGIA.md#11-limitações-conhecidas).
 
 ## Roadmap
 
 - [ ] Itens de contratações PNCP (Lei 14.133) quando o endpoint estabilizar — amplia estados e municípios.
 - [ ] Comparação "mesma marca, estados diferentes" para separar preço de mix de produtos.
 - [ ] Banco de Preços em Saúde (BPS) completo, se houver base aberta com OPME.
-- [ ] Tabela SIGTAP (valor de referência SUS) × preço praticado.
+- [x] Tabela SIGTAP (valor de referência SUS) × preço praticado (mapa SIGTAP × CATMAT a validar).
 - [ ] Mais itens no catálogo à medida que o histórico acumula.
 
 ## Autor

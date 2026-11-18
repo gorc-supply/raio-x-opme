@@ -11,11 +11,11 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 | 3 | forte | Marca-passos: 100% dos registros só com fabricante estrangeiro | 51 registros vigentes | registros vigentes em 2026-11-18 |
 | 4 | forte | Marca-passo bicameral (dupla câmara): 3 fornecedores = 84% do valor | 31 registros-compra, 5 fornecedores | 11/2024 a 10/2026 |
 | 5 | forte | NCM 90213911: 76% do valor importado veio de um só país (Estados Unidos) | registro censitário do comércio exterior | 2025 |
-| 6 | forte | Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10) | 77 compras, 50 órgãos | 11/2024 a 10/2026 |
-| 7 | forte | Stents: exportação cobre 3% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
-| 8 | forte | Cateteres: 99% dos registros só com fabricante estrangeiro | 102 registros vigentes | registros vigentes em 2026-11-18 |
-| 9 | forte | Cateter balão coronário semicomplacente (30 mm): 3 fornecedores = 77% do valor | 34 registros-compra, 14 fornecedores | 11/2024 a 10/2026 |
-| 10 | forte | NCM 90215000: 37% do valor importado veio de um só país (Alemanha) | registro censitário do comércio exterior | 2025 |
+| 6 | forte | Tabela SUS, endoprótese de aorta (SIGTAP 07.02.04.030-4): valor real caiu 47% desde 01/2015 | tabela oficial (sem amostragem) | 01/2015 a 11/2026 |
+| 7 | forte | Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10) | 77 compras, 50 órgãos | 11/2024 a 10/2026 |
+| 8 | forte | Stents: exportação cobre 3% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
+| 9 | forte | Cateteres: 99% dos registros só com fabricante estrangeiro | 102 registros vigentes | registros vigentes em 2026-11-18 |
+| 10 | forte | Cateter balão coronário semicomplacente (30 mm): 3 fornecedores = 77% do valor | 34 registros-compra, 14 fornecedores | 11/2024 a 10/2026 |
 
 ## Evidência de cada achado
 
@@ -64,7 +64,16 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** ComexStat/MDIC
 - **Números:** `ano` = 2025; `pais` = Estados Unidos; `share` = 0.7628; `hhi_origem` = 6097.3908; `fob_usd` = 7080035.0
 
-### 6. Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10)
+### 6. Tabela SUS, endoprótese de aorta (SIGTAP 07.02.04.030-4): valor real caiu 47% desde 01/2015
+
+> Tabela SUS, procedimento "ENDOPROTESE TORACICA RETA" (SIGTAP 07.02.04.030-4): o valor nominal ficou em R$ 14.000,00 de 01/2015 a 11/2026, sem reajuste. Corrigido pelo IPCA, o valor de 01/2015 equivale a R$ 26.249,87 em R$ de out/2026: em termos reais, o valor de tabela perdeu 47% no período. Competências comparadas: janeiro de cada ano desde 2015 e a mais recente.
+
+- **Tipo:** defasagem_sigtap · **Robustez:** forte (valor oficial de tabela corrigido pelo IPCA; não depende de amostra nem do mapa CATMAT)
+- **Base (n):** tabela oficial (sem amostragem) · **Período:** 01/2015 a 11/2026 · **Unidade:** R$ por unidade de OPME (reais)
+- **Fonte:** SIGTAP/DATASUS (Tabela Unificada do SUS); IPCA/BCB
+- **Números:** `codigo_sigtap` = 0702040304; `valor_nominal_inicio` = 14000.0; `valor_nominal_fim` = 14000.0; `valor_real_inicio` = 26249.8693; `valor_real_fim` = 14000.0; `variacao` = -0.4667
+
+### 7. Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10)
 
 > Sob o mesmo código CATMAT 440305 (Placa bloqueada LCP p/ calcâneo (titânio)), os 10% mais caros pagaram ao menos R$ 3.910,24 por unidade e os 10% mais baratos até R$ 292,11: 13,4× de dispersão. O código abriga marcas e especificações diferentes, o que limita a comparação direta de preços. Base: 77 compras de 50 órgãos, 11/2024 a 10/2026, R$ de out/2026, sem outliers.
 
@@ -73,7 +82,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços)
 - **Números:** `p10` = 292.1111; `p90` = 3910.2427; `mediana` = 1203.9835; `p90_p10` = 13.3862; `n_compras` = 77; `n_orgaos` = 50; `item_heterogeneo` = True
 
-### 7. Stents: exportação cobre 3% da importação
+### 8. Stents: exportação cobre 3% da importação
 
 > Em 2025, o Brasil importou US$ 100,6 mi (FOB) em stents (NCM 90219012) e exportou US$ 2,8 mi: as exportações cobriram 2,8% das importações.
 
@@ -82,7 +91,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** ComexStat/MDIC
 - **Números:** `ano` = 2025; `import_fob_usd` = 100601115.0; `export_fob_usd` = 2803784.0; `cobertura` = 0.0279; `ncms` = 90219012
 
-### 8. Cateteres: 99% dos registros só com fabricante estrangeiro
+### 9. Cateteres: 99% dos registros só com fabricante estrangeiro
 
 > Cateteres: 99% dos 102 registros vigentes na ANVISA têm apenas fabricante(s) estrangeiro(s). Principais países fabricantes: CHINA, REPÚBLICA POPULAR (35%), ESTADOS UNIDOS DA AMÉRICA (19%), ÍNDIA (9%), HOLANDA (PAÍSES BAIXOS) (7%). Registro não mede volume vendido: é um indicador de dependência tecnológica (dados de 2026-11-18).
 
@@ -91,7 +100,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** ANVISA (dados abertos, produtos para saúde)
 - **Números:** `registros_vigentes` = 102; `share_so_estrangeiro` = 0.9902; `share_com_fabricante_nacional` = 0.0098
 
-### 9. Cateter balão coronário semicomplacente (30 mm): 3 fornecedores = 77% do valor
+### 10. Cateter balão coronário semicomplacente (30 mm): 3 fornecedores = 77% do valor
 
 > Os 3 maiores fornecedores responderam por 77% do valor comprado de Cateter balão coronário semicomplacente (30 mm) (14 fornecedores no total; HHI 2.172), de 11/2024 a 10/2026. Concentração alta não indica irregularidade: pode refletir poucos fabricantes com registro no país.
 
@@ -100,18 +109,9 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços)
 - **Números:** `cr3` = 0.7719; `hhi` = 2171.9528; `n_fornecedores` = 14
 
-### 10. NCM 90215000: 37% do valor importado veio de um só país (Alemanha)
-
-> Em 2025, 37% do valor importado em marca-passos cardíacos, exceto as partes e acessórios (NCM 90215000, US$ 29,0 mi FOB) teve como origem Alemanha. Principais origens: Alemanha (37%), Malásia (26%), Singapura (18%).
-
-- **Tipo:** origem_importacao · **Robustez:** forte (dado censitário oficial)
-- **Base (n):** registro censitário do comércio exterior · **Período:** 2025 · **Unidade:** % do US$ FOB
-- **Fonte:** ComexStat/MDIC
-- **Números:** `ano` = 2025; `pais` = Alemanha; `share` = 0.3741; `hhi_origem` = 2516.8137; `fob_usd` = 28976717.0
-
 ## Todos os achados
 
-A tabela completa (82 achados, inclusive moderados e fracos) está em `data/gold/achados.parquet` e na página inicial do painel.
+A tabela completa (101 achados, inclusive moderados e fracos) está em `data/gold/achados.parquet` e na página inicial do painel.
 
 ## Conferência contra o raw
 

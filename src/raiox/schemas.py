@@ -182,6 +182,34 @@ PONTE = pa.DataFrameSchema(
     name="gold.ponte_preco_importacao",
 )
 
+SIGTAP_SILVER = pa.DataFrameSchema(
+    {
+        "codigo_sigtap": _col(pl.String, pa.Check.str_matches(r"^07\d{8}$"), nullable=False),
+        "competencia": _col(pl.String, pa.Check.str_matches(r"^\d{6}$"), nullable=False),
+        "mes_competencia": _col(pl.Date, nullable=False),
+        "valor_opme": _col(pl.Float64, pa.Check.ge(0), nullable=True),
+    },
+    unique=["codigo_sigtap", "competencia"],
+    strict=False,
+    name="silver.sigtap_procedimentos",
+)
+
+PONTE_SIGTAP = pa.DataFrameSchema(
+    {
+        "codigo_sigtap": _col(pl.String, pa.Check.str_matches(r"^07\d{8}$")),
+        "codigo_catmat": _col(pl.Int64),
+        "confianca": _col(pl.String, pa.Check.isin(["alta", "media", "baixa"])),
+        "valor_sigtap_nominal": _col(pl.Float64, pa.Check.ge(0)),
+        "valor_sigtap_real": _col(pl.Float64, pa.Check.ge(0), nullable=True),
+        "mediana_preco_real": _col(pl.Float64, pa.Check.gt(0), nullable=True),
+        "razao_preco_sigtap": _col(pl.Float64, pa.Check.gt(0), nullable=True),
+        "n_compras": _col(pl.Int64, pa.Check.ge(0)),
+    },
+    unique=["codigo_sigtap", "codigo_catmat"],
+    strict=False,
+    name="gold.ponte_sigtap_preco",
+)
+
 ACHADOS = pa.DataFrameSchema(
     {
         "id": _col(pl.String, unique=True),

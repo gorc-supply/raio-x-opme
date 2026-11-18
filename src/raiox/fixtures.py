@@ -21,6 +21,8 @@ FIXTURE_ITEMS = [616180, 443802, 436621, 476772, 480767, 614825]
 FIXTURE_NCMS = ["90215000", "90219012", "90211020"]
 FIXTURE_COMEX_YEARS = [2025]
 ANVISA_MAX_LINES_PER_FAMILY = 80
+# SIGTAP: uma competência de cada layout (VL_SH com 10 e com 12 posições).
+FIXTURE_SIGTAP_COMPETENCES = ["201501", "202611"]
 
 
 def _latest(settings: Settings, source: str) -> Path | None:
@@ -33,6 +35,49 @@ def _copy(src: Path, dst_dir: Path) -> int:
     dst_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst_dir / src.name)
     return src.stat().st_size
+
+
+def build_sigtap_fixture(settings: Settings, out_root: Path) -> dict[str, int]:
+    """ZIPs do SIGTAP recortados: só o layout e as linhas do grupo 07 de `tb_procedimento.txt`
+    (bytes originais, latin-1), para as competências de FIXTURE_SIGTAP_COMPETENCES."""
+    import zipfile
+
+    from raiox.sources.sigtap import LISTING_KEY, PROC_FILE, PROC_LAYOUT, ZIP_RE
+
+    snap = _latest(settings, "sigtap")
+    if not snap or not (snap / f"{LISTING_KEY}.json").exists():
+        return {}
+    dst = out_root / "sigtap" / snap.name
+    if dst.exists():
+        shutil.rmtree(dst)
+    dst.mkdir(parents=True, exist_ok=True)
+    prefix = settings.complementary.sigtap.get("group_prefix", "07").encode()
+    kept = []
+    for zp in sorted(snap.glob("*.zip")):
+        m = ZIP_RE.match(zp.name)
+        if not m or m.group(1) not in FIXTURE_SIGTAP_COMPETENCES:
+            continue
+        with (
+            zipfile.ZipFile(zp) as zin,
+            zipfile.ZipFile(dst / zp.name, "w", zipfile.ZIP_DEFLATED) as zout,
+        ):
+            for name in zin.namelist():
+                if name.lower().endswith(PROC_LAYOUT):
+                    zout.writestr(name, zin.read(name))
+                elif name.lower().endswith(PROC_FILE):
+                    lines = zin.read(name).splitlines(keepends=True)
+                    zout.writestr(name, b"".join(ln for ln in lines if ln.startswith(prefix)))
+        kept.append(zp.name)
+        meta = json.loads((snap / f"zip_{m.group(1)}.json").read_text(encoding="utf-8"))
+        meta["meta"]["fixture_recortada"] = True  # sha256/bytes referem-se ao ZIP original
+        (dst / f"zip_{m.group(1)}.json").write_text(
+            json.dumps(meta, ensure_ascii=False), encoding="utf-8"
+        )
+    env = json.loads((snap / f"{LISTING_KEY}.json").read_text(encoding="utf-8"))
+    env["body"]["arquivos"] = kept
+    env["meta"]["fixture_recortada"] = True
+    (dst / f"{LISTING_KEY}.json").write_text(json.dumps(env, ensure_ascii=False), encoding="utf-8")
+    return {"sigtap": sum(p.stat().st_size for p in dst.iterdir())}
 
 
 def build_fixtures(settings: Settings) -> dict[str, int]:
@@ -111,7 +156,10 @@ def build_fixtures(settings: Settings) -> dict[str, int]:
         (dst / FILE).write_bytes(text.encode("latin1", errors="replace"))
         sizes["anvisa"] = (dst / FILE).stat().st_size
 
+    sizes.update(build_sigtap_fixture(settings, out_root))
+
     manifest = {
+        "sigtap_competencias": FIXTURE_SIGTAP_COMPETENCES,
         "itens_catmat": FIXTURE_ITEMS,
         "ncms": FIXTURE_NCMS,
         "anos_comex": FIXTURE_COMEX_YEARS,

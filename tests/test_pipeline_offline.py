@@ -98,3 +98,17 @@ def test_finding_titles_never_round_to_zero_or_hundred(offline_gold):
                 assert any(v == 0 for v in shares), text
             if re.search(r"(?<![\d,.])100%", text):
                 assert any(abs(v) == 1 for v in shares), text
+
+
+def test_offline_sigtap_bridge(offline_gold):
+    """As fixtures do SIGTAP (01/2015 e 11/2026, dois layouts) chegam à gold."""
+    gold = offline_gold.path("gold")
+    ponte = pl.read_parquet(gold / "ponte_sigtap_preco.parquet")
+    assert ponte.height > 0
+    assert set(ponte["confianca"].unique()) <= {"alta", "media", "baixa"}
+    assert (ponte["valor_sigtap_nominal"] > 0).all()
+    serie = pl.read_parquet(gold / "sigtap_serie.parquet")
+    assert set(serie["competencia"].unique()) == {"201501", "202611"}
+    ach = pl.read_parquet(gold / "achados.parquet").filter(pl.col("tipo") == "ponte_sigtap")
+    # Mapa ainda não validado: nenhum achado de razão preço ÷ tabela pode ser "forte".
+    assert not (ach["robustez"] == "forte").any()

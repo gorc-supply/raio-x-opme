@@ -1,0 +1,231 @@
+# ==========================================================================================
+#  A VALIDAR PELO GABRIEL — mapeamento feito por regra e leitura das descrições, sem
+#  validação clínica ou de compras. Enquanto `validado_por_gabriel` for false, nenhum achado
+#  SIGTAP passa de "moderado" (não vai para post). Depois de revisar cada par, mude para true
+#  e rode `uv run raiox analyze` e `uv run raiox charts`.
+# ==========================================================================================
+#
+# Mapa: procedimentos OPME da Tabela SUS (SIGTAP, grupo 07) × itens CATMAT do catálogo.
+#
+# O valor SIGTAP de OPME é o campo VL_SH ("Serviço Hospitalar"), em reais por unidade de OPME
+# (no arquivo vem em centavos). É valor de REEMBOLSO do SUS ao prestador, não preço de compra.
+#
+# confianca:
+#   alta  — mesmo dispositivo e mesmo componente; a tabela de compatibilidade do SIGTAP
+#           (rl_procedimento_compativel) confirma o uso no procedimento correspondente.
+#           Só estes pares viram achado.
+#   media — mesma classe de dispositivo, mas o código SIGTAP agrupa coisas que o CATMAT separa
+#           (ex.: "inclui parafusos") ou é genérico (ex.: balão de qualquer complacência).
+#   baixa — correspondência aproximada (componente ou especificação diferente). Só para consulta.
+# Itens do catálogo SEM par (não há código SIGTAP equivalente, na dúvida ficaram de fora):
+#   453982 Contraparafuso de compressão p/ haste bloqueada
+#   443904 Placa de tensão p/ olécrano, 6 furos
+#
+# Códigos e descrições conferidos no arquivo da competência 11/2026 (tb_procedimento.txt).
+
+validado_por_gabriel: false
+competencia_referencia: "202611"
+
+pares:
+  # ---------------------------------------------------------------- Stents ----
+  - codigo_sigtap: "0702040614"
+    descricao_sigtap: STENT FARMACOLÓGICO PARA ARTERIA CORONARIA
+    codigo_catmat: 476772
+    familia: Stent coronário farmacológico
+    confianca: alta
+    justificativa: >-
+      Mesmo dispositivo (stent coronário farmacológico, por unidade). O código SIGTAP vale para
+      qualquer diâmetro; é o OPME compatível com "angioplastia coronariana com implante de stent".
+  - codigo_sigtap: "0702040614"
+    descricao_sigtap: STENT FARMACOLÓGICO PARA ARTERIA CORONARIA
+    codigo_catmat: 476771
+    familia: Stent coronário farmacológico
+    confianca: alta
+    justificativa: >-
+      Mesmo dispositivo (stent coronário farmacológico, por unidade); diâmetro 2,0 mm coberto
+      pelo mesmo código SIGTAP.
+  - codigo_sigtap: "0702040517"
+    descricao_sigtap: STENT PARA ARTÉRIA PERIFÉRICA
+    codigo_catmat: 476904
+    familia: Stent vascular periférico
+    confianca: media
+    justificativa: >-
+      O SIGTAP não tem código específico para stent de carótida; "stent para artéria periférica"
+      é o OPME compatível com "angioplastia intraluminal de vasos do pescoço ou troncos
+      supra-aórticos (com stent)". Código genérico: cobre stents periféricos de vários tipos.
+  - codigo_sigtap: "0702040517"
+    descricao_sigtap: STENT PARA ARTÉRIA PERIFÉRICA
+    codigo_catmat: 476903
+    familia: Stent vascular periférico
+    confianca: media
+    justificativa: >-
+      Mesmo raciocínio do stent de carótida reto: código SIGTAP genérico para stent periférico.
+
+  # ----------------------------------------------------------- Marca-passo ----
+  - codigo_sigtap: "0702040410"
+    descricao_sigtap: MARCAPASSO CARDIACO MULTIPROGRAMAVEL DE CAMARA DUPLA
+    codigo_catmat: 480767
+    familia: Marca-passo
+    confianca: alta
+    justificativa: >-
+      Gerador de marca-passo de dupla câmara nos dois lados. No SIGTAP é o único OPME da "troca
+      de gerador de marca-passo de câmara dupla" (eletrodos têm código próprio) e é compatível
+      com o implante epimiocárdico e transvenoso.
+  - codigo_sigtap: "0702040428"
+    descricao_sigtap: MARCAPASSO CARDIACO MULTIPROGRAMAVEL DE CAMARA UNICA
+    codigo_catmat: 480755
+    familia: Marca-passo
+    confianca: alta
+    justificativa: >-
+      Gerador de marca-passo de câmara única nos dois lados; único OPME da "troca de gerador de
+      marca-passo de câmara única" no SIGTAP (eletrodos à parte).
+
+  # ------------------------------------------------- Endoprótese de aorta ----
+  - codigo_sigtap: "0702040282"
+    descricao_sigtap: ENDOPROTESE AORTICA BIFURCADA
+    codigo_catmat: 616180
+    familia: Endoprótese de aorta
+    confianca: alta
+    justificativa: >-
+      Corpo principal de endoprótese abdominal bifurcada. No SIGTAP, a correção endovascular de
+      aorta abdominal e ilíacas usa a bifurcada e cobra as extensões à parte (código tubular/cônica),
+      o que indica que o valor é do corpo principal.
+  - codigo_sigtap: "0702040304"
+    descricao_sigtap: ENDOPROTESE TORACICA RETA
+    codigo_catmat: 616183
+    familia: Endoprótese de aorta
+    confianca: alta
+    justificativa: >-
+      Mesmo dispositivo (endoprótese de aorta torácica reta, corpo principal); único OPME
+      endoprótese da correção endovascular da aorta torácica.
+  - codigo_sigtap: "0702040290"
+    descricao_sigtap: ENDOPROTESE AORTICA TUBULAR / CONICA
+    codigo_catmat: 616179
+    familia: Endoprótese de aorta
+    confianca: media
+    justificativa: >-
+      Extensão ilíaca reta/cônica × endoprótese "tubular/cônica", compatível com a correção
+      endovascular das ilíacas. O código SIGTAP também cobre endopróteses tubulares de aorta.
+
+  # ----------------------------------------------------- Prótese de quadril ----
+  - codigo_sigtap: "0702030104"
+    descricao_sigtap: COMPONENTE ACETABULAR METÁLICO DE FIXAÇÃO BIOLÓGICA PRIMÁRIA / REVISÃO
+    codigo_catmat: 455552
+    familia: Prótese de quadril
+    confianca: alta
+    justificativa: >-
+      Componente acetabular metálico (titânio) de fixação biológica nos dois lados. O inserto de
+      polietileno tem código SIGTAP próprio, como no CATMAT. Diâmetro 46 mm coberto pelo código.
+  - codigo_sigtap: "0702030767"
+    descricao_sigtap: PARAFUSO P/ COMPONENTE ACETABULAR
+    codigo_catmat: 455344
+    familia: Prótese de quadril
+    confianca: alta
+    justificativa: >-
+      Parafuso acetabular por unidade nos dois lados; compatível com artroplastia total de quadril
+      primária, de revisão e de conversão. O SIGTAP não distingue o material (titânio).
+  - codigo_sigtap: "0702030767"
+    descricao_sigtap: PARAFUSO P/ COMPONENTE ACETABULAR
+    codigo_catmat: 455390
+    familia: Prótese de quadril
+    confianca: alta
+    justificativa: >-
+      Parafuso acetabular por unidade nos dois lados; o SIGTAP não distingue o material (aço inox).
+
+  # ------------------------------------------------------ Prótese de joelho ----
+  - codigo_sigtap: "0702030244"
+    descricao_sigtap: COMPONENTE PATELAR CIMENTADO / FIXACAO BIOLOGICA
+    codigo_catmat: 455372
+    familia: Prótese de joelho
+    confianca: alta
+    justificativa: >-
+      Componente patelar nos dois lados (polietileno, 1 a 3 pinos no CATMAT); compatível com
+      artroplastia total de joelho primária e de revisão.
+  - codigo_sigtap: "0702030244"
+    descricao_sigtap: COMPONENTE PATELAR CIMENTADO / FIXACAO BIOLOGICA
+    codigo_catmat: 434822
+    familia: Prótese de joelho
+    confianca: alta
+    justificativa: Componente patelar nos dois lados (polietileno, 3 pinos no CATMAT).
+  - codigo_sigtap: "0702030589"
+    descricao_sigtap: HASTE TIBIAL P/ REVISAO DE PROTESE TOTAL DO JOELHO
+    codigo_catmat: 443802
+    familia: Prótese de joelho
+    confianca: baixa
+    justificativa: >-
+      O CATMAT 443802 junta haste tibial e femoral num só código; o SIGTAP separa (tibial e
+      femoral têm valores diferentes). Não dá para saber qual haste cada compra registra.
+  - codigo_sigtap: "0702030503"
+    descricao_sigtap: HASTE FEMORAL P/ REVISAO DE PROTESE TOTAL DO JOELHO
+    codigo_catmat: 443802
+    familia: Prótese de joelho
+    confianca: baixa
+    justificativa: Mesmo problema do par anterior, do lado femoral.
+
+  # -------------------------------------------------------- Cateter balão ----
+  - codigo_sigtap: "0702040088"
+    descricao_sigtap: CATETER BALAO P/ ANGIOPLASTIA TRANSLUMINAL PERCUTANEA
+    codigo_catmat: 614825
+    familia: Cateter balão
+    confianca: media
+    justificativa: >-
+      É o balão compatível com todas as angioplastias coronarianas no SIGTAP, mas o código é
+      genérico (também periférico) e não distingue balão não complacente, de maior custo.
+  - codigo_sigtap: "0702040088"
+    descricao_sigtap: CATETER BALAO P/ ANGIOPLASTIA TRANSLUMINAL PERCUTANEA
+    codigo_catmat: 614820
+    familia: Cateter balão
+    confianca: media
+    justificativa: >-
+      Balão compatível com as angioplastias coronarianas no SIGTAP; código genérico (não
+      distingue complacência nem uso coronário × periférico).
+
+  # ------------------------------------------------- Hastes intramedulares ----
+  - codigo_sigtap: "0702030538"
+    descricao_sigtap: HASTE INTRAMEDULAR BLOQUEADA DE UMERO (INCLUI PARAFUSOS)
+    codigo_catmat: 438905
+    familia: Hastes intramedulares
+    confianca: media
+    justificativa: >-
+      Mesma haste (úmero, bloqueada), mas o valor SIGTAP inclui os parafusos de bloqueio e o
+      CATMAT é só a haste (com tampão): a razão preço ÷ tabela fica subestimada.
+  - codigo_sigtap: "0702030538"
+    descricao_sigtap: HASTE INTRAMEDULAR BLOQUEADA DE UMERO (INCLUI PARAFUSOS)
+    codigo_catmat: 438050
+    familia: Hastes intramedulares
+    confianca: media
+    justificativa: Mesma haste; o valor SIGTAP inclui parafusos e o CATMAT não.
+
+  # ----------------------------------------------------- Placas e parafusos ----
+  - codigo_sigtap: "0702031046"
+    descricao_sigtap: PLACA P/ CALCANEO (INCLUI PARAFUSO)
+    codigo_catmat: 440305
+    familia: Placas ortopédicas
+    confianca: media
+    justificativa: >-
+      Placa de calcâneo nos dois lados, mas o SIGTAP inclui parafusos e não distingue placa
+      bloqueada (LCP) de convencional.
+  - codigo_sigtap: "0702031399"
+    descricao_sigtap: PLACA BLOQUEADA DE RÁDIO DISTAL (INCLUI PARAFUSO)
+    codigo_catmat: 442887
+    familia: Placas ortopédicas
+    confianca: media
+    justificativa: >-
+      Placa bloqueada de rádio distal nos dois lados, mas o valor SIGTAP inclui parafusos e o
+      CATMAT é só a placa.
+  - codigo_sigtap: "0702030694"
+    descricao_sigtap: PARAFUSO CORTICAL 3,5 MM
+    codigo_catmat: 436621
+    familia: Parafusos ortopédicos
+    confianca: baixa
+    justificativa: >-
+      Mesmo diâmetro, mas o CATMAT é parafuso de BLOQUEIO (titânio) e o código SIGTAP é o parafuso
+      cortical convencional. O "parafuso bloqueado" do SIGTAP só é compatível com fraturas de rádio.
+  - codigo_sigtap: "0702030708"
+    descricao_sigtap: PARAFUSO CORTICAL 4,5 MM
+    codigo_catmat: 443323
+    familia: Parafusos ortopédicos
+    confianca: baixa
+    justificativa: >-
+      Mesmo diâmetro, mas o CATMAT é parafuso de bloqueio autorroscante; o SIGTAP é o cortical
+      convencional.

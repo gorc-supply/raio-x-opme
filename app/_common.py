@@ -75,7 +75,7 @@ def ref_month() -> str:
 
 def footer() -> None:
     st.caption(
-        "Fonte: Compras.gov.br (API de Dados Abertos), ComexStat/MDIC, BCB, IBGE e ANVISA. "
+        "Fonte: Compras.gov.br (API de Dados Abertos), ComexStat/MDIC, BCB, IBGE, ANVISA e SIGTAP/DATASUS. "
         f"Elaboração: Gabriel Cunha. Valores em R$ de {ref_month()}, deflacionados pelo IPCA. "
         "Diferenças de preço têm muitas causas legítimas (volume, prazo, logística, consignação, especificação)."
     )
@@ -103,8 +103,9 @@ NAV = [
     ("pages/1_Precos_por_UF.py", "Preços por UF", "🗺️"),
     ("pages/2_Explorar_item.py", "Explorar item", "🔎"),
     ("pages/3_Importacao.py", "Importação", "🚢"),
-    ("pages/4_Metodologia.py", "Metodologia", "📐"),
-    ("pages/5_Sobre.py", "Sobre", "👤"),
+    ("pages/4_Tabela_SUS.py", "Tabela SUS × preço", "🧾"),
+    ("pages/5_Metodologia.py", "Metodologia", "📐"),
+    ("pages/6_Sobre.py", "Sobre", "👤"),
 ]
 FILTER_KEYS = ("f_familia", "f_item", "f_periodo", "f_outliers")
 
@@ -236,6 +237,14 @@ def log_hist(values: np.ndarray, bins: int = 30) -> tuple[np.ndarray, np.ndarray
     edges = np.logspace(np.log10(v.min()), np.log10(v.max()) + 1e-9, bins + 1)
     counts, _ = np.histogram(v, bins=edges)
     return counts, edges
+
+
+def page_title(title: str, icon: str) -> None:
+    st.title(f":material/{icon}: {title}")
+
+
+def section(title: str, icon: str) -> None:
+    st.subheader(f":material/{icon}: {title}")
 
 
 def setup_page(title: str, icon: str = "🩺") -> None:

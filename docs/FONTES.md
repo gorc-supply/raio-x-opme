@@ -110,7 +110,42 @@ Resumo das divergências entre a especificação original e a realidade: ver `do
 
 ## E–G) Complementares
 
-Ver `docs/DECISOES.md` e `PENDENCIAS.md` para o resultado das tentativas (BPS, ANVISA, SIGTAP e itens PNCP).
+Ver `docs/DECISOES.md` e `PENDENCIAS.md` para o resultado das tentativas (BPS, ANVISA e itens PNCP).
+
+### G) SIGTAP / DATASUS — Tabela Unificada do SUS (verificado em 18/11/2026)
+
+- **Página oficial:** `http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp`. Na verificação, a
+  página exibia "no momento o serviço de downloads encontra-se indisponível", mas o RSS oficial
+  `http://sigtap.datasus.gov.br/tabela-unificada/competencias.rss` (gzip) lista cada competência com link
+  direto para o FTP público do DATASUS: `ftp://ftp2.datasus.gov.br/pub/sistemas/tup/downloads/`. Login
+  anônimo, sem cadastro. Não há espelho HTTP/HTTPS (testado), por isso o download usa `ftplib`
+  (biblioteca padrão) com retry exponencial e cache por arquivo no raw (`data/raw/sigtap/<snapshot>/`).
+- **Licença:** o RSS declara Creative Commons BY 3.0 (`http://creativecommons.org/licenses/by/3.0/deed.pt`).
+- **Arquivos:** `TabelaUnificada_AAAAMM_vAAMMDDHHMM.zip`, um por competência (mensal desde 2008), cerca de
+  2 MB. Pode haver mais de uma versão por competência; usamos a mais nova. Baixamos janeiro de cada ano desde
+  2015 e a competência mais recente (11/2026): 13 ZIPs.
+- **Formato:** TXT de largura fixa, **latin-1** (`file`: ISO-8859, CRLF), com um `<tabela>_layout.txt` ao lado
+  (`Coluna,Tamanho,Inicio,Fim,Tipo`). **O layout muda entre competências:** em 01/2015, `VL_SH`, `VL_SA` e
+  `VL_SP` tinham 10 posições (283–292…); em 11/2026, 12 posições (283–294…). O parser lê o layout de cada ZIP.
+  Fatiar o texto já convertido para UTF-8 desloca as colunas nas linhas com acento: o fatiamento é feito
+  sobre o texto latin-1, em que 1 caractere = 1 byte.
+- **Tabela usada:** `tb_procedimento.txt`, grupo **07 — Órteses, próteses e materiais especiais** (526 a
+  540 procedimentos por competência). `rl_procedimento_compativel.txt` (procedimento principal × OPME
+  compatível) foi usada só para justificar o mapa SIGTAP × CATMAT.
+- **Campo do valor de OPME:** `VL_SH`, que é o "Serviço Hospitalar" da consulta web, **em centavos**
+  (`000000006321` = R$ 63,21). Para OPME, `VL_SA` e `VL_SP` são zero em quase todos os códigos.
+
+Conferência contra a consulta web do SIGTAP (`/tabela-unificada/app/sec/procedimento/exibir/<código>/<mm>/<aaaa>`,
+acesso público pelo botão "Acessar o Sigtap"):
+
+| Procedimento | Competência | Arquivo (`VL_SH`) | Consulta web ("Serviço Hospitalar") |
+|---|---|---|---|
+| 07.02.03.070-8 Parafuso cortical 4,5 mm | 11/2026 | `000000006321` → R$ 63,21 | R$ 63,21 |
+| 07.02.04.061-4 Stent farmacológico para artéria coronária | 11/2026 | `000000203450` → R$ 2.034,50 | R$ 2.034,50 |
+| 07.02.03.024-4 Componente patelar cimentado / fixação biológica | 01/2015 (layout antigo) | `0000013265` → R$ 132,65 | R$ 132,65 |
+
+O SIGTAP é o valor que o SUS **reembolsa** ao prestador por unidade de OPME, não o preço de compra. O mapa
+entre códigos SIGTAP e itens CATMAT está em `config/mapa_sigtap_catmat.yaml` (a validar).
 
 ## TLS
 

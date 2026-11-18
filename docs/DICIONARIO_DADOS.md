@@ -132,6 +132,34 @@ Por família macro (registros vigentes de produtos para saúde na ANVISA).
 | share_com_fabricante_nacional | Fração com ao menos um fabricante no Brasil |
 | principais_paises_fabricantes | Até 4 países com participação nos registros |
 
+## ponte_sigtap_preco
+Uma linha por par do mapa `config/mapa_sigtap_catmat.yaml`: valor da Tabela SUS (SIGTAP) × mediana
+praticada nas compras públicas no período de análise. SIGTAP é valor de reembolso, não preço de compra.
+
+| Coluna | Descrição |
+|---|---|
+| codigo_sigtap, codigo_sigtap_fmt, descricao_sigtap | Procedimento OPME (grupo 07); `07.02.04.061-4` é a máscara da consulta web |
+| codigo_catmat, nome_curto, familia | Item do catálogo curado |
+| confianca, justificativa | Nível do mapeamento (`alta`, `media`, `baixa`) e o porquê. Só `alta` vira achado |
+| mapa_validado | `validado_por_gabriel` do arquivo de mapa. Enquanto `false`, achados de razão ficam no máximo moderados |
+| competencia_sigtap, valor_sigtap_nominal, valor_sigtap_real | Competência mais recente baixada; valor de OPME (`VL_SH`) em R$ por unidade, nominal e em R$ do mês de referência (IPCA) |
+| competencia_inicio_periodo, valor_sigtap_inicio_periodo, sigtap_mudou_no_periodo | Valor vigente no início do período de análise e se mudou até a competência mais recente |
+| competencia_mais_antiga, valor_sigtap_mais_antigo_nominal, valor_sigtap_mais_antigo_real | Primeira competência baixada (01/2015) e seu valor nominal e real |
+| mediana_preco_real, p10_preco_real, p90_preco_real | Preço praticado por unidade no período, sem outliers, em R$ reais |
+| n_compras, n_orgaos | Compras distintas e órgãos compradores |
+| razao_preco_sigtap, ic_inf, ic_sup | Mediana paga ÷ valor SIGTAP real, com IC 95% por bootstrap das compras |
+| periodo_inicio, periodo_fim | Período das compras |
+
+## sigtap_serie
+Evolução do valor de tabela dos códigos SIGTAP presentes no mapa: janeiro de cada ano desde 2015 e a
+competência mais recente.
+
+| Coluna | Descrição |
+|---|---|
+| codigo_sigtap, descricao_sigtap | Procedimento |
+| competencia, mes_competencia | `AAAAMM` e o primeiro dia do mês |
+| valor_nominal, valor_real | R$ por unidade de OPME, nominal e em R$ de `mes_ref_deflacao` (IPCA) |
+
 ## achados
 Frases candidatas a post, com números e robustez.
 

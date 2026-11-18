@@ -9,6 +9,7 @@ from __future__ import annotations
 INK = "#1F2933"  # texto principal
 MUTED = "#52606D"  # texto secundário
 GRID = "#E4E7EB"
+GRID_DARK = "#9AA5B1"  # traços de intervalo de confiança
 BG = "#FFFFFF"
 SURFACE = "#F5F7FA"
 PRIMARY = "#0B5D7A"  # azul-petróleo

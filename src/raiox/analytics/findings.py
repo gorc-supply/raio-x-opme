@@ -444,6 +444,144 @@ def _anvisa_findings(anv: pl.DataFrame, snapshot: str) -> list[dict]:
     return out
 
 
+# ------------------------------------------------------------ Tabela SUS ----
+FONTE_SIGTAP = "SIGTAP/DATASUS (Tabela Unificada do SUS)"
+SIGTAP_BASE = "O SIGTAP é o valor que o SUS reembolsa ao prestador, não o preço de compra"
+
+
+def sigtap_note(lo: float, hi: float) -> str:
+    """Leitura da razão preço ÷ tabela conforme o IC: acima, abaixo ou em linha com a tabela."""
+    if lo > 1:
+        return f"{SIGTAP_BASE}: preço acima da tabela indica defasagem do valor de tabela, não conduta de quem compra."
+    if hi < 1:
+        return f"{SIGTAP_BASE}: aqui o valor de tabela cobre a mediana paga na compra."
+    return f"{SIGTAP_BASE}: aqui a mediana paga está em linha com o valor de tabela."
+
+
+def _sigtap_findings(ponte: pl.DataFrame, s: Settings, mes_ref: str) -> list[dict]:
+    """Só pares de confiança ALTA viram achado. Sem validação do mapa, no máximo moderado."""
+    fc = s.findings
+    m = fc.tendencia_margem
+    alta = ponte.filter(
+        (pl.col("confianca") == "alta") & pl.col("razao_preco_sigtap").is_not_null()
+    )
+    out = []
+    for r in alta.iter_rows(named=True):
+        n, lo, hi = r["n_compras"], r["ic_inf"], r["ic_sup"]
+        clear = lo > 1 + m or hi < 1 - m
+        if clear and n >= fc.min_compras_forte:
+            rob = "forte"
+        elif (lo > 1 or hi < 1) and n >= fc.min_compras_moderado:
+            rob = "moderado"
+        else:
+            rob = "fraco"
+        motivo = (
+            f"{n} compras; IC 95% da razão {fmt.num(lo, 2)}–{fmt.num(hi, 2)} "
+            f"(forte exige ≥ {fc.min_compras_forte} compras e IC fora de ±{fmt.pct(m, 0)})"
+        )
+        if not r["mapa_validado"] and rob == "forte":
+            rob = "moderado"
+            motivo += "; mapa SIGTAP×CATMAT ainda não validado (config/mapa_sigtap_catmat.yaml)"
+        mudou = (
+            f" O valor de tabela mudou durante o período (era {fmt.brl(r['valor_sigtap_inicio_periodo'])} "
+            f"na competência {r['competencia_inicio_periodo'][4:]}/{r['competencia_inicio_periodo'][:4]})."
+            if r["sigtap_mudou_no_periodo"]
+            else ""
+        )
+        comp_lbl = f"{r['competencia_sigtap'][4:]}/{r['competencia_sigtap'][:4]}"
+        frase = (
+            f"{r['nome_curto']} (CATMAT {r['codigo_catmat']}): mediana de {fmt.brl(r['mediana_preco_real'])} "
+            f"por unidade nas compras públicas ({n} compras de {r['n_orgaos']} órgãos, "
+            f"{r['periodo_inicio']:%m/%Y} a {r['periodo_fim']:%m/%Y}, R$ de {mes_ref}), contra "
+            f"{fmt.brl(r['valor_sigtap_nominal'])} na Tabela SUS (SIGTAP {r['codigo_sigtap_fmt']}, "
+            f"competência {comp_lbl}): o preço praticado é {fmt.ratio(r['razao_preco_sigtap'])} o valor de "
+            f"tabela (IC 95%: {fmt.ratio(lo)} a {fmt.ratio(hi)}).{mudou} {sigtap_note(lo, hi)}"
+        )
+        out.append(
+            _finding(
+                id=f"sigtap_{r['codigo_sigtap']}_{r['codigo_catmat']}",
+                tipo="ponte_sigtap",
+                codigo_catmat=r["codigo_catmat"],
+                item=r["nome_curto"],
+                familia=r["familia"],
+                titulo=f"{r['nome_curto']}: preço praticado = {fmt.ratio(r['razao_preco_sigtap'])} a Tabela SUS",
+                frase=frase,
+                numeros={
+                    "codigo_sigtap": r["codigo_sigtap"],
+                    "valor_sigtap": r["valor_sigtap_nominal"],
+                    "mediana_preco": r["mediana_preco_real"],
+                    "razao": r["razao_preco_sigtap"],
+                    "ic_inf": lo,
+                    "ic_sup": hi,
+                    "n_compras": n,
+                    "n_orgaos": r["n_orgaos"],
+                    "mapa_validado": r["mapa_validado"],
+                },
+                n=int(n),
+                n_descricao=f"{n} compras, {r['n_orgaos']} órgãos",
+                periodo=f"{r['periodo_inicio']:%m/%Y} a {r['periodo_fim']:%m/%Y}; SIGTAP {comp_lbl}",
+                unidade="R$ por unidade",
+                fonte=f"{FONTE_PRECOS}; {FONTE_SIGTAP}; IPCA/BCB",
+                robustez=rob,
+                motivo_robustez=motivo,
+                _magnitude=min(r["razao_preco_sigtap"], 10) * 3,
+            )
+        )
+    # Defasagem real do valor de tabela (só códigos SIGTAP de pares de confiança alta).
+    codes = (
+        ponte.filter(
+            (pl.col("confianca") == "alta") & pl.col("valor_sigtap_mais_antigo_real").is_not_null()
+        )
+        .unique(subset="codigo_sigtap", keep="first", maintain_order=True)
+        .sort("codigo_sigtap")
+    )
+    for r in codes.iter_rows(named=True):
+        old_real, cur = r["valor_sigtap_mais_antigo_real"], r["valor_sigtap_real"]
+        change = cur / old_real - 1
+        c0 = f"{r['competencia_mais_antiga'][4:]}/{r['competencia_mais_antiga'][:4]}"
+        c1 = f"{r['competencia_sigtap'][4:]}/{r['competencia_sigtap'][:4]}"
+        same_nominal = r["valor_sigtap_mais_antigo_nominal"] == r["valor_sigtap_nominal"]
+        nominal_txt = (
+            f"o valor nominal ficou em {fmt.brl(r['valor_sigtap_nominal'])} de {c0} a {c1}, sem reajuste"
+            if same_nominal
+            else f"o valor nominal foi de {fmt.brl(r['valor_sigtap_mais_antigo_nominal'])} ({c0}) para "
+            f"{fmt.brl(r['valor_sigtap_nominal'])} ({c1})"
+        )
+        verbo = "perdeu" if change < 0 else "ganhou"
+        frase = (
+            f'Tabela SUS, procedimento "{r["descricao_sigtap"]}" (SIGTAP {r["codigo_sigtap_fmt"]}): {nominal_txt}. '
+            f"Corrigido pelo IPCA, o valor de {c0} equivale a {fmt.brl(old_real)} em R$ de {mes_ref}: "
+            f"em termos reais, o valor de tabela {verbo} {fmt.pct(abs(change), 0)} no período. "
+            "Competências comparadas: janeiro de cada ano desde 2015 e a mais recente."
+        )
+        out.append(
+            _finding(
+                id=f"sigtap_real_{r['codigo_sigtap']}",
+                tipo="defasagem_sigtap",
+                familia=r["familia"],
+                titulo=f"Tabela SUS, {r['familia'].lower()} (SIGTAP {r['codigo_sigtap_fmt']}): valor real {'caiu' if change < 0 else 'subiu'} {fmt.pct(abs(change), 0)} desde {c0}",
+                frase=frase,
+                numeros={
+                    "codigo_sigtap": r["codigo_sigtap"],
+                    "valor_nominal_inicio": r["valor_sigtap_mais_antigo_nominal"],
+                    "valor_nominal_fim": r["valor_sigtap_nominal"],
+                    "valor_real_inicio": old_real,
+                    "valor_real_fim": cur,
+                    "variacao": change,
+                },
+                n=0,
+                n_descricao="tabela oficial (sem amostragem)",
+                periodo=f"{c0} a {c1}",
+                unidade="R$ por unidade de OPME (reais)",
+                fonte=f"{FONTE_SIGTAP}; IPCA/BCB",
+                robustez="forte",
+                motivo_robustez="valor oficial de tabela corrigido pelo IPCA; não depende de amostra nem do mapa CATMAT",
+                _magnitude=min(abs(change), 1) * 30,
+            )
+        )
+    return out
+
+
 def build_findings(
     gold: dict[str, pl.DataFrame], comp: pl.DataFrame, period: Period, settings: Settings
 ) -> pl.DataFrame:
@@ -460,6 +598,8 @@ def build_findings(
     if "anvisa_registros_familia" in gold:
         snap = str(comp["snapshot"].max())[:10]
         rows += _anvisa_findings(gold["anvisa_registros_familia"], snap)
+    if "ponte_sigtap_preco" in gold and gold["ponte_sigtap_preco"].height:
+        rows += _sigtap_findings(gold["ponte_sigtap_preco"], settings, mes_ref)
     if not rows:
         logger.warning("Nenhum achado gerado.")
     df = pl.DataFrame(rows, infer_schema_length=None)

@@ -201,5 +201,16 @@ complementary:
     enabled: true
     base_url: "https://dados.anvisa.gov.br/dados/"
   sigtap:
-    # Não implementado (opcional na especificação; ver PENDENCIAS.md).
-    enabled: false
+    # Tabela Unificada do SUS (SIGTAP/DATASUS). A página oficial de download aponta para o FTP
+    # público do DATASUS (anônimo, sem cadastro); não há espelho HTTP. Ver docs/FONTES.md.
+    enabled: true
+    page_url: "http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp"
+    ftp_host: "ftp2.datasus.gov.br"
+    ftp_dir: "/pub/sistemas/tup/downloads/"
+    # Uma competência por ano (o mês abaixo, ou o mais próximo disponível) desde start_year,
+    # mais a competência mais recente.
+    start_year: 2015
+    month: 1
+    group_prefix: "07"  # grupo 07 = Órteses, próteses e materiais especiais
+    # Mapa SIGTAP × CATMAT (curado à mão; a validar pelo Gabriel).
+    mapa: "config/mapa_sigtap_catmat.yaml"

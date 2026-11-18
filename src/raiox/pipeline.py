@@ -163,6 +163,14 @@ def run_transform(settings: Settings) -> dict[str, Any]:
         _write(anv, silver / "anvisa_produtos.parquet")
         counts["anvisa_produtos"] = anv.height
 
+    sig_b = read_bronze(settings, "sigtap_procedimentos")
+    if sig_b.height:
+        from raiox.sources import sigtap
+
+        sig = schemas.validate(sigtap.silver(sig_b, index), schemas.SIGTAP_SILVER)
+        _write(sig, silver / "sigtap_procedimentos.parquet")
+        counts["sigtap_procedimentos"] = sig.height
+
     comp_b = read_bronze(settings, "compras_precos")
     if comp_b.height == 0:
         raise PipelineError("Sem preços na bronze: rode `raiox ingest compras`.")
@@ -256,6 +264,22 @@ def run_analyze(settings: Settings) -> dict[str, int]:
         from raiox.sources import anvisa
 
         out["anvisa_registros_familia"] = anvisa.gold_by_family(pl.read_parquet(anv_path))
+
+    sig_path = silver_dir / "sigtap_procedimentos.parquet"
+    mapping = None
+    if sig_path.exists():
+        from raiox.analytics import sigtap_bridge
+
+        mapping = sigtap_bridge.load_mapping(settings)
+    if mapping is not None and mapping.pairs.height:
+        sig = pl.read_parquet(sig_path)
+        out["ponte_sigtap_preco"] = schemas.validate(
+            sigtap_bridge.ponte_sigtap_preco(
+                sig, comp, period, mapping, cfg.bootstrap_reps, cfg.bootstrap_seed, cfg.ci_level
+            ),
+            schemas.PONTE_SIGTAP,
+        )
+        out["sigtap_serie"] = sigtap_bridge.sigtap_serie(sig, mapping)
 
     out["achados"] = schemas.validate(
         findings.build_findings(out, comp, period, settings), schemas.ACHADOS

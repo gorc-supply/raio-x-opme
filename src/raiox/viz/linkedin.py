@@ -512,6 +512,86 @@ def chart_heterogeneity(ctx: Ctx, out: Path) -> Path | None:
     return save(fig, out / "6_heterogeneidade_catalogo.png")
 
 
+# ------------------------------------------------ 7. Tabela SUS × preço ----
+def chart_sigtap(ctx: Ctx, out: Path) -> Path | None:
+    """Razão mediana paga ÷ valor SIGTAP, só pares de confiança alta, com IC 95%."""
+    ponte = ctx.t("ponte_sigtap_preco")
+    if ponte.height == 0:
+        return None
+    v = ponte.filter(
+        (pl.col("confianca") == "alta") & pl.col("razao_preco_sigtap").is_not_null()
+    ).sort("razao_preco_sigtap")
+    if v.height == 0:
+        return None
+    above = v.filter(pl.col("ic_inf") > 1)
+    below = v.filter(pl.col("ic_sup") < 1)
+    comp = v.row(0, named=True)["competencia_sigtap"]
+    comp_lbl = f"{comp[4:]}/{comp[:4]}"
+    title = f"Tabela SUS × preço pago: {above.height} itens acima, {below.height} abaixo"
+    sub = (
+        f"Mediana paga por unidade ({ctx.period}, R$ de {ctx.ref}) ÷ reembolso do SUS "
+        f"(SIGTAP {comp_lbl}). {v.height} pares de mapeamento com confiança alta."
+    )
+    fig, top = new_fig(ctx, title, sub, extra_source="Tabela SUS: SIGTAP/DATASUS.")
+    ax = fig.add_axes([0.40, 0.25, 0.37, top - 0.27])
+    y = np.arange(v.height)
+    colors = [
+        theme.ACCENT if lo > 1 else theme.LOW if hi < 1 else theme.MUTED
+        for lo, hi in zip(v["ic_inf"], v["ic_sup"], strict=True)
+    ]
+    for i, rr in enumerate(v.iter_rows(named=True)):
+        ax.plot([rr["ic_inf"], rr["ic_sup"]], [i, i], color=theme.GRID_DARK, linewidth=3, zorder=2)
+        ax.scatter(rr["razao_preco_sigtap"], i, s=150, color=colors[i], zorder=3, edgecolor="white")
+        # Valor numa coluna fixa à direita: não cruza a linha de 1× nem os intervalos.
+        ax.text(
+            1.04,
+            i,
+            f"{fmt.ratio(rr['razao_preco_sigtap'], 2)}",
+            transform=ax.get_yaxis_transform(),
+            va="center",
+            fontsize=13,
+            fontweight="bold",
+            color=colors[i],
+        )
+        ax.text(
+            1.33,
+            i,
+            f"n = {rr['n_compras']}",
+            transform=ax.get_yaxis_transform(),
+            va="center",
+            fontsize=9.5,
+            color=theme.MUTED,
+        )
+    ax.axvline(1, color=theme.INK, linestyle="--", linewidth=1.3)
+    ax.set_yticks(y, ["\n".join(textwrap.wrap(n, 30)[:2]) for n in v["nome_curto"]], fontsize=10)
+    ax.set_xscale("log")
+    lo_lim = min(0.2, float(v["ic_inf"].min()) * 0.8)
+    ax.set_xlim(lo_lim, max(3.0, float(v["ic_sup"].max()) * 1.4))
+    ticks = [t for t in (0.25, 0.5, 1, 2) if lo_lim <= t]
+    ax.set_xticks(ticks)
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda val, _: fmt.ratio(val, 2 if val < 1 else 0)))
+    ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.tick_params(axis="x", labelsize=11.5)
+    ax.grid(axis="y", visible=False)
+    ax.set_xlabel("Mediana paga ÷ Tabela SUS (log; traço = IC 95%)", fontsize=11, color=theme.MUTED)
+    fig.text(
+        0.06,
+        0.165,
+        _wrap(
+            "O SIGTAP é valor de reembolso do SUS ao hospital, não preço de compra. Acima de 1×, o "
+            "reembolso não cobre a compra: indica defasagem da tabela, não conduta de quem compra.",
+            80,
+        ),
+        fontsize=10.5,
+        color=theme.MUTED,
+        va="center",
+    )
+    ach = ctx.t("achados").filter(pl.col("tipo") == "ponte_sigtap")
+    rob = min(ach["robustez"].to_list(), key=lambda x: ROB_ORDER[x]) if ach.height else "moderado"
+    badge(fig, rob)
+    return save(fig, out / "7_tabela_sus_vs_preco.png")
+
+
 # ------------------------------------------------------------ carrossel ----
 def _text_page(
     ctx: Ctx, title: str, body: list[str], kicker: str = "", big: str = "", big_caption: str = ""
@@ -662,6 +742,7 @@ def build_all(settings: Settings) -> list[Path]:
         chart_bridge,
         chart_trend,
         chart_heterogeneity,
+        chart_sigtap,
     ):
         try:
             p = fn(ctx, out_png)

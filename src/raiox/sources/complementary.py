@@ -12,7 +12,11 @@ from raiox.state import mark_run, resolve_snapshot
 
 def enabled(settings: Settings) -> list[str]:
     c = settings.complementary
-    return [name for name in ("anvisa", "bps", "pncp_itens") if getattr(c, name).get("enabled")]
+    return [
+        name
+        for name in ("anvisa", "bps", "pncp_itens", "sigtap")
+        if getattr(c, name).get("enabled")
+    ]
 
 
 def ingest(settings: Settings, force: bool = False) -> dict[str, Any]:
@@ -26,6 +30,8 @@ def ingest(settings: Settings, force: bool = False) -> dict[str, Any]:
                     from raiox.sources import anvisa as mod
                 elif name == "bps":
                     from raiox.sources import bps as mod
+                elif name == "sigtap":
+                    from raiox.sources import sigtap as mod
                 else:
                     from raiox.sources import pncp as mod
                 out[name] = mod.ingest(settings, client)

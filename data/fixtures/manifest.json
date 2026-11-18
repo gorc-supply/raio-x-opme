@@ -20,6 +20,11 @@
   "comex": 451808,
   "bcb": 13769,
   "ibge": 112199,
-  "anvisa": 134979
- }
+  "anvisa": 134979,
+  "sigtap": 30165
+ },
+ "sigtap_competencias": [
+  "201501",
+  "202611"
+ ]
 }

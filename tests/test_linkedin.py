@@ -11,8 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 POSTS = sorted((ROOT / "linkedin" / "posts").glob("0*.md"))
 
 
-def test_there_are_five_posts():
-    assert len(POSTS) == 5
+def test_there_are_six_posts():
+    assert len(POSTS) == 6
 
 
 @pytest.mark.parametrize("post", POSTS, ids=lambda p: p.stem)

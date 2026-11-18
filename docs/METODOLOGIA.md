@@ -14,6 +14,7 @@ comparáveis — e por que alguns números **não** viram conclusão. Todos os p
 | **Banco Central (SGS)** | IPCA mensal (série 433) e dólar PTAX venda, média mensal (série 3698) | Aberto |
 | **IBGE** | Lista de UFs e malha das UFs (GeoJSON) | Aberto |
 | **ANVISA** | Registros vigentes de produtos para saúde, com país do fabricante | Aberto |
+| **SIGTAP/DATASUS** | Valor de tabela do SUS para OPME (grupo 07), uma competência por ano desde 2015 | Aberto (FTP público, CC BY 3.0) |
 
 Detalhes de cada endpoint, parâmetros e latências verificados: `docs/FONTES.md`.
 
@@ -107,6 +108,8 @@ dados; por isso está declarado e é configurável.
 | Origem da importação | Participação do principal país no FOB | Dado censitário |
 | Registros ANVISA | % de registros vigentes só com fabricante estrangeiro | Base censitária de registros (é *proxy*: não mede volume) |
 | Ponte importação × público | Preço CIF por unidade × mediana pública | No máximo moderado (compara agregados diferentes) |
+| Tabela SUS × preço | Mediana paga ÷ valor SIGTAP (só pares de confiança alta) | ≥ 30 compras, IC 95% todo fora de ±10% e mapa validado |
+| Defasagem da Tabela SUS | Valor de tabela real hoje × 01/2015 (IPCA) | Tabela oficial + índice oficial: sempre forte |
 
 **Só achados "forte" vão para post.** Moderados aparecem no painel com a ressalva.
 
@@ -125,7 +128,25 @@ dados; por isso está declarado e é configurável.
 - **Concentração das origens:** HHI e participação dos 3 maiores países, por NCM e ano.
 - A série de stents soma 9021.90.81 (até 2020) e 9021.90.12 (desde 2020), por causa da mudança na NCM.
 
-## 10. Limitações conhecidas
+## 10. Tabela SUS (SIGTAP) × preço praticado
+
+- **O que é o SIGTAP:** a Tabela de Procedimentos, Medicamentos e OPM do SUS diz quanto o SUS
+  **reembolsa** ao prestador por unidade de OPME usada num procedimento (campo "Serviço Hospitalar").
+  **Não é preço de compra:** o hospital compra pelo preço que conseguir e recebe o valor de tabela.
+- **Mapa SIGTAP × CATMAT** (`config/mapa_sigtap_catmat.yaml`): curado à mão a partir das descrições e da
+  tabela de compatibilidade do SIGTAP (qual OPME pode ser cobrada em qual procedimento). Cada par tem
+  confiança **alta** (mesmo dispositivo e componente), **média** (o código SIGTAP agrupa coisas que o
+  CATMAT separa, como "inclui parafusos") ou **baixa** (correspondência aproximada). Na dúvida, o item fica
+  sem par. O mapa precisa ser validado pelo autor (`validado_por_gabriel`).
+- **Comparação:** mediana paga no período de análise (sem outliers, R$ reais) ÷ valor de tabela da
+  competência mais recente, com IC 95% por bootstrap das compras.
+- **Leitura:** acima de 1× (IC todo acima), o reembolso não cobre a compra e a diferença indica
+  **defasagem da tabela**, não conduta de quem compra. Abaixo de 1×, o valor de tabela cobre a mediana paga.
+- **Quando é achado:** só pares de confiança alta. Forte exige ≥ 30 compras, IC todo fora de ±10% e mapa
+  validado; sem validação, no máximo moderado. A **defasagem real** do valor de tabela (nominal parado ×
+  IPCA desde 01/2015) é forte por si: é tabela oficial corrigida por índice oficial.
+
+## 11. Limitações conhecidas
 
 1. **Cobertura parcial:** só compras registradas no Compras.gov.br; muitos estados e municípios usam
    sistemas próprios. O módulo de contratações PNCP da mesma API, que ampliaria a cobertura, estava
@@ -138,8 +159,9 @@ dados; por isso está declarado e é configurável.
    preço sem mudar o produto.
 6. **Registro ANVISA ≠ mercado:** a proporção de registros com fabricante estrangeiro não mede vendas.
 7. **Importação em kg:** para quase todos os implantes não é possível calcular preço por peça importada.
+8. **SIGTAP ≠ preço:** o valor de tabela é reembolso; o mapa SIGTAP × CATMAT é uma curadoria e pode ter pares imperfeitos (por isso o nível de confiança).
 
-## 11. Como reproduzir
+## 12. Como reproduzir
 
 ```bash
 uv sync                          # ambiente (Python 3.12)
