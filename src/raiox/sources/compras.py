@@ -8,6 +8,7 @@ GET /modulo-pesquisa-preco/1_consultarMaterial?tipo=codigoItemCatalogo&codigo=<C
 from __future__ import annotations
 
 from collections.abc import Iterator
+from datetime import date, timedelta
 from typing import Any
 
 import polars as pl
@@ -183,10 +184,106 @@ class ComprasSource:
             return None
         return int(env["body"].get("totalRegistros", 0))
 
+    def _window(self, code: int, start: date, end: date) -> list[dict[str, Any]] | None:
+        """Uma janela de datas numa única página; subdivide se não couber (máx. até 1 mês)."""
+        path = self.price_path(code)
+        key = f"preco_item_{code}_w{start:%Y%m%d}_{end:%Y%m%d}_p0001"
+        env = self.c.get_json(
+            self.url(path),
+            key=key,
+            params={
+                "tipo": "codigoItemCatalogo",
+                "codigo": str(code),
+                "dataCompraInicio": start.isoformat(),
+                "dataCompraFim": end.isoformat(),
+                "pagina": 1,
+                "tamanhoPagina": self.cfg.page_size,
+            },
+        )
+        if env is None:
+            return None
+        body = env["body"]
+        rows = body.get("resultado", [])
+        total = int(body.get("totalRegistros", len(rows)))
+        if total <= len(rows):
+            return rows
+        if (end - start).days > 31:
+            mid = start + (end - start) // 2
+            left = self._window(code, start, mid)
+            right = self._window(code, mid + timedelta(days=1), end)
+            return None if left is None or right is None else left + right
+        # Janela de 1 mês ainda com mais de uma página: pagina normalmente (raro).
+        logger.warning(
+            "CATMAT {}: janela {}–{} com {} registros; paginando", code, start, end, total
+        )
+        out: list[dict[str, Any]] = []
+        for env in self.c.paginate(
+            self.url(path),
+            {
+                "tipo": "codigoItemCatalogo",
+                "codigo": str(code),
+                "dataCompraInicio": start.isoformat(),
+                "dataCompraFim": end.isoformat(),
+            },
+            f"preco_item_{code}_w{start:%Y%m%d}_{end:%Y%m%d}_pag",
+            self.cfg.page_size,
+        ):
+            out.extend(env["body"].get("resultado", []))
+        return out
+
+    def item_prices(self, code: int) -> list[dict[str, Any]]:
+        """Todos os preços de um item, de forma completa e estável.
+
+        A API ordena por data com empates: entre duas páginas, registros podem trocar de
+        lugar (verificado na Fase 10: 19 linhas duplicadas e 19 ausentes numa nova coleta).
+        Por isso, item com mais de uma página é coletado em janelas anuais que cabem numa
+        página só (subdivididas se preciso), com conferência contra `totalRegistros`.
+        """
+        path = self.price_path(code)
+        probe = self.c.get_json(
+            self.url(path),
+            key=f"preco_item_{code}_p0001",
+            params={
+                "tipo": "codigoItemCatalogo",
+                "codigo": str(code),
+                "pagina": 1,
+                "tamanhoPagina": self.cfg.page_size,
+            },
+        )
+        if probe is None:
+            return []
+        body = probe["body"]
+        rows = body.get("resultado", [])
+        if rows:
+            check_contract(
+                "compras.1_consultarMaterial", rows[0], EXPECTED_PRICE_FIELDS, CRITICAL_PRICE_FIELDS
+            )
+        total = int(body.get("totalRegistros", len(rows)))
+        if total <= len(rows):
+            return rows
+        out: list[dict[str, Any]] = []
+        for year in range(self.cfg.history_start_year, date.today().year + 1):
+            got = self._window(code, date(year, 1, 1), date(year, 12, 31))
+            if got is None:
+                logger.error(
+                    "CATMAT {}: janela {} falhou; item fica incompleto neste snapshot", code, year
+                )
+                continue
+            out.extend(got)
+        unique = {(r.get("idCompra"), r.get("idItemCompra")) for r in out}
+        if len(unique) < total:
+            logger.warning(
+                "CATMAT {}: {} registros únicos nas janelas, API informa {}",
+                code,
+                len(unique),
+                total,
+            )
+        return out
+
     def ingest_items(self, codes: list[int]) -> dict[int, int]:
         counts: dict[int, int] = {}
         for i, code in enumerate(codes, 1):
-            n = sum(1 for _ in self.iter_prices(code))
+            n = len(self.item_prices(code))
             counts[code] = n
             logger.info("Compras [{}/{}] CATMAT {}: {} registros", i, len(codes), code, n)
         return counts
@@ -227,11 +324,16 @@ def build_bronze(settings: Settings, client: HttpClient) -> int:
     """Raw do snapshot → bronze/compras_precos/<snapshot>.parquet."""
     records: list[dict[str, Any]] = []
     fetched = None
-    seen_keys: set[str] = set()
+    by_code: dict[str, list[tuple[str, dict[str, Any]]]] = {}
     for key, env in client.store.iter_envelopes("preco_item_"):
-        seen_keys.add(key)
-        fetched = max(fetched or "", env["meta"]["fetched_at"])
-        records.extend(env["body"].get("resultado", []))
+        code = key.split("_")[2]
+        by_code.setdefault(code, []).append((key, env))
+    for _code, envs in sorted(by_code.items()):
+        windowed = [(k, e) for k, e in envs if "_w" in k]
+        # Item coletado por janelas: a página de sondagem (sem filtro de data) fica de fora.
+        for _key, env in windowed or envs:
+            fetched = max(fetched or "", env["meta"]["fetched_at"])
+            records.extend(env["body"].get("resultado", []))
     if not records:
         logger.warning("Compras: nenhum registro no raw do snapshot {}", client.snapshot)
         return 0

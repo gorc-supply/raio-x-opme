@@ -9,11 +9,11 @@ Gerado por `uv run raiox quality`. Valores recalculados a cada execução do pip
 | Tabela | Bronze (todos os snapshots) | Silver |
 |---|---:|---:|
 | cambio | 142 | 142 |
-| catmat_itens | 25 | — |
+| catmat_itens | 50 | — |
 | comex_export | 22.109 | 22.109 |
 | comex_import | 41.283 | 41.283 |
 | compras_descartes | — | 77 |
-| compras_precos | 4.131 | 4.054 |
+| compras_precos | 8.262 | 4.054 |
 | ipca | 142 | 142 |
 | ufs | 27 | 27 |
 
@@ -21,7 +21,7 @@ Gerado por `uv run raiox quality`. Valores recalculados a cada execução do pip
 
 | Motivo | Linhas |
 |---|---:|
-| Duplicata (mesma compra + item + CATMAT; mantida a atualização mais recente) | 0 |
+| Duplicata (mesma compra + item + CATMAT; mantida a atualização mais recente) | 4.131 |
 | Preço ≤ 0 ou ausente | 1 |
 | Quantidade ≤ 0 ou ausente | 3 |
 | Unidade de fornecimento ausente | 73 |

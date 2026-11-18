@@ -73,6 +73,7 @@ class ComprasCfg(BaseModel):
     openapi_path: str
     page_size: int
     catalog_group: int
+    history_start_year: int = 2020
 
 
 class CatalogCfg(BaseModel):

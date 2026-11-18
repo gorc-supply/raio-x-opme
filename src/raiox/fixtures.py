@@ -25,7 +25,7 @@ ANVISA_MAX_LINES_PER_FAMILY = 80
 
 def _latest(settings: Settings, source: str) -> Path | None:
     raw = settings.root / settings.paths.raw
-    snaps = [s for s in list_snapshots(raw, source) if "_" not in s]
+    snaps = list_snapshots(raw, source)
     return raw / source / snaps[-1] if snaps else None
 
 
@@ -49,7 +49,11 @@ def build_fixtures(settings: Settings) -> dict[str, int]:
         from raiox.transform.normalize import is_cpf, mask_cpf
 
         for code in FIXTURE_ITEMS:
-            for p in sorted(snap.glob(f"{safe_key(f'preco_item_{code}_')}*.json")):
+            files = sorted(snap.glob(f"{safe_key(f'preco_item_{code}_')}*.json"))
+            windowed = [f for f in files if "_w" in f.stem]
+            # Item coletado por janelas: a sondagem só é usada para descobrir o total.
+            probe = [f for f in files if f.stem.endswith(f"{code}_p0001")]
+            for p in windowed + probe if windowed else files:
                 # LGPD: fixtures são versionadas; CPF de pessoa física sai mascarado.
                 env = json.loads(p.read_text(encoding="utf-8"))
                 for r in env["body"].get("resultado", []):

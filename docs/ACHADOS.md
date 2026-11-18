@@ -112,6 +112,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 ## Todos os achados
 
 A tabela completa (82 achados, inclusive moderados e fracos) está em `data/gold/achados.parquet` e na página inicial do painel.
+
 ## Conferência contra o raw
 
 Feita em 18/11/2026 (Fase 10) com um script independente do pipeline, que lê diretamente os JSON e o CSV

@@ -55,6 +55,9 @@ compras:
   openapi_path: "/v3/api-docs"
   page_size: 500
   catalog_group: 65
+  # Itens com mais de uma página são coletados em janelas anuais a partir deste ano
+  # (a paginação da API não é estável entre páginas; ver docs/DECISOES.md).
+  history_start_year: 2020
 
 catalog:
   # Fase 2: descoberta de itens CATMAT.
