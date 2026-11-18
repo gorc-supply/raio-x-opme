@@ -66,7 +66,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 
 ### 6. Tabela SUS, endoprótese de aorta (SIGTAP 07.02.04.030-4): valor real caiu 47% desde 01/2015
 
-> Tabela SUS, procedimento "ENDOPROTESE TORACICA RETA" (SIGTAP 07.02.04.030-4): o valor nominal ficou em R$ 14.000,00 de 01/2015 a 11/2026, sem reajuste. Corrigido pelo IPCA, o valor de 01/2015 equivale a R$ 26.249,87 em R$ de out/2026: em termos reais, o valor de tabela perdeu 47% no período. Competências comparadas: janeiro de cada ano desde 2015 e a mais recente.
+> Tabela SUS, procedimento "ENDOPROTESE TORACICA RETA" (SIGTAP 07.02.04.030-4): o valor nominal foi R$ 14.000,00 em todas as 13 competências conferidas, de 01/2015 a 11/2026, sem reajuste. Corrigido pelo IPCA, o valor de 01/2015 equivale a R$ 26.249,87 em R$ de out/2026: em termos reais, o valor de tabela perdeu 47% entre 01/2015 e 11/2026. Competências conferidas: janeiro de cada ano desde 2015 e a mais recente (mudanças entre dois janeiros podem não aparecer).
 
 - **Tipo:** defasagem_sigtap · **Robustez:** forte (valor oficial de tabela corrigido pelo IPCA; não depende de amostra nem do mapa CATMAT)
 - **Base (n):** tabela oficial (sem amostragem) · **Período:** 01/2015 a 11/2026 · **Unidade:** R$ por unidade de OPME (reais)

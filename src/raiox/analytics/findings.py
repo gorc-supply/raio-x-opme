@@ -541,18 +541,30 @@ def _sigtap_findings(ponte: pl.DataFrame, s: Settings, mes_ref: str) -> list[dic
         c0 = f"{r['competencia_mais_antiga'][4:]}/{r['competencia_mais_antiga'][:4]}"
         c1 = f"{r['competencia_sigtap'][4:]}/{r['competencia_sigtap'][:4]}"
         same_nominal = r["valor_sigtap_mais_antigo_nominal"] == r["valor_sigtap_nominal"]
-        nominal_txt = (
-            f"o valor nominal ficou em {fmt.brl(r['valor_sigtap_nominal'])} de {c0} a {c1}, sem reajuste"
-            if same_nominal
-            else f"o valor nominal foi de {fmt.brl(r['valor_sigtap_mais_antigo_nominal'])} ({c0}) para "
-            f"{fmt.brl(r['valor_sigtap_nominal'])} ({c1})"
-        )
+        n_comp = r["n_competencias"]
+        if r["sigtap_valor_constante"]:
+            nominal_txt = (
+                f"o valor nominal foi {fmt.brl(r['valor_sigtap_nominal'])} em todas as {n_comp} competências "
+                f"conferidas, de {c0} a {c1}, sem reajuste"
+            )
+        elif same_nominal:
+            nominal_txt = (
+                f"o valor nominal é o mesmo em {c0} e em {c1} ({fmt.brl(r['valor_sigtap_nominal'])}), mas mudou "
+                f"no meio do caminho (de {fmt.brl(r['valor_sigtap_min_nominal'])} a "
+                f"{fmt.brl(r['valor_sigtap_max_nominal'])} nas {n_comp} competências conferidas)"
+            )
+        else:
+            nominal_txt = (
+                f"o valor nominal foi de {fmt.brl(r['valor_sigtap_mais_antigo_nominal'])} ({c0}) para "
+                f"{fmt.brl(r['valor_sigtap_nominal'])} ({c1})"
+            )
         verbo = "perdeu" if change < 0 else "ganhou"
         frase = (
             f'Tabela SUS, procedimento "{r["descricao_sigtap"]}" (SIGTAP {r["codigo_sigtap_fmt"]}): {nominal_txt}. '
             f"Corrigido pelo IPCA, o valor de {c0} equivale a {fmt.brl(old_real)} em R$ de {mes_ref}: "
-            f"em termos reais, o valor de tabela {verbo} {fmt.pct(abs(change), 0)} no período. "
-            "Competências comparadas: janeiro de cada ano desde 2015 e a mais recente."
+            f"em termos reais, o valor de tabela {verbo} {fmt.pct(abs(change), 0)} entre {c0} e {c1}. "
+            "Competências conferidas: janeiro de cada ano desde 2015 e a mais recente (mudanças entre "
+            "dois janeiros podem não aparecer)."
         )
         out.append(
             _finding(

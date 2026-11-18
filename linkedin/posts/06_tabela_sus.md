@@ -10,7 +10,7 @@ Mediana paga ÷ valor de tabela, por unidade (11/2024 a 10/2026, R$ de out/2026)
 
 O SIGTAP é o valor que o SUS reembolsa ao hospital, não preço de compra. Quando o preço pago fica acima, o reembolso não cobre a compra: é defasagem da tabela, não conduta de quem compra.
 
-E a tabela envelhece: o valor do stent farmacológico coronário está em R$ 2.034,50 desde pelo menos 2015. Corrigido pelo IPCA, perdeu 47%.
+E a tabela envelhece: a endoprótese de aorta torácica vale R$ 14.000 na Tabela SUS em todas as competências que conferi, de jan/2015 a nov/2026. Corrigido pelo IPCA, esse valor perdeu 47%.
 
 Fonte: SIGTAP/DATASUS e Compras.gov.br (API de Dados Abertos). Painel: https://raio-x-opme.streamlit.app
 

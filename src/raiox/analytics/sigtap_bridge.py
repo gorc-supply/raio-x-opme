@@ -103,6 +103,7 @@ def ponte_sigtap_preco(
             continue
         start = _value_at(sigtap, p["codigo_sigtap"], period.start, "le")
         first = _value_at(sigtap, p["codigo_sigtap"], date.min, "first")
+        hist = sigtap.filter(pl.col("codigo_sigtap") == p["codigo_sigtap"])["valor_opme"]
         g = base.filter(pl.col("codigo_catmat") == p["codigo_catmat"])
         n = g["id_compra"].n_unique()
         med = float(g["preco_real"].median()) if n else None
@@ -136,6 +137,10 @@ def ponte_sigtap_preco(
                 "competencia_mais_antiga": first["competencia"],
                 "valor_sigtap_mais_antigo_nominal": first["valor_opme"],
                 "valor_sigtap_mais_antigo_real": first["valor_opme_real"],
+                "valor_sigtap_min_nominal": float(hist.min()),
+                "valor_sigtap_max_nominal": float(hist.max()),
+                "n_competencias": hist.len(),
+                "sigtap_valor_constante": hist.n_unique() == 1,
                 "mediana_preco_real": med,
                 "p10_preco_real": float(g["preco_real"].quantile(0.1, "linear")) if n else None,
                 "p90_preco_real": float(g["preco_real"].quantile(0.9, "linear")) if n else None,

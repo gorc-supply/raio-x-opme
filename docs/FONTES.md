@@ -143,6 +143,11 @@ acesso público pelo botão "Acessar o Sigtap"):
 | 07.02.03.070-8 Parafuso cortical 4,5 mm | 11/2026 | `000000006321` → R$ 63,21 | R$ 63,21 |
 | 07.02.04.061-4 Stent farmacológico para artéria coronária | 11/2026 | `000000203450` → R$ 2.034,50 | R$ 2.034,50 |
 | 07.02.03.024-4 Componente patelar cimentado / fixação biológica | 01/2015 (layout antigo) | `0000013265` → R$ 132,65 | R$ 132,65 |
+| 07.02.04.061-4 Stent farmacológico para artéria coronária | 01/2023 | `0000084473` → R$ 844,73 | R$ 844,73 (também em 02/2023; R$ 2.034,50 de novo em 12/2023) |
+
+Valores mudam no meio do caminho: em 01/2023, 51 códigos do grupo 07 tinham valores diferentes de 01/2022 (o
+stent farmacológico caiu para R$ 844,73 e voltou a R$ 2.034,50 no fim de 2023). Como baixamos só janeiro de
+cada ano, mudanças entre dois janeiros podem não aparecer; os textos dos achados dizem isso.
 
 O SIGTAP é o valor que o SUS **reembolsa** ao prestador por unidade de OPME, não o preço de compra. O mapa
 entre códigos SIGTAP e itens CATMAT está em `config/mapa_sigtap_catmat.yaml` (a validar).
