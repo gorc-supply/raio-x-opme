@@ -95,6 +95,23 @@ CATALOG_SCHEMA: dict[str, pl.DataType] = {
 }
 
 
+def mask_pf_suppliers(df: pl.DataFrame) -> pl.DataFrame:
+    """LGPD: esta bronze é versionada (histórico append-only), então CPF de fornecedor
+    pessoa física é mascarado já aqui, e o nome é substituído. Única alteração em relação à fonte."""
+    from raiox.transform.normalize import is_cpf, mask_cpf
+
+    if df.height == 0 or "niFornecedor" not in df.columns:
+        return df
+    pf = pl.col("niFornecedor").map_elements(is_cpf, return_dtype=pl.Boolean).fill_null(False)
+    return df.with_columns(
+        pl.col("niFornecedor").map_elements(mask_cpf, return_dtype=pl.String),
+        pl.when(pf)
+        .then(pl.lit("PESSOA FISICA"))
+        .otherwise(pl.col("nomeFornecedor"))
+        .alias("nomeFornecedor"),
+    )
+
+
 class ComprasSource:
     def __init__(self, settings: Settings, client: HttpClient):
         self.s = settings
@@ -218,14 +235,18 @@ def build_bronze(settings: Settings, client: HttpClient) -> int:
     if not records:
         logger.warning("Compras: nenhum registro no raw do snapshot {}", client.snapshot)
         return 0
-    df = frame_from_records(records, PRICE_SCHEMA)
+    df = mask_pf_suppliers(frame_from_records(records, PRICE_SCHEMA))
     write_bronze(settings, "compras_precos", client.snapshot, df, SOURCE, fetched)
 
     cat_records: list[dict[str, Any]] = []
     for _, env in client.store.iter_envelopes("catalogo_item_"):
         cat_records.extend(env["body"].get("resultado", []))
     if cat_records:
-        cat = frame_from_records(cat_records, CATALOG_SCHEMA).unique(subset=["codigoItem"])
+        cat = (
+            frame_from_records(cat_records, CATALOG_SCHEMA)
+            .unique(subset=["codigoItem"], maintain_order=True)
+            .sort("codigoItem")
+        )
         write_bronze(settings, "catmat_itens", client.snapshot, cat, SOURCE, fetched)
     return df.height
 

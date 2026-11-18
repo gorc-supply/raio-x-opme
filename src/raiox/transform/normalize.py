@@ -31,10 +31,15 @@ def norm_text_expr(col: str) -> pl.Expr:
 
 
 # ------------------------------------------------------------------ LGPD ----
+MASKED_CPF = re.compile(r"^\*\*\*\.\d{3}\.\d{3}-\*\*$")
+
+
 def mask_cpf(ni: str | None) -> str | None:
-    """Mascara CPF (11 dígitos) no padrão ***.456.789-**; CNPJ fica como está."""
+    """Mascara CPF (11 dígitos) no padrão ***.456.789-**; CNPJ fica como está. Idempotente."""
     if ni is None:
         return None
+    if MASKED_CPF.match(str(ni)):
+        return str(ni)
     digits = re.sub(r"\D", "", str(ni))
     if len(digits) == 11:
         return f"***.{digits[3:6]}.{digits[6:9]}-**"
@@ -42,7 +47,9 @@ def mask_cpf(ni: str | None) -> str | None:
 
 
 def is_cpf(ni: str | None) -> bool:
-    return ni is not None and len(re.sub(r"\D", "", str(ni))) == 11
+    if ni is None:
+        return False
+    return bool(MASKED_CPF.match(str(ni))) or len(re.sub(r"\D", "", str(ni))) == 11
 
 
 # --------------------------------------------------------------- dedup ----

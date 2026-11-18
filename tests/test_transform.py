@@ -127,6 +127,7 @@ def test_outliers_small_groups_are_not_flagged():
         ("12345678901", "***.456.789-**"),
         ("123.456.789-01", "***.456.789-**"),
         ("29182018000133", "29182018000133"),
+        ("***.456.789-**", "***.456.789-**"),  # idempotente
         (None, None),
     ],
 )
@@ -136,6 +137,7 @@ def test_mask_cpf(ni, expected):
 
 def test_is_cpf_and_norm_text():
     assert is_cpf("123.456.789-01")
+    assert is_cpf("***.456.789-**")
     assert not is_cpf("29182018000133")
     assert norm_text("  Prótese   de joelho ") == "PROTESE DE JOELHO"
     assert norm_text("") is None
@@ -226,3 +228,17 @@ def test_silver_compras_masks_cpf_and_counts_discards():
     assert counts["descarte_uf_invalida"] == 1
     assert counts["descarte_fora_do_catalogo"] == 1
     assert set(discards["motivo_descarte"]) == {"preco_invalido", "uf_invalida", "fora_do_catalogo"}
+
+
+def test_bronze_masks_pf_suppliers():
+    from raiox.sources.compras import mask_pf_suppliers
+
+    df = pl.DataFrame(
+        {
+            "niFornecedor": ["12345678901", "29182018000133", None],
+            "nomeFornecedor": ["Fulano", "Empresa SA", None],
+        }
+    )
+    out = mask_pf_suppliers(df)
+    assert out["niFornecedor"].to_list() == ["***.456.789-**", "29182018000133", None]
+    assert out["nomeFornecedor"].to_list() == ["PESSOA FISICA", "Empresa SA", None]

@@ -46,9 +46,19 @@ def build_fixtures(settings: Settings) -> dict[str, int]:
     if snap:
         dst = out_root / "compras" / snap.name
         total = 0
+        from raiox.transform.normalize import is_cpf, mask_cpf
+
         for code in FIXTURE_ITEMS:
             for p in sorted(snap.glob(f"{safe_key(f'preco_item_{code}_')}*.json")):
-                total += _copy(p, dst)
+                # LGPD: fixtures são versionadas; CPF de pessoa física sai mascarado.
+                env = json.loads(p.read_text(encoding="utf-8"))
+                for r in env["body"].get("resultado", []):
+                    if is_cpf(r.get("niFornecedor")):
+                        r["niFornecedor"] = mask_cpf(r["niFornecedor"])
+                        r["nomeFornecedor"] = "PESSOA FISICA"
+                dst.mkdir(parents=True, exist_ok=True)
+                (dst / p.name).write_text(json.dumps(env, ensure_ascii=False), encoding="utf-8")
+                total += (dst / p.name).stat().st_size
             for p in sorted(snap.glob(f"{safe_key(f'catalogo_item_{code}_')}*.json")):
                 total += _copy(p, dst)
         sizes["compras"] = total

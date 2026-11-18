@@ -113,7 +113,9 @@ def build_quality(settings: Settings) -> pl.DataFrame:
     )
     gold = settings.path("gold")
     gold.mkdir(parents=True, exist_ok=True)
-    df.write_parquet(gold / "qualidade.parquet", statistics=False)
+    from raiox.pipeline import stable_floats
+
+    stable_floats(df).write_parquet(gold / "qualidade.parquet", statistics=False)
 
     md = render_markdown(df, cov, period.label, settings)
     target = (

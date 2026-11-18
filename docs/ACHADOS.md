@@ -112,3 +112,28 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 ## Todos os achados
 
 A tabela completa (82 achados, inclusive moderados e fracos) está em `data/gold/achados.parquet` e na página inicial do painel.
+## Conferência contra o raw
+
+Feita em 18/11/2026 (Fase 10) com um script independente do pipeline, que lê diretamente os JSON e o CSV
+brutos de `data/raw/<fonte>/2026-11-18/` (sem usar o código de transformação) e compara com a gold.
+
+| # | Número publicado | Recalculado do raw | Resultado |
+|---|---|---|---|
+| 1 | Marca-passos (NCM 9021.50.00), 2025: importação US$ 29,0 mi; exportação US$ 34,6 mil; cobertura 0,1% | FOB import. = 28.976.717; export. = 34.593; razão = 0,00119 | ✅ confere |
+| 2 | Stents (NCM 9021.90.12), 2025: importação US$ 100,6 mi; exportação US$ 2,8 mi; cobertura 2,8% | 100.601.115; 2.803.784; 0,0279 | ✅ confere |
+| 3 | Marca-passos: 51 registros vigentes na ANVISA, 100% só com fabricante estrangeiro | 51 registros vigentes com país informado; 51 sem fabricante no Brasil | ✅ confere |
+| 4 | Parafuso cortical 4,5 mm (CATMAT 443323), 11/2024–10/2026: 96 compras, 50 órgãos, 143 registros | 96 `idCompra` distintos, 50 UASG, 143 linhas válidas | ✅ confere (nenhum outlier marcado neste item) |
+| 5 | Base do período: 783 compras e 2.301 registros (25 itens) | 783 `idCompra` distintos e 2.301 linhas com preço, quantidade e unidade válidos | ✅ confere |
+
+**Amostra manual de compras individuais** (CATMAT 443323, três primeiras por `idCompra` no raw), todas
+encontradas em `data/gold/compras_detalhe.parquet` com UF, data e preço idênticos:
+
+| idCompra | idItemCompra | UF | Data | Preço no raw | Preço na gold (nominal → real out/2026) |
+|---|---|---|---|---|---|
+| 9011805900392025 | 8583616 | SP | 2025-06-18 | R$ 520,00 | R$ 520,00 → R$ 547,99 |
+| 9012105901602025 | 9580405 | SP | 2025-09-24 | R$ 100,00 | R$ 100,00 → R$ 104,72 |
+| 9012106000682025 | 7204827 | SP | 2025-01-07 | R$ 120,00 | R$ 120,00 → R$ 130,04 |
+
+Observação da auditoria: 57 registros trazem no campo `marca` um número de 11 dígitos. Não são CPFs:
+29 deles coincidem com números de registro na ANVISA e todos vêm de fornecedores com CNPJ. Nenhum CPF
+completo existe em arquivos versionados (verificado com `git grep` e leitura dos Parquet).

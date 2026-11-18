@@ -99,6 +99,13 @@ def _write(df: pl.DataFrame, path: Path) -> None:
     df.write_parquet(path, statistics=False)
 
 
+def stable_floats(df: pl.DataFrame, sig: int = 10) -> pl.DataFrame:
+    """Arredonda floats a `sig` algarismos significativos: somas paralelas do polars podem
+    variar na 16ª casa entre execuções; isso garante gold idêntica (idempotência)."""
+    cols = [c for c, t in df.schema.items() if t in (pl.Float64, pl.Float32)]
+    return df.with_columns(pl.col(c).round_sig_figs(sig) for c in cols) if cols else df
+
+
 def run_transform(settings: Settings) -> dict[str, Any]:
     from raiox import schemas
     from raiox.transform import normalize as nz
@@ -256,7 +263,7 @@ def run_analyze(settings: Settings) -> dict[str, int]:
     schemas.check_language(out["achados"]["frase"].to_list())
 
     for name, df in out.items():
-        _write(df, gold / f"{name}.parquet")
+        _write(stable_floats(df), gold / f"{name}.parquet")
         logger.info("Gold {}: {} linhas", name, df.height)
 
     meta = {
