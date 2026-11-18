@@ -1,0 +1,185 @@
+# Configuração central do Raio-X OPME.
+# Todo parâmetro do pipeline vem daqui (nada de número mágico no código).
+
+project:
+  name: "Raio-X OPME"
+  author: "Gabriel Cunha"
+  author_full_name: "Gabriel Oliveira da Rocha Cunha"
+  # Troque GITHUB_USER pelo seu usuário do GitHub (ver PENDENCIAS.md).
+  repo_url: "https://github.com/GITHUB_USER/raio-x-opme"
+  # Preencha após o deploy no Streamlit Community Cloud (ver PENDENCIAS.md).
+  dashboard_url: "https://raio-x-opme.streamlit.app"
+  linkedin_url: "https://www.linkedin.com/in/gabriel-cunha-xp"
+
+paths:
+  raw: "data/raw"
+  bronze: "data/bronze"
+  silver: "data/silver"
+  gold: "data/gold"
+  reference: "data/reference"
+  fixtures: "data/fixtures"
+  state: "data/state"
+  offline_root: "data/offline"
+  logs: "logs"
+  certs: "certs"
+  linkedin: "linkedin"
+  docs: "docs"
+
+http:
+  timeout_s: 90
+  max_attempts: 6
+  backoff_initial_s: 2.0
+  backoff_max_s: 90.0
+  max_pages: 300
+  user_agent: "raio-x-opme/0.1 (projeto open source de dados publicos; {repo_url})"
+  # Requisições por segundo por host (token bucket simples).
+  rate_limits:
+    dadosabertos.compras.gov.br: 1.0
+    api-comexstat.mdic.gov.br: 0.2
+    api.bcb.gov.br: 2.0
+    servicodados.ibge.gov.br: 2.0
+    default: 1.0
+  # Cadeia ICP-Brasil (último recurso para erro de certificado; ver docs/DECISOES.md).
+  icp_brasil_bundle_url: "https://acraiz.icpbrasil.gov.br/credenciadas/CertificadosAC-ICP-Brasil/ACcompactado.zip"
+
+compras:
+  base_url: "https://dadosabertos.compras.gov.br"
+  # O manual grafa de dois jeitos; o cliente tenta na ordem e memoriza o que funcionou.
+  price_path_candidates:
+    - "/modulo-pesquisa-preco/1_consultarMaterial"
+    - "/modulo-pesquisapreco/1_consultarMaterial"
+  detail_path: "/modulo-pesquisa-preco/2_consultarMaterialDetalhe"
+  catalog_item_path: "/modulo-material/4_consultarItemMaterial"
+  catalog_pdm_path: "/modulo-material/3_consultarPdmMaterial"
+  pncp_items_path: "/modulo-contratacoes/2_consultarItensContratacoes_PNCP_14133"
+  openapi_path: "/v3/api-docs"
+  page_size: 500
+  catalog_group: 65
+
+catalog:
+  # Fase 2: descoberta de itens CATMAT.
+  min_items: 12
+  max_items: 25
+  min_families: 4
+  # Janela (meses) usada para contar compras de cada candidato.
+  count_window_months: 24
+  # Mínimo de compras distintas no período para um item ser elegível.
+  min_purchases: 20
+  # Máximo de itens por família (evita que uma família ocupe o catálogo inteiro).
+  max_items_per_family: 4
+  # Termos de busca (comparados sem acento, em maiúsculas) no nome do PDM.
+  search_terms:
+    - "ENDOPROTESE CORONARIA"
+    - "STENT"
+    - "PROTESE DE QUADRIL"
+    - "PROTESE DE JOELHO"
+    - "PLACA ORTOPEDICA"
+    - "PARAFUSO OSSEO"
+    - "HASTE INTRAMEDULAR"
+    - "MARCA-PASSO"
+    - "MARCAPASSO"
+    - "PROTESE VALVULAR CARDIACA"
+    - "CATETER BALAO"
+    - "ENDOPROTESE VASCULAR PERIFERICA"
+    - "ENDOPROTESE DE AORTA"
+
+comex:
+  base_url: "https://api-comexstat.mdic.gov.br"
+  start_year: 2015
+  flows: ["import", "export"]
+  details: ["ncm", "country", "state"]
+  metrics_import: ["metricFOB", "metricKG", "metricStatistic", "metricFreight", "metricInsurance", "metricCIF"]
+  metrics_export: ["metricFOB", "metricKG", "metricStatistic"]
+  # Quantos NCMs por requisição (o limite da API é ~150 mil linhas por resposta).
+  ncms_per_request: 20
+  # Pausa adicional entre chamadas (segundos) por causa do rate limit agressivo.
+  pause_s: 3.0
+  # NCMs validados contra a tabela NCM do ComexStat na Fase 1 (ver docs/FONTES.md).
+  # "historico" = código vigente antes de revisão da NCM, mantido para continuidade da série.
+  ncms:
+    - {ncm: "90219012", familia: "Stents", descricao: "Implantes expansíveis (stents)", historico: false}
+    - {ncm: "90219081", familia: "Stents", descricao: "Implantes expansíveis (stents) — código anterior", historico: true}
+    - {ncm: "90213110", familia: "Próteses articulares", descricao: "Próteses articulares femurais", historico: false}
+    - {ncm: "90213190", familia: "Próteses articulares", descricao: "Outras próteses articulares", historico: false}
+    - {ncm: "90211110", familia: "Próteses articulares", descricao: "Próteses articulares femurais — código anterior", historico: true}
+    - {ncm: "90211190", familia: "Próteses articulares", descricao: "Outras próteses articulares — código anterior", historico: true}
+    - {ncm: "90211020", familia: "Placas, parafusos e hastes", descricao: "Artigos e aparelhos para fraturas", historico: false}
+    - {ncm: "90211920", familia: "Placas, parafusos e hastes", descricao: "Artigos e aparelhos para fraturas — código anterior", historico: true}
+    - {ncm: "90215000", familia: "Marca-passos", descricao: "Marca-passos cardíacos", historico: false}
+    - {ncm: "90213911", familia: "Válvulas cardíacas", descricao: "Válvulas cardíacas mecânicas", historico: false}
+    - {ncm: "90213919", familia: "Válvulas cardíacas", descricao: "Outras válvulas cardíacas", historico: false}
+    - {ncm: "90213011", familia: "Válvulas cardíacas", descricao: "Válvulas cardíacas mecânicas — código anterior", historico: true}
+    - {ncm: "90213019", familia: "Válvulas cardíacas", descricao: "Válvulas cardíacas, exceto mecânicas — código anterior", historico: true}
+    - {ncm: "90213930", familia: "Próteses vasculares", descricao: "Próteses de artérias vasculares revestidas", historico: false}
+    - {ncm: "90213030", familia: "Próteses vasculares", descricao: "Próteses de artérias vasculares revestidas — código anterior", historico: true}
+    - {ncm: "90219019", familia: "Outros implantáveis", descricao: "Outros aparelhos implantáveis (residual, usar com cautela)", historico: false}
+
+bcb:
+  base_url: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.{code}/dados"
+  ipca_series: 433
+  fx_series: 3698
+  fx_fallback_daily_series: 1
+  start_date: "2015-01-01"
+  window_years: 10
+
+ibge:
+  states_url: "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+  geojson_url: "https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?intrarregiao=UF&formato=application/vnd.geo+json&qualidade=minima"
+  geojson_max_bytes: 2000000
+
+analysis:
+  # Janela padrão: últimos N meses com dados disponíveis.
+  period_months: 24
+  # Sobrescreve a janela (formato AAAA-MM); deixe null para automático.
+  period_start: null
+  period_end: null
+  # Elegibilidade de UF para comparação (seção 8.3).
+  min_purchases_per_uf: 5
+  min_buyers_per_uf: 2
+  # Outliers (seção 8.2): IQR em escala log e MAD (escore-z modificado).
+  outlier_iqr_k: 3.0
+  outlier_mad_z: 3.5
+  outlier_min_n: 8
+  # Bootstrap da razão entre UFs (seção 8.6).
+  bootstrap_reps: 2000
+  bootstrap_seed: 20261118
+  ci_level: 0.95
+  finding_min_ci_lower: 1.5
+  # Uma UF é "dominada" se um único órgão comprador (UASG) responde por mais que esta fração das compras.
+  max_top_buyer_share: 0.5
+  # Concentração: quantos maiores entram no CR.
+  top_n_concentration: 3
+  # Série mensal: mínimo de registros no mês para publicar a mediana.
+  min_obs_month: 3
+  # Importação: últimos N anos completos na ponte preço de importação x preço público.
+  bridge_years: 1
+  # Unidades tratadas como "peça/unidade" (comparáveis entre si, fator 1).
+  unit_aliases_piece: ["UN", "UND", "UNID", "UNIDADE", "PC", "PCA", "PECA", "PEÇA"]
+  # Unidades de embalagem que podem ser convertidas se houver capacidade > 0 em unidades.
+  unit_aliases_pack: ["CX", "CAIXA", "PCT", "PACOTE", "EMB", "EMBALAGEM", "FR", "BL"]
+  # Unidades que são conjuntos (kit/jogo): comparáveis só com elas mesmas.
+  unit_aliases_set: ["KIT", "CJ", "CONJ", "CONJUNTO", "JG", "JOGO", "SISTEMA"]
+
+findings:
+  max_findings: 30
+  top_for_docs: 10
+
+charts:
+  width_px: 1080
+  height_px: 1350
+  dpi: 150
+  footer: "Fonte: Compras.gov.br (API de Dados Abertos), ComexStat/MDIC, BCB, IBGE. Elaboração: Gabriel Cunha. Valores em R$ de {ref_month}, deflacionados pelo IPCA."
+
+# Fontes complementares (Fase 5.6). Cada uma fica atrás de um flag.
+complementary:
+  bps:
+    enabled: false
+    page_url: "https://www.gov.br/saude/pt-br/acesso-a-informacao/banco-de-precos/bases-anuais-compiladas"
+  pncp_itens:
+    enabled: false
+    window_days: 31
+  anvisa:
+    enabled: false
+    base_url: "https://dados.anvisa.gov.br/dados/"
+  sigtap:
+    enabled: false

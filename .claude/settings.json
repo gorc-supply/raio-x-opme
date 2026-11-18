@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(uv:*)",
+      "Bash(uvx:*)",
+      "Bash(python:*)",
+      "Bash(git status:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git grep:*)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(git clone:*)",
+      "Bash(git ls-files:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:dadosabertos.compras.gov.br)",
+      "WebFetch(domain:api-comexstat.mdic.gov.br)",
+      "WebFetch(domain:comexstat.mdic.gov.br)",
+      "WebFetch(domain:api.bcb.gov.br)",
+      "WebFetch(domain:servicodados.ibge.gov.br)",
+      "WebFetch(domain:www.gov.br)",
+      "WebFetch(domain:pncp.gov.br)",
+      "WebFetch(domain:dados.anvisa.gov.br)",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:docs.streamlit.io)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(rm -rf:*)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}

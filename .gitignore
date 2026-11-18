@@ -1,0 +1,33 @@
+# Ambiente
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Segredos (o projeto não precisa de nenhum)
+.env
+.env.*
+
+# Dados intermediários (reconstruíveis pelo pipeline)
+data/raw/
+data/bronze/
+data/silver/
+data/state/
+
+# Logs
+logs/
+
+# Certificados baixados em tempo de execução
+certs/*.pem
+certs/*.crt
+certs/*.cer
+
+# SO / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
