@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import sys
@@ -238,10 +239,8 @@ def log_hist(values: np.ndarray, bins: int = 30) -> tuple[np.ndarray, np.ndarray
 
 
 def setup_page(title: str, icon: str = "🩺") -> None:
-    try:
+    with contextlib.suppress(st.errors.StreamlitAPIException):  # já configurado
         st.set_page_config(page_title=f"{title} · Raio-X OPME", page_icon=icon, layout="wide")
-    except st.errors.StreamlitAPIException:
-        pass  # já configurado pelo roteador
 
 
 __all__ = ["fmt", "theme"]
