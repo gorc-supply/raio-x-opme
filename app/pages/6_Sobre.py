@@ -14,7 +14,7 @@ c.setup_page("Sobre")
 c.filters()
 info = c.settings_info()
 m = c.meta()
-st.title("Sobre")
+c.page_title("Sobre", "person")
 st.markdown(
     f"""
 **Raio-X OPME** é um projeto open source que mostra quanto o setor público brasileiro paga por

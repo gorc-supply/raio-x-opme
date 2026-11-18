@@ -17,36 +17,42 @@ c.setup_page("Início")
 
 def home() -> None:
     m = c.meta()
-    st.title("Raio-X OPME")
-    st.markdown(
-        "**Quanto o setor público brasileiro paga por stents, próteses e implantes — "
-        "e quanto disso depende de importação.**"
+    c.ui.hero(
+        "Raio-X OPME",
+        "Quanto o setor público brasileiro paga por stents, próteses e implantes, como o preço varia "
+        "entre estados e quanto disso depende de importação.",
     )
     f = c.filters()
     if not m or not f:
         st.info("Ainda não há dados processados. Rode `uv run raiox all`.")
         return
     comp = c.filtered_purchases(f, item=False)
-    k1, k2, k3, k4 = st.columns(4)
-    k1.metric(
-        "Itens monitorados",
-        c.fmt.num(comp["codigo_catmat"].n_unique()),
-        help="Itens CATMAT do catálogo curado (config/itens_opme.yaml) no filtro atual.",
-    )
-    k2.metric(
-        "Compras analisadas",
-        c.fmt.num(comp["id_compra"].n_unique()),
-        help="Compras distintas (idCompra) no período e filtros escolhidos.",
-    )
-    k3.metric("UFs cobertas", c.fmt.num(comp["uf"].n_unique()))
     p0, p1 = f["periodo"]
-    k4.metric(
-        "Período",
-        f"{p0:%m/%Y}–{p1:%m/%Y}",
-        help="Mês da compra. Padrão: últimos 24 meses completos.",
+    c.ui.kpis(
+        [
+            (
+                "inventory_2",
+                "Itens monitorados",
+                c.fmt.num(comp["codigo_catmat"].n_unique()),
+                "Itens CATMAT do catálogo curado (config/itens_opme.yaml) no filtro atual.",
+            ),
+            (
+                "shopping_cart",
+                "Compras analisadas",
+                c.fmt.num(comp["id_compra"].n_unique()),
+                "Compras distintas (idCompra) no período e filtros escolhidos.",
+            ),
+            ("map", "UFs cobertas", c.fmt.num(comp["uf"].n_unique()), None),
+            (
+                "calendar_month",
+                "Período",
+                f"{c.fmt.MESES[p0.month - 1]}/{p0:%y} – {c.fmt.MESES[p1.month - 1]}/{p1:%y}",
+                f"Mês da compra: {c.fmt.month(p0)} a {c.fmt.month(p1)}. Padrão: últimos 24 meses completos.",
+            ),
+        ]
     )
 
-    st.subheader("Principais achados")
+    c.section("Principais achados", "lightbulb")
     st.caption(
         "Só achados de robustez **forte** (passam em todas as regras estatísticas da metodologia)."
     )
@@ -61,13 +67,11 @@ def home() -> None:
         sel = fortes.filter((pl.col("familia") == f["familia"]) | (pl.col("familia") == fam_macro))
         fortes = sel if sel.height else fortes
     cols = st.columns(3)
-    for col, r in zip(cols, fortes.head(3).iter_rows(named=True), strict=False):
-        with col.container(border=True):
-            st.markdown(f"**{r['titulo']}**")
-            st.write(r["frase"])
-            st.caption(f"n: {r['n_descricao']} · Período: {r['periodo']} · Fonte: {r['fonte']}")
+    for i, (col, r) in enumerate(zip(cols, fortes.head(3).iter_rows(named=True), strict=False)):
+        with col:
+            c.ui.finding_card(r, key=str(i))
 
-    with st.expander("Todos os achados (inclusive moderados e fracos)"):
+    with st.expander("Todos os achados (inclusive moderados e fracos)", icon=":material/list_alt:"):
         rob = st.segmented_control(
             "Robustez",
             ["forte", "moderado", "fraco"],
@@ -95,7 +99,7 @@ def home() -> None:
             "Moderado = indício que merece investigação, com ressalva. Fraco = não publicar."
         )
 
-    st.subheader("Como ler este painel")
+    c.section("Como ler este painel", "help")
     st.markdown(
         f"""
 - **Comparação justa:** só o mesmo código CATMAT, na mesma unidade. Preços em R$ de {c.ref_month()} (IPCA).
@@ -104,7 +108,7 @@ def home() -> None:
 - **Diferença não é irregularidade:** volume, prazo, logística, consignação e especificação explicam boa parte da variação.
 """
     )
-    with st.expander("Metadados da base"):
+    with st.expander("Metadados da base", icon=":material/data_object:"):
         st.code(json.dumps(m, ensure_ascii=False, indent=1), language="json")
     c.footer()
 

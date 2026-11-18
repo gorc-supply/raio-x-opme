@@ -117,15 +117,13 @@ def new_fig(ctx: Ctx, title: str, subtitle: str = "", extra_source: str = ""):
 
 
 def badge(fig, robustez: str, y: float = 0.115) -> None:
-    color = {"forte": "#047857", "moderado": "#B45309", "fraco": theme.MUTED}.get(
-        robustez, theme.MUTED
-    )
+    color = theme.ROBUSTEZ.get(robustez, theme.FRACO)
     fig.text(
         0.06,
         y,
         ROB_LABEL.get(robustez, robustez),
         fontsize=11.5,
-        color="white",
+        color=theme.DARK,  # texto escuro sobre coral/âmbar/cinza: contraste ≥ 4,5:1
         fontweight="bold",
         bbox={"boxstyle": "round,pad=0.45", "fc": color, "ec": color},
     )
@@ -533,7 +531,7 @@ def chart_sigtap(ctx: Ctx, out: Path) -> Path | None:
         f"(SIGTAP {comp_lbl}). {v.height} pares de mapeamento com confiança alta."
     )
     fig, top = new_fig(ctx, title, sub, extra_source="Tabela SUS: SIGTAP/DATASUS.")
-    ax = fig.add_axes([0.40, 0.25, 0.37, top - 0.27])
+    ax = fig.add_axes([0.40, 0.275, 0.37, top - 0.295])
     y = np.arange(v.height)
     colors = [
         theme.ACCENT if lo > 1 else theme.LOW if hi < 1 else theme.MUTED
@@ -549,7 +547,7 @@ def chart_sigtap(ctx: Ctx, out: Path) -> Path | None:
             f"{fmt.ratio(rr['razao_preco_sigtap'], 2)}",
             transform=ax.get_yaxis_transform(),
             va="center",
-            fontsize=13,
+            fontsize=14,
             fontweight="bold",
             color=colors[i],
         )
@@ -578,9 +576,9 @@ def chart_sigtap(ctx: Ctx, out: Path) -> Path | None:
         0.06,
         0.165,
         _wrap(
-            "O SIGTAP é valor de reembolso do SUS ao hospital, não preço de compra. Acima de 1×, o "
-            "reembolso não cobre a compra: indica defasagem da tabela, não conduta de quem compra.",
-            80,
+            "O SIGTAP é reembolso do SUS ao hospital, não preço de compra. Acima de 1×, indica "
+            "defasagem da tabela, não conduta de quem compra.",
+            84,
         ),
         fontsize=10.5,
         color=theme.MUTED,
@@ -598,7 +596,7 @@ def _text_page(
 ) -> plt.Figure:
     plt.rcParams.update(theme.mpl_rc())
     fig = plt.figure(figsize=(ctx.w, ctx.h), dpi=ctx.dpi)
-    fig.patch.set_facecolor(theme.BG)
+    fig.patch.set_facecolor(theme.PAGE_BG)
     fig.add_artist(
         plt.Rectangle((0, 0.975), 1, 0.025, transform=fig.transFigure, color=theme.PRIMARY)
     )
@@ -613,7 +611,7 @@ def _text_page(
         "\n".join(t_lines),
         fontsize=40,
         fontweight="bold",
-        color=theme.INK,
+        color=theme.DARK,
         va="top",
         linespacing=1.1,
     )

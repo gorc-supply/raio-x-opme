@@ -10,11 +10,15 @@
 ![Painel do Raio-X OPME: página inicial com indicadores e achados](docs/img/painel_home.png)
 
 <details>
-<summary>Mais telas do painel</summary>
+<summary>Mais telas do painel (desktop, celular e modo escuro)</summary>
 
-![Preços por UF: mapa coroplético e distribuição](docs/img/painel_precos_uf.png)
-![Explorar item: distribuição, série real e fornecedores](docs/img/painel_explorar.png)
-![Importação: série, balança comercial e origens](docs/img/painel_importacao.png)
+| Página | Desktop (1440 px) | Celular (390 px) |
+|---|---|---|
+| Preços por UF | ![Mapa coroplético e distribuição por UF](docs/img/painel_precos_uf.png) | ![Preços por UF no celular](docs/img/painel_precos_uf_mobile.png) |
+| Explorar item | ![Distribuição, série real, fornecedores e compras](docs/img/painel_explorar.png) | ![Explorar item no celular](docs/img/painel_explorar_mobile.png) |
+| Importação | ![Série, balança comercial, origens e ANVISA](docs/img/painel_importacao.png) | ![Importação no celular](docs/img/painel_importacao_mobile.png) |
+| Tabela SUS × preço | ![Razão preço pago ÷ Tabela SUS e evolução do valor de tabela](docs/img/painel_tabela_sus.png) | ![Tabela SUS no celular](docs/img/painel_tabela_sus_mobile.png) |
+| Início (modo escuro) | ![Página inicial no modo escuro](docs/img/painel_home_dark.png) | ![Página inicial no celular, modo escuro](docs/img/painel_home_mobile_dark.png) |
 
 </details>
 

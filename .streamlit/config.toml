@@ -1,10 +1,48 @@
+# Tema do painel. As cores espelham src/raiox/viz/theme.py (fonte única da paleta).
+# Streamlit 1.67 aceita temas separados: o visitante escolhe claro/escuro (ou segue o sistema).
+
 [theme]
+font = "sans-serif"
+baseRadius = "10px"
+buttonRadius = "10px"
+showWidgetBorder = true
+
+[theme.light]
 base = "light"
-primaryColor = "#0B5D7A"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F5F7FA"
-textColor = "#1F2933"
-font = "sans serif"
+primaryColor = "#0E6E7E"
+backgroundColor = "#F4F7FA"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1B2B3A"
+linkColor = "#0E6E7E"
+borderColor = "#D5DEE7"
+dataframeBorderColor = "#E3E9EF"
+dataframeHeaderBackgroundColor = "#E9EFF5"
+chartCategoricalColors = ["#0E6E7E", "#C4573A", "#4255B5", "#B03A7A", "#7A6A00", "#12304A"]
+chartSequentialColors = ["#DCEFF1", "#B3D5DA", "#8ABBC3", "#60A2AC", "#378895", "#0E6E7E"]
+
+[theme.light.sidebar]
+backgroundColor = "#E9EFF5"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1B2B3A"
+borderColor = "#D5DEE7"
+
+[theme.dark]
+base = "dark"
+primaryColor = "#5EC2CF"
+backgroundColor = "#0E1A24"
+secondaryBackgroundColor = "#15263A"
+textColor = "#E7EEF5"
+linkColor = "#5EC2CF"
+borderColor = "#2A3F55"
+dataframeBorderColor = "#24384C"
+dataframeHeaderBackgroundColor = "#112131"
+chartCategoricalColors = ["#5EC2CF", "#F08A6C", "#93A3FF", "#E58AC0", "#D9BE4E", "#C9D6E3"]
+
+[theme.dark.sidebar]
+backgroundColor = "#112131"
+secondaryBackgroundColor = "#15263A"
+textColor = "#E7EEF5"
+borderColor = "#2A3F55"
 
 [server]
 headless = true

@@ -62,7 +62,11 @@ view = ponte.filter(
 # ------------------------------------------------------- razão com IC ----
 if view.height:
     v = view.sort("razao_preco_sigtap")
-    labels = [f"{n} ({cf})" for n, cf in zip(v["nome_curto"], v["confianca"], strict=True)]
+    multi = v["confianca"].n_unique() > 1
+    labels = [
+        c.wrap_label(f"{n} ({cf})" if multi else n)
+        for n, cf in zip(v["nome_curto"], v["confianca"], strict=True)
+    ]
     colors = [
         c.theme.ACCENT if lo > 1 else c.theme.LOW if hi < 1 else c.theme.MUTED
         for lo, hi in zip(v["ic_inf"], v["ic_sup"], strict=True)
@@ -95,16 +99,26 @@ if view.height:
             "<extra></extra>",
         )
     )
-    fig.add_vline(x=1, line_dash="dash", line_color=c.theme.INK, annotation_text="= tabela")
+    fig.add_vline(
+        x=1,
+        line_dash="dash",
+        line_color=c.theme.GRID_DARK,
+        annotation_text="1× = valor de tabela",
+        annotation_position="top left",
+    )
+    ticks = [0.25, 0.5, 1, 2, 4, 8]
     fig.update_xaxes(
-        type="log", title="Mediana paga ÷ valor da Tabela SUS (escala log; barras = IC 95%)"
+        type="log",
+        title="Preço pago ÷ tabela (log; barra = IC 95%)",
+        tickvals=ticks,
+        ticktext=[c.fmt.ratio(x, 2 if x < 1 else 0) for x in ticks],
     )
     fig.update_layout(
         **c.theme.plotly_layout(
-            height=max(320, 42 * v.height + 120), title="Preço praticado ÷ Tabela SUS, por item"
+            height=max(340, 52 * v.height + 130), title="Preço praticado ÷ Tabela SUS, por item"
         )
     )
-    st.plotly_chart(fig, config={"displayModeBar": False})
+    c.plot(fig)
     st.caption(
         "Cor: acima da tabela (IC todo acima de 1), abaixo (IC todo abaixo de 1) ou indistinguível. "
         "Intervalo por bootstrap das compras."
@@ -117,9 +131,9 @@ show = view.select(
     pl.col("codigo_sigtap_fmt").alias("SIGTAP"),
     pl.col("descricao_sigtap").alias("Procedimento SIGTAP"),
     pl.col("confianca").alias("Confiança"),
-    pl.col("valor_sigtap_nominal").alias("Tabela SUS (R$)"),
-    pl.col("mediana_preco_real").alias("Mediana paga (R$)"),
-    pl.col("razao_preco_sigtap").alias("Preço ÷ tabela"),
+    pl.col("valor_sigtap_nominal").round(2).alias("Tabela SUS (R$)"),
+    pl.col("mediana_preco_real").round(2).alias("Mediana paga (R$)"),
+    pl.col("razao_preco_sigtap").round(2).alias("Preço ÷ tabela (×)"),
     pl.col("n_compras").alias("Compras"),
     pl.col("justificativa").alias("Por que este par"),
 )
@@ -129,7 +143,7 @@ st.dataframe(
     column_config={
         "Tabela SUS (R$)": st.column_config.NumberColumn(format="localized"),
         "Mediana paga (R$)": st.column_config.NumberColumn(format="localized"),
-        "Preço ÷ tabela": st.column_config.NumberColumn(format="%.2f×"),
+        "Preço ÷ tabela (×)": st.column_config.NumberColumn(format="localized"),
         "Por que este par": st.column_config.TextColumn(width="large"),
     },
 )
@@ -174,6 +188,7 @@ if serie.height:
             )
         )
         fig2.update_yaxes(title="R$ por unidade de OPME", tickformat=",.0f", rangemode="tozero")
+        fig2.update_xaxes(tickformat="%Y", dtick="M12")
         fig2.update_layout(
             **c.theme.plotly_layout(
                 height=380,
@@ -181,9 +196,10 @@ if serie.height:
                 legend={"orientation": "h", "y": -0.2},
             )
         )
-        st.plotly_chart(fig2, config={"displayModeBar": False})
+        c.plot(fig2)
         st.caption(
-            "Competências de janeiro de cada ano desde 2015 e a mais recente. Valor real corrigido pelo IPCA."
+            "Competências de janeiro de cada ano desde 2015 e a mais recente: mudanças entre dois janeiros "
+            "podem não aparecer. Valor real corrigido pelo IPCA."
         )
 st.caption(
     "Fonte da tabela: SIGTAP/DATASUS (Tabela Unificada do SUS), licença CC BY 3.0. Mapa SIGTAP × CATMAT: curadoria do projeto."

@@ -14,7 +14,7 @@ import _common as c  # noqa: E402
 
 c.setup_page("Preços por UF")
 f = c.filters()
-st.title("Preços por UF")
+c.page_title("Preços por UF", "map")
 if not f:
     st.stop()
 
@@ -58,7 +58,8 @@ if gray_ufs:
             marker_line_color="white",
             hovertext=hover,
             hoverinfo="text",
-            name="Amostra insuficiente",
+            name="Amostra insuficiente ou sem compras (fora do ranking)",
+            showlegend=True,
         )
     )
 if elig.height:
@@ -71,8 +72,19 @@ if elig.height:
             colorscale=[
                 [i / (len(c.theme.SEQUENTIAL) - 1), col] for i, col in enumerate(c.theme.SEQUENTIAL)
             ],
-            marker_line_color="white",
-            colorbar={"title": "Mediana (R$)", "tickformat": ",.0f"},
+            marker_line_color=c.theme.DARK,  # contorno escuro: UF elegível ≠ cinza "insuficiente"
+            colorbar={
+                "title": {"text": "Mediana (R$ por unidade)", "side": "top"},
+                "tickformat": ",.0f",
+                "orientation": "h",
+                "x": 0.5,
+                "xanchor": "center",
+                "y": -0.04,
+                "yanchor": "top",
+                "len": 0.8,
+                "thickness": 12,
+            },
+            marker_line_width=1.4,
             hovertext=[
                 f"<b>{r['uf']}</b><br>Mediana: {c.fmt.brl(r['mediana'])}<br>{r['n_compras']} compras · {r['n_orgaos']} órgãos"
                 for r in elig.iter_rows(named=True)
@@ -82,10 +94,17 @@ if elig.height:
         )
     )
 fig.update_geos(fitbounds="locations", visible=False)
-fig.update_layout(**c.theme.plotly_layout(height=520, title="Mediana do preço por UF"))
-st.plotly_chart(fig, config={"displayModeBar": False})
+fig.update_layout(
+    **c.theme.plotly_layout(
+        height=540,
+        title="Mediana do preço por UF",
+        legend={"orientation": "h", "y": 1.0, "x": 0, "yanchor": "bottom", "itemclick": False},
+        margin={"l": 8, "r": 8, "t": 84, "b": 70},
+    )
+)
+c.plot(fig)
 st.caption(
-    f"UFs em cinza: amostra insuficiente (menos de {regras.get('min_compras_uf', 5)} compras ou menos de "
+    f"UFs em cinza (legenda acima do mapa): amostra insuficiente (menos de {regras.get('min_compras_uf', 5)} compras ou menos de "
     f"{regras.get('min_orgaos_uf', 2)} órgãos compradores) ou sem compras — não entram em ranking."
 )
 
@@ -109,14 +128,15 @@ if elig.height:
         )
     spread = df["preco_real"].quantile(0.9) / max(df["preco_real"].quantile(0.1), 1e-9)
     box.update_layout(
-        **c.theme.plotly_layout(
-            height=420, title="Distribuição por UF (só UFs com amostra suficiente)"
-        )
+        **c.theme.plotly_layout(height=420, title="Distribuição por UF (amostra suficiente)")
     )
     box.update_yaxes(
-        title="R$ por unidade", type="log" if spread > 5 else "linear", tickformat=",.0f"
+        title="R$ por unidade",
+        type="log" if spread > 5 else "linear",
+        tickformat=",.0f",
+        dtick="D2" if spread > 5 else None,
     )
-    st.plotly_chart(box, config={"displayModeBar": False})
+    c.plot(box)
 
 # ------------------------------------------------- robustez da comparação ----
 disp = c.table("dispersao_item").filter(pl.col("codigo_catmat") == f["item"])
@@ -128,8 +148,8 @@ if (
     and not f["com_outliers"]
 ):
     r = disp.row(0, named=True)
-    with st.container(border=True):
-        st.markdown("**Comparação entre UFs (regras da metodologia)**")
+    with st.container(key="rx-panel-comparacao"):
+        st.markdown("**:material/balance: Comparação entre UFs (regras da metodologia)**")
         if r["robustez"] == "sem_comparacao":
             st.write(f"Sem comparação: {r['motivo_robustez']}.")
         else:
@@ -150,9 +170,9 @@ show = stats.select(
     pl.col("nome").alias("Estado"),
     pl.col("n_compras").alias("Compras"),
     pl.col("n_orgaos").alias("Órgãos"),
-    pl.col("mediana").alias("Mediana (R$)"),
-    pl.col("p10").alias("P10 (R$)"),
-    pl.col("p90").alias("P90 (R$)"),
+    pl.col("mediana").round(2).alias("Mediana (R$)"),
+    pl.col("p10").round(2).alias("P10 (R$)"),
+    pl.col("p90").round(2).alias("P90 (R$)"),
     pl.col("amostra_suficiente").alias("Amostra suficiente"),
 )
 st.dataframe(

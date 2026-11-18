@@ -68,3 +68,59 @@ Registro curto de toda escolha não trivial feita durante a construção (data �
 | 2026-11-18 | Texto do achado SIGTAP depende do sentido da diferença: acima da tabela → "indica defasagem da tabela"; abaixo → "o valor de tabela cobre a mediana paga"; IC cruzando 1 → "em linha" | Frase única "a diferença indica defasagem" | Stents farmacológicos (0,28×) e marca-passos (0,66×) são comprados abaixo da tabela; dizer "defasagem" ali seria falso. |
 | 2026-11-18 | Página nova "Tabela SUS × preço" como `pages/4_Tabela_SUS.py`; Metodologia e Sobre renumeradas para 5 e 6 | Seção dentro de Importação | Assunto próprio (reembolso × compra), com filtro de confiança e série histórica. |
 | 2026-11-18 | Achado de defasagem SIGTAP olha a série inteira de competências baixadas, não só a primeira e a última | Comparar só 01/2015 × 11/2026 | O stent farmacológico valia R$ 844,73 em 01–02/2023 (conferido na consulta web) e voltou a R$ 2.034,50; dizer "sem reajuste desde 2015" seria falso. O texto agora distingue valor constante, valor igual nas pontas com mudança no meio, e reajuste. |
+| 2026-11-18 | Paleta única em `src/raiox/viz/theme.py` (claro e escuro), reutilizada no CSS do painel, no tema do Streamlit, no template Plotly "raiox" e no matplotlib | Cores espalhadas por página | Uma fonte de verdade; `tests/test_theme.py` trava contraste e daltonismo. |
+| 2026-11-18 | Categórica: `#0E6E7E #C4573A #4255B5 #B03A7A #7A6A00 #12304A` (escuro: `#5EC2CF #F08A6C #93A3FF #E58AC0 #D9BE4E #C9D6E3`) | Okabe-Ito original | Okabe-Ito tem laranja/amarelo/azul-céu abaixo de 3:1 em fundo claro. Escolhida por busca: ΔE mínimo entre pares (CIE76, simulação de Machado et al. 2009) normal 29.9, protanopia 10.6, deuteranopia 11.5, tritanopia 12.8 (escuro: 27.5, 10.3, 9.0, 16.9). |
+| 2026-11-18 | Coral `#E07A5F` (forte), âmbar `#F2B544` (moderado) e cinza `#B8C2CC` (fraco) só como fundo de selo e borda de card, sempre com texto `#12304A`; nas marcas de gráfico, o coral escuro `#C4573A` | Texto coral | Coral sobre branco dá 2,95:1 (reprova AA para texto); como fundo de selo com texto escuro dá 4,6:1. |
+| 2026-11-18 | UF com amostra insuficiente em `#B8C2CC` com legenda explícita no mapa e contorno escuro nas UFs elegíveis | Hachura | O Plotly não tem hachura em choropleth; o cinza contra o tom mais claro do mapa (`#DCEFF1`) dá só 1,5:1, então a distinção vem da legenda, do contorno e do texto no hover. |
+| 2026-11-18 | Temas claro e escuro no `config.toml` (`[theme.light]`/`[theme.dark]`); CSS e template Plotly escolhidos por `st.context.theme.type` | Só tema claro | Streamlit 1.67 suporta os dois; sem isso, cards brancos fixos ficariam ilegíveis no modo escuro. |
+| 2026-11-18 | CSS global único em `app/ui/style.py`, injetado por `setup_page`; cards via `st.container(key="rx-...")` e seletores `st-key-*` | CSS por página; HTML puro para KPIs | Mantém `st.metric` (acessível e testável no AppTest) com acabamento de card. |
+| 2026-11-18 | Assets SVG desenhados à mão (logo RX, hero estilo radiografia, 5 ícones de família); navegação e títulos com Material Symbols do Streamlit | Banco de imagens | Sem risco de licença ou marca de terceiros; origem e licença em `app/assets/CREDITOS.md`. |
+| 2026-11-18 | Screenshots com Playwright (`uv run --with playwright`, Chrome instalado), 1440 px e 390 px, página inteira; PNG reduzido a 256 cores | Chromium baixado pelo Playwright; PNG em cores plenas | Reaproveita o Chrome local (sem download extra); 16 telas em ~2 MB. |
+| 2026-11-18 | Tabelas do painel com preços arredondados a 2 casas antes de exibir; datas como DD/MM/AAAA; eixos de data em `%m/%Y` | `format="localized"` puro | O formato localizado mostrava 3 casas ("3.721,746") e o Plotly sem locale carregado mostrava "Jan 2022". |
+
+## Checagem de contraste (WCAG 2.1, rodada 2 — 18/11/2026)
+
+Gerada por `raiox.viz.theme.contrast_report()` e verificada em `tests/test_theme.py`. Texto exige 4,5:1; elementos gráficos, 3:1. Todos os pares passaram.
+
+| Uso | Cor | Fundo | Razão | Mínimo |
+|---|---|---|---:|---:|
+| Texto | `#1B2B3A` | `#F4F7FA` | 13,44:1 | 4,5:1 |
+| Texto | `#1B2B3A` | `#FFFFFF` | 14,45:1 | 4,5:1 |
+| Texto | `#1B2B3A` | `#E9EFF5` | 12,48:1 | 4,5:1 |
+| Texto secundário | `#5B6B7B` | `#F4F7FA` | 5,09:1 | 4,5:1 |
+| Texto secundário | `#5B6B7B` | `#FFFFFF` | 5,48:1 | 4,5:1 |
+| Texto secundário | `#5B6B7B` | `#E9EFF5` | 4,73:1 | 4,5:1 |
+| Títulos | `#12304A` | `#F4F7FA` | 12,62:1 | 4,5:1 |
+| Primária (links, ícones) | `#0E6E7E` | `#F4F7FA` | 5,5:1 | 4,5:1 |
+| Primária (links, ícones) | `#0E6E7E` | `#FFFFFF` | 5,91:1 | 4,5:1 |
+| Branco sobre primária (botões, hero) | `#FFFFFF` | `#0E6E7E` | 5,91:1 | 4,5:1 |
+| Branco sobre escura (hero) | `#FFFFFF` | `#12304A` | 13,57:1 | 4,5:1 |
+| Selo forte (texto escuro) | `#12304A` | `#E07A5F` | 4,6:1 | 4,5:1 |
+| Selo moderado (texto escuro) | `#12304A` | `#F2B544` | 7,41:1 | 4,5:1 |
+| Selo fraco (texto escuro) | `#12304A` | `#B8C2CC` | 7,51:1 | 4,5:1 |
+| Marca 'acima/mais caro' | `#C4573A` | `#FFFFFF` | 4,4:1 | 3,0:1 |
+| Marca 'abaixo/mais barato' | `#4255B5` | `#FFFFFF` | 6,57:1 | 3,0:1 |
+| Escuro: texto | `#E7EEF5` | `#0E1A24` | 15,06:1 | 4,5:1 |
+| Escuro: texto | `#E7EEF5` | `#15263A` | 13,1:1 | 4,5:1 |
+| Escuro: texto secundário | `#A9B8C6` | `#0E1A24` | 8,69:1 | 4,5:1 |
+| Escuro: texto secundário | `#A9B8C6` | `#15263A` | 7,56:1 | 4,5:1 |
+| Escuro: primária | `#5EC2CF` | `#0E1A24` | 8,47:1 | 4,5:1 |
+| Escuro: primária | `#5EC2CF` | `#15263A` | 7,37:1 | 4,5:1 |
+| Categórica (elemento gráfico) | `#0E6E7E` | `#F4F7FA` | 5,5:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#C4573A` | `#F4F7FA` | 4,09:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#4255B5` | `#F4F7FA` | 6,11:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#B03A7A` | `#F4F7FA` | 5,23:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#7A6A00` | `#F4F7FA` | 5,02:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#12304A` | `#F4F7FA` | 12,62:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#0E6E7E` | `#FFFFFF` | 5,91:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#C4573A` | `#FFFFFF` | 4,4:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#4255B5` | `#FFFFFF` | 6,57:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#B03A7A` | `#FFFFFF` | 5,63:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#7A6A00` | `#FFFFFF` | 5,4:1 | 3,0:1 |
+| Categórica (elemento gráfico) | `#12304A` | `#FFFFFF` | 13,57:1 | 3,0:1 |
+| Escuro: categórica | `#5EC2CF` | `#15263A` | 7,37:1 | 3,0:1 |
+| Escuro: categórica | `#F08A6C` | `#15263A` | 6,24:1 | 3,0:1 |
+| Escuro: categórica | `#93A3FF` | `#15263A` | 6,51:1 | 3,0:1 |
+| Escuro: categórica | `#E58AC0` | `#15263A` | 6,37:1 | 3,0:1 |
+| Escuro: categórica | `#D9BE4E` | `#15263A` | 8,34:1 | 3,0:1 |
+| Escuro: categórica | `#C9D6E3` | `#15263A` | 10,37:1 | 3,0:1 |

@@ -13,5 +13,7 @@ import _common as c  # noqa: E402
 c.setup_page("Metodologia")
 c.filters()
 text = c.doc("METODOLOGIA.md")
-st.markdown(text or "# Metodologia\n\nDocumento não encontrado (docs/METODOLOGIA.md).")
+c.page_title("Metodologia", "menu_book")
+body = text.split("\n", 1)[1] if text.startswith("# ") else text
+st.markdown(body or "Documento não encontrado (docs/METODOLOGIA.md).")
 c.footer()

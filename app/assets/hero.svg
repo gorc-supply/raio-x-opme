@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300" role="img" aria-label="Ilustração abstrata em estilo radiografia: malha de stent, prótese de quadril e linha de pulso cardíaco">
+  <title>Ilustração abstrata em estilo radiografia</title>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#8FD3DC" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#8FD3DC" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="film" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M20 0 H0 V20" fill="none" stroke="#DCEFF1" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="520" height="300" fill="url(#film)"/>
+  <ellipse cx="270" cy="140" rx="250" ry="150" fill="url(#glow)"/>
+
+  <!-- Malha de stent: cilindro inclinado com hastes em losango -->
+  <g transform="translate(36 70) rotate(-14)" fill="none" stroke-linecap="round">
+    <path d="M0 0 H230 M0 62 H230" stroke="#DCEFF1" stroke-opacity="0.55" stroke-width="1.6"/>
+    <path d="M0 0 L15 31 L0 62 M30 0 L15 31 L30 62 M30 0 L45 31 L30 62 M60 0 L45 31 L60 62 M60 0 L75 31 L60 62 M90 0 L75 31 L90 62 M90 0 L105 31 L90 62 M120 0 L105 31 L120 62 M120 0 L135 31 L120 62 M150 0 L135 31 L150 62 M150 0 L165 31 L150 62 M180 0 L165 31 L180 62 M180 0 L195 31 L180 62 M210 0 L195 31 L210 62 M210 0 L225 31 L210 62" stroke="#8FD3DC" stroke-opacity="0.85" stroke-width="1.4"/>
+    <path d="M15 31 H225" stroke="#8FD3DC" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="3 6"/>
+    <ellipse cx="0" cy="31" rx="7" ry="31" stroke="#DCEFF1" stroke-opacity="0.5" stroke-width="1.2"/>
+    <ellipse cx="230" cy="31" rx="7" ry="31" stroke="#DCEFF1" stroke-opacity="0.5" stroke-width="1.2"/>
+  </g>
+
+  <!-- Prótese de quadril: cúpula acetabular, cabeça femoral e haste -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M352 92 A46 46 0 0 1 444 92" stroke="#DCEFF1" stroke-opacity="0.7" stroke-width="2"/>
+    <path d="M360 92 A38 38 0 0 1 436 92" stroke="#8FD3DC" stroke-opacity="0.6" stroke-width="1.4" stroke-dasharray="2 5"/>
+    <circle cx="398" cy="100" r="25" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="2"/>
+    <circle cx="398" cy="100" r="15" stroke="#8FD3DC" stroke-opacity="0.45" stroke-width="1"/>
+    <path d="M408 122 L426 150" stroke="#DCEFF1" stroke-opacity="0.85" stroke-width="7"/>
+    <path d="M418 140 C440 150 444 168 440 196 L430 268 C429 276 418 276 417 268 L414 200 C412 182 404 168 392 160 Z" stroke="#DCEFF1" stroke-opacity="0.85" stroke-width="2"/>
+    <path d="M426 176 L421 262" stroke="#8FD3DC" stroke-opacity="0.45" stroke-width="1.2"/>
+    <path d="M380 150 C372 190 372 230 386 286 M470 150 C478 190 478 230 464 286" stroke="#DCEFF1" stroke-opacity="0.18" stroke-width="10"/>
+  </g>
+
+  <!-- Linha de pulso cardíaco -->
+  <path d="M10 240 H120 L132 240 L140 222 L150 262 L162 196 L174 252 L182 240 H240 L250 240 L256 232 L262 240 H330" fill="none" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="330" cy="240" r="4" fill="#FFFFFF"/>
+  <circle cx="330" cy="240" r="9" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.5"/>
+</svg>

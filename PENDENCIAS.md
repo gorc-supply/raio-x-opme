@@ -9,6 +9,7 @@
 - Painel Streamlit com 6 páginas, mapa por UF e nenhuma chamada de rede. O AppTest cobre todas as páginas e todos os itens. Screenshots reais no README.
 - Kit LinkedIn: 6 PNGs 1080×1350 com selo de robustez, carrossel PDF de 10 páginas, 5 posts testados e calendário.
 - 60 testes, com 93% de cobertura em `transform` e `analytics`. Workflows de CI e de atualização mensal validados com actionlint e rodados localmente.
+- Rodada 2 (18/11/2026): Tabela SUS (SIGTAP) × preço praticado com mapa SIGTAP × CATMAT a validar (pendência 7), correção de percentuais nos títulos dos achados e nova identidade visual do painel (claro e escuro, screenshots em `docs/img/`).
 - Auditoria em clone limpo: revelou que a paginação da API é instável (linhas duplicadas e faltando entre páginas). Corrigido com coleta por janelas de data e verificado de novo.
 
 ### Como rodar

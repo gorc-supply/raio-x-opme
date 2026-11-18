@@ -14,7 +14,7 @@ import _common as c  # noqa: E402
 
 c.setup_page("Importação")
 c.filters()
-st.title("Importação e dependência externa")
+c.page_title("Importação e dependência externa", "public")
 imp = c.table("importacao_ncm_ano")
 if imp.height == 0:
     st.info("Sem dados de comércio exterior na gold.")
@@ -60,7 +60,7 @@ fig.update_layout(
     )
 )
 fig.update_yaxes(title="US$ milhões", tickformat=",.0f")
-st.plotly_chart(fig, config={"displayModeBar": False})
+c.plot(fig)
 st.caption(
     f"{last_year} é parcial ({partial} meses). Stents mudaram de NCM em 2020 (9021.90.81 → 9021.90.12); a série soma os dois códigos."
 )
@@ -81,7 +81,7 @@ bal = (
     .sort("Importação (US$ FOB)", descending=True)
     .rename({"familia_macro": "Família"})
 )
-st.subheader(f"Balança comercial por família ({yr})")
+c.section(f"Balança comercial por família ({yr})", "balance")
 st.dataframe(
     bal,
     hide_index=True,
@@ -95,7 +95,7 @@ st.dataframe(
 )
 
 # ---------------------------------------------------------------- origens ----
-st.subheader("Países de origem")
+c.section("Países de origem", "flag")
 ori = c.table("importacao_origem")
 ncm_opts = imp.filter(~pl.col("ncm_historico")).select("ncm", "descricao_ncm").unique().sort("ncm")
 labels = {
@@ -127,7 +127,7 @@ if o.height:
     bar.update_layout(
         **c.theme.plotly_layout(height=max(260, 30 * o.height), title=f"Top origens — {year}")
     )
-    st.plotly_chart(bar, config={"displayModeBar": False})
+    c.plot(bar)
 if row.height:
     r = row.row(0, named=True)
     unit_txt = (
@@ -140,11 +140,11 @@ if row.height:
     )
 
 # ------------------------------------------------------------------ ponte ----
-st.subheader("Preço de importação × preço público")
+c.section("Preço de importação × preço público", "compare_arrows")
 ponte = c.table("ponte_preco_importacao")
 comp = ponte.filter(pl.col("comparavel_por_unidade"))
 for r in comp.iter_rows(named=True):
-    with st.container(border=True):
+    with st.container(key=f"rx-panel-ponte-{r['familia_macro']}"):
         a, b, d = st.columns(3)
         a.metric(
             f"CIF de importação ({r['anos_importacao']})",
@@ -168,7 +168,7 @@ nc = ponte.filter(~pl.col("comparavel_por_unidade")).select(
     pl.col("familia_macro").alias("Família"),
     pl.col("ncms").alias("NCM"),
     pl.col("unidade_estatistica").alias("Unidade estatística"),
-    pl.col("preco_cif_usd_kg").alias("CIF (US$/kg)"),
+    pl.col("preco_cif_usd_kg").round(2).alias("CIF (US$/kg)"),
     pl.col("nota").alias("Por que não comparar"),
 )
 st.dataframe(
@@ -180,7 +180,7 @@ st.dataframe(
 # ----------------------------------------------------------------- ANVISA ----
 anv = c.table("anvisa_registros_familia")
 if anv.height:
-    st.subheader("Registros na ANVISA: fabricante estrangeiro")
+    c.section("Registros na ANVISA: fabricante estrangeiro", "verified")
     a = anv.sort("share_so_estrangeiro")
     fig = go.Figure(
         go.Bar(
@@ -196,7 +196,7 @@ if anv.height:
         tickformat=".0%", range=[0, 1], title="Registros vigentes só com fabricante estrangeiro"
     )
     fig.update_layout(**c.theme.plotly_layout(height=340, title="Dependência tecnológica (proxy)"))
-    st.plotly_chart(fig, config={"displayModeBar": False})
+    c.plot(fig)
     st.caption(
         "Fonte: ANVISA, dados abertos de produtos para saúde. Registro não mede volume vendido."
     )

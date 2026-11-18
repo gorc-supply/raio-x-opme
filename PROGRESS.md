@@ -78,3 +78,5 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 ## Pós-entrega — rodada 2 (2026-11-18)
 - [x] Parte B: percentuais nunca arredondam para "0%"/"100%" quando o valor não é esse (`fmt.pct`); títulos dos achados revisados; testes em `tests/test_fmt.py` e no pipeline offline
 - [x] Parte A — SIGTAP: ingestão por FTP (13 competências, 2015–2026), parser de largura fixa por layout, silver com IPCA, mapa SIGTAP × CATMAT (24 pares, a validar), gold `ponte_sigtap_preco` e `sigtap_serie`, achados (só confiança alta), página do painel, gráfico 7 e post 6, fixtures e testes
+- [x] Parte C — identidade visual: paleta única (claro e escuro) com contraste AA e categórica segura para daltonismo (testes), tema do Streamlit com `[theme.light]`/`[theme.dark]`, CSS global em `app/ui/style.py` (hero, cards de KPI e achados com selo, seções, rodapé), assets SVG originais (`app/assets/`, créditos), template Plotly "raiox" em todos os gráficos, mapa com legenda de amostra insuficiente, gráficos do LinkedIn regerados, screenshots 1440/390 px em `docs/img/`
+- [x] Parte D — testes (143, sem avisos; cobertura 93,8%), ruff, docs e commits por parte

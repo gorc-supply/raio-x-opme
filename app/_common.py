@@ -20,6 +20,12 @@ if str(ROOT / "src") not in sys.path:
 from raiox import fmt  # noqa: E402
 from raiox.viz import theme  # noqa: E402
 
+if str(Path(__file__).resolve().parent) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ui import style as ui  # noqa: E402
+
+theme.register_plotly_templates()
+
 GOLD = Path(os.environ.get("RAIOX_GOLD_DIR", ROOT / "data" / "gold"))
 REF = ROOT / "data" / "reference"
 DOCS = ROOT / "docs"
@@ -73,12 +79,20 @@ def ref_month() -> str:
     return fmt.month(date.fromisoformat(m["mes_ref_deflacao"])) if m else "—"
 
 
+SOURCES = (
+    "Compras.gov.br (API de Dados Abertos), ComexStat/MDIC, BCB, IBGE, ANVISA e SIGTAP/DATASUS"
+)
+
+
 def footer() -> None:
-    st.caption(
-        "Fonte: Compras.gov.br (API de Dados Abertos), ComexStat/MDIC, BCB, IBGE, ANVISA e SIGTAP/DATASUS. "
-        f"Elaboração: Gabriel Cunha. Valores em R$ de {ref_month()}, deflacionados pelo IPCA. "
-        "Diferenças de preço têm muitas causas legítimas (volume, prazo, logística, consignação, especificação)."
-    )
+    ui.footer(ref_month(), settings_info()["repo_url"], LINKEDIN, SOURCES)
+
+
+def plot(fig) -> None:
+    """Desenha um gráfico Plotly com o template do projeto (claro ou escuro, conforme o tema)."""
+    if ui.is_dark():
+        fig.update_layout(template="raiox_dark")
+    st.plotly_chart(fig, theme=None, config={"displayModeBar": False, "locale": "pt-BR"})
 
 
 # ---------------------------------------------------------------- filtros ----
@@ -99,13 +113,13 @@ def _months(start: date, end: date) -> list[date]:
 
 
 NAV = [
-    ("Home.py", "Início", "🏠"),
-    ("pages/1_Precos_por_UF.py", "Preços por UF", "🗺️"),
-    ("pages/2_Explorar_item.py", "Explorar item", "🔎"),
-    ("pages/3_Importacao.py", "Importação", "🚢"),
-    ("pages/4_Tabela_SUS.py", "Tabela SUS × preço", "🧾"),
-    ("pages/5_Metodologia.py", "Metodologia", "📐"),
-    ("pages/6_Sobre.py", "Sobre", "👤"),
+    ("Home.py", "Início", ":material/home:"),
+    ("pages/1_Precos_por_UF.py", "Preços por UF", ":material/map:"),
+    ("pages/2_Explorar_item.py", "Explorar item", ":material/search:"),
+    ("pages/3_Importacao.py", "Importação", ":material/public:"),
+    ("pages/4_Tabela_SUS.py", "Tabela SUS × preço", ":material/receipt_long:"),
+    ("pages/5_Metodologia.py", "Metodologia", ":material/menu_book:"),
+    ("pages/6_Sobre.py", "Sobre", ":material/person:"),
 ]
 FILTER_KEYS = ("f_familia", "f_item", "f_periodo", "f_outliers")
 
@@ -133,7 +147,7 @@ def sidebar_filters() -> dict:
     comp = table("compras_detalhe")
     m = meta()
     with st.sidebar:
-        st.header("Filtros")
+        st.subheader(":material/tune: Filtros")
         if comp.height == 0:
             st.warning("Sem dados na gold. Rode `uv run raiox all`.")
             return {}
@@ -232,6 +246,13 @@ def uf_stats(df: pl.DataFrame) -> pl.DataFrame:
     return out
 
 
+def wrap_label(text: str, width: int = 28) -> str:
+    """Quebra rótulos longos de eixo em linhas (Plotly usa <br>), para caber no celular."""
+    import textwrap
+
+    return "<br>".join(textwrap.wrap(str(text), width)) or str(text)
+
+
 def log_hist(values: np.ndarray, bins: int = 30) -> tuple[np.ndarray, np.ndarray]:
     v = values[values > 0]
     edges = np.logspace(np.log10(v.min()), np.log10(v.max()) + 1e-9, bins + 1)
@@ -239,17 +260,18 @@ def log_hist(values: np.ndarray, bins: int = 30) -> tuple[np.ndarray, np.ndarray
     return counts, edges
 
 
-def page_title(title: str, icon: str) -> None:
-    st.title(f":material/{icon}: {title}")
+page_title = ui.page_title
+section = ui.section
 
 
-def section(title: str, icon: str) -> None:
-    st.subheader(f":material/{icon}: {title}")
-
-
-def setup_page(title: str, icon: str = "🩺") -> None:
+def setup_page(title: str) -> None:
+    """Configuração comum a todas as páginas: título da aba, ícone, logo e CSS global."""
     with contextlib.suppress(st.errors.StreamlitAPIException):  # já configurado
-        st.set_page_config(page_title=f"{title} · Raio-X OPME", page_icon=icon, layout="wide")
+        st.set_page_config(
+            page_title=f"{title} · Raio-X OPME", page_icon=str(ui.LOGO), layout="wide"
+        )
+    st.logo(str(ui.LOGO), size="large", link=settings_info()["dashboard_url"])
+    ui.apply()
 
 
-__all__ = ["fmt", "theme"]
+__all__ = ["fmt", "theme", "ui"]

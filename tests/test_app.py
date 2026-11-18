@@ -21,8 +21,11 @@ def _home() -> AppTest:
 def test_home_renders_kpis_and_findings():
     at = _home()
     _no_errors(at)
-    assert at.title[0].value == "Raio-X OPME"
+    hero = [m.value for m in at.markdown if 'class="rx-hero"' in m.value]
+    assert hero and "Raio-X OPME" in hero[0]
     assert len(at.metric) >= 4
+    # Achados fortes em cards, com selo de robustez.
+    assert any('class="rx-badge forte"' in m.value for m in at.markdown)
 
 
 @pytest.mark.parametrize("page", PAGES)
