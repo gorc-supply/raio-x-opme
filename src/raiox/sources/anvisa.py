@@ -24,8 +24,16 @@ FILE = "TA_PRODUTO_SAUDE_SITE.csv"
 # (família macro, regex sobre NOME_TECNICO em maiúsculas, regex de exclusão)
 FAMILY_PATTERNS: list[tuple[str, str, str | None]] = [
     ("Stents", r"STENT.*(CORON|ART[EÉ]RIAS PERIF|CAR[OÓ]TID)", None),
-    ("Próteses articulares", r"(PR[OÓ]TESES? TOTA(L|IS) D[OE] (QUADRIL|JOELHO)|ARTROPLASTIA DE (QUADRIL|JOELHO)|ARTICULA[CÇ][AÃ]O DE JOELHO)", None),
-    ("Placas, parafusos e hastes", r"(PARAFUSO [OÓ]SSEO ORTOP|PARAFUSO N[AÃ]O ABSORV[IÍ]VEL PARA OSTEOSS|PLACA.*OSTEOSS|HASTES [OÓ]SSEAS|HASTE INTRAMEDULAR)", None),
+    (
+        "Próteses articulares",
+        r"(PR[OÓ]TESES? TOTA(L|IS) D[OE] (QUADRIL|JOELHO)|ARTROPLASTIA DE (QUADRIL|JOELHO)|ARTICULA[CÇ][AÃ]O DE JOELHO)",
+        None,
+    ),
+    (
+        "Placas, parafusos e hastes",
+        r"(PARAFUSO [OÓ]SSEO ORTOP|PARAFUSO N[AÃ]O ABSORV[IÍ]VEL PARA OSTEOSS|PLACA.*OSTEOSS|HASTES [OÓ]SSEAS|HASTE INTRAMEDULAR)",
+        None,
+    ),
     ("Marca-passos", r"MARCA-PASSO (CARD[IÍ]ACO IMPLANT|IMPLANT|INTRACARD)", None),
     ("Válvulas cardíacas", r"(V[AÁ]LVULA CARD|PR[OÓ]TESE VALV|BIOPR[OÓ]TESE)", r"MEDIDOR"),
     ("Cateteres", r"CATETER BAL[AÃ]O PARA ANGIOPLASTIA CORON", None),
@@ -52,7 +60,9 @@ def classify(df: pl.DataFrame) -> pl.DataFrame:
         if excl:
             cond = cond & ~up.str.contains(excl)
         expr = pl.when(cond).then(pl.lit(fam)).otherwise(expr)
-    return df.with_columns(expr.alias("familia_macro")).filter(pl.col("familia_macro").is_not_null())
+    return df.with_columns(expr.alias("familia_macro")).filter(
+        pl.col("familia_macro").is_not_null()
+    )
 
 
 def ingest(settings: Settings, client: HttpClient) -> dict[str, int]:
@@ -74,7 +84,10 @@ def silver(bronze: pl.DataFrame, ref_date: date) -> pl.DataFrame:
         bronze.sort("_snapshot")
         .with_columns(
             ((val == "VIGENTE") | (exp >= ref_date)).fill_null(False).alias("vigente"),
-            pl.col("NOME_PAIS_FABRIC").str.strip_chars().str.to_uppercase().alias("pais_fabricante"),
+            pl.col("NOME_PAIS_FABRIC")
+            .str.strip_chars()
+            .str.to_uppercase()
+            .alias("pais_fabricante"),
         )
         .select(
             pl.col("NUMERO_REGISTRO_CADASTRO").alias("registro"),
@@ -93,28 +106,41 @@ def silver(bronze: pl.DataFrame, ref_date: date) -> pl.DataFrame:
 
 def gold_by_family(sv: pl.DataFrame) -> pl.DataFrame:
     """Por família: registros vigentes, % só com fabricante estrangeiro, principais países."""
-    v = sv.filter(pl.col("vigente") & pl.col("pais_fabricante").is_not_null() & (pl.col("pais_fabricante") != ""))
-    reg = v.group_by(["familia_macro", "registro"]).agg(
+    v = sv.filter(
+        pl.col("vigente")
+        & pl.col("pais_fabricante").is_not_null()
+        & (pl.col("pais_fabricante") != "")
+    )
+    reg = v.group_by(["familia_macro", "registro"], maintain_order=True).agg(
         (pl.col("pais_fabricante") != "BRASIL").all().alias("so_estrangeiro"),
         (pl.col("pais_fabricante") == "BRASIL").any().alias("tem_nacional"),
     )
-    fam = reg.group_by("familia_macro").agg(
+    fam = reg.group_by("familia_macro", maintain_order=True).agg(
         pl.len().cast(pl.Int64).alias("registros_vigentes"),
         pl.col("so_estrangeiro").mean().alias("share_so_estrangeiro"),
         pl.col("tem_nacional").mean().alias("share_com_fabricante_nacional"),
     )
     countries = (
         v.unique(subset=["familia_macro", "registro", "pais_fabricante"])
-        .group_by(["familia_macro", "pais_fabricante"])
+        .group_by(["familia_macro", "pais_fabricante"], maintain_order=True)
         .len()
         .with_columns((pl.col("len") / pl.col("len").sum().over("familia_macro")).alias("share"))
-        .sort(["familia_macro", "len"], descending=[False, True])
+        .sort(["familia_macro", "len", "pais_fabricante"], descending=[False, True, False])
         .group_by("familia_macro", maintain_order=True)
         .agg(
-            pl.concat_str([pl.col("pais_fabricante"), pl.lit(" ("), (pl.col("share") * 100).round(0).cast(pl.Int64).cast(pl.String), pl.lit("%)")])
+            pl.concat_str(
+                [
+                    pl.col("pais_fabricante"),
+                    pl.lit(" ("),
+                    (pl.col("share") * 100).round(0).cast(pl.Int64).cast(pl.String),
+                    pl.lit("%)"),
+                ]
+            )
             .head(4)
             .str.join(", ")
             .alias("principais_paises_fabricantes")
         )
     )
-    return fam.join(countries, on="familia_macro", how="left").sort("share_so_estrangeiro", descending=True)
+    return fam.join(countries, on="familia_macro", how="left").sort(
+        "share_so_estrangeiro", descending=True
+    )

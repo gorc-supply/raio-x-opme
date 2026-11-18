@@ -1,0 +1,22 @@
+{
+ "periodo_inicio": "2024-11-01",
+ "periodo_fim": "2026-10-01",
+ "periodo_label": "11/2024 a 10/2026",
+ "mes_ref_deflacao": "2026-10-01",
+ "snapshot_dados": "2026-11-18",
+ "n_itens": 6,
+ "n_compras_periodo": 346,
+ "n_registros_periodo": 710,
+ "n_ufs_periodo": 23,
+ "n_compras_total": 572,
+ "data_compra_min": "2021-12-06",
+ "data_compra_max": "2026-11-12",
+ "regras": {
+  "min_compras_uf": 5,
+  "min_orgaos_uf": 2,
+  "bootstrap_reps": 2000,
+  "ic": 0.95,
+  "ic_inferior_minimo": 1.5,
+  "max_share_orgao": 0.5
+ }
+}

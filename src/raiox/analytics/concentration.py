@@ -26,7 +26,7 @@ def fornecedores_item(silver: pl.DataFrame, period: Period, top_n: int) -> pl.Da
     for tipo, col in (("fornecedor", "fornecedor"), ("marca", "marca")):
         agg = (
             df.with_columns(pl.col(col).fill_null("NÃO INFORMADO").alias("nome"))
-            .group_by([*ITEM_COLS, "nome"])
+            .group_by([*ITEM_COLS, "nome"], maintain_order=True)
             .agg(
                 pl.col("id_compra").n_unique().cast(pl.Int64).alias("n_compras"),
                 pl.len().cast(pl.Int64).alias("n_registros"),
@@ -55,7 +55,7 @@ def fornecedores_item(silver: pl.DataFrame, period: Period, top_n: int) -> pl.Da
         )
         crn = (
             agg.filter(pl.col("rank") <= top_n)
-            .group_by("codigo_catmat")
+            .group_by("codigo_catmat", maintain_order=True)
             .agg(pl.col("participacao_valor").sum().alias(f"cr{top_n}"))
         )
         frames.append(agg.join(crn, on="codigo_catmat", how="left"))

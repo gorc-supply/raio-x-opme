@@ -59,11 +59,16 @@ def importacao_ncm_ano(
     index: pl.DataFrame,
     units: dict[str, str],
     top_n: int,
+    specific: dict[str, bool] | None = None,
 ) -> tuple[pl.DataFrame, pl.DataFrame]:
-    """Retorna (importacao_ncm_ano, importacao_origem)."""
+    """Retorna (importacao_ncm_ano, importacao_origem).
+
+    `specific[ncm] = False` marca códigos amplos/residuais: sem preço por peça.
+    """
+    specific = specific or {}
     df = _with_brl(imp, cambio, index)
     keys = ["ncm", "descricao_ncm", "familia_macro", "ncm_historico", "ano"]
-    agg = df.group_by(keys).agg(
+    agg = df.group_by(keys, maintain_order=True).agg(
         pl.col("mes").n_unique().cast(pl.Int64).alias("meses_com_dados"),
         pl.col("mes").max().alias("ultimo_mes"),
         *[
@@ -82,7 +87,7 @@ def importacao_ncm_ano(
         ],
     )
     by_country = (
-        df.group_by(["ncm", "familia_macro", "ano", "pais"])
+        df.group_by(["ncm", "familia_macro", "ano", "pais"], maintain_order=True)
         .agg(pl.col("fob_usd").sum(), pl.col("cif_usd").sum(), pl.col("kg").sum())
         .with_columns(
             (pl.col("fob_usd") / pl.col("fob_usd").sum().over(["ncm", "ano"])).alias(
@@ -98,7 +103,7 @@ def importacao_ncm_ano(
         )
         .sort("ncm", "ano", "rank")
     )
-    conc = by_country.group_by(["ncm", "ano"]).agg(
+    conc = by_country.group_by(["ncm", "ano"], maintain_order=True).agg(
         ((pl.col("participacao_fob") * 100) ** 2).sum().alias("hhi_origem"),
         pl.col("participacao_fob").filter(pl.col("rank") <= top_n).sum().alias(f"cr{top_n}_origem"),
         pl.col("pais").n_unique().cast(pl.Int64).alias("n_paises"),
@@ -120,7 +125,9 @@ def importacao_ncm_ano(
         .alias("top_paises"),
     )
     expo = (
-        exp.group_by(["ncm", "ano"]).agg(pl.col("fob_usd").sum().alias("export_fob_usd"))
+        exp.group_by(["ncm", "ano"], maintain_order=True).agg(
+            pl.col("fob_usd").sum().alias("export_fob_usd")
+        )
         if exp.height
         else pl.DataFrame(schema={"ncm": pl.String, "ano": pl.Int32, "export_fob_usd": pl.Float64})
     )
@@ -130,17 +137,20 @@ def importacao_ncm_ano(
         .with_columns(
             pl.col("export_fob_usd").fill_null(0.0),
             pl.col("ncm").replace_strict(units, default="KG").alias("unidade_estatistica"),
+            pl.col("ncm")
+            .replace_strict(specific, default=True, return_dtype=pl.Boolean)
+            .alias("ncm_especifico"),
         )
         .with_columns(
             (pl.col("export_fob_usd") - pl.col("fob_usd")).alias("saldo_fob_usd"),
             (pl.col("export_fob_usd") / pl.col("fob_usd")).alias("cobertura_exportacao"),
-            pl.when(pl.col("unidade_estatistica") == "UN")
+            pl.when((pl.col("unidade_estatistica") == "UN") & pl.col("ncm_especifico"))
             .then(pl.col("fob_usd") / pl.col("qtd_estatistica"))
             .alias("preco_fob_usd_unid"),
-            pl.when(pl.col("unidade_estatistica") == "UN")
+            pl.when((pl.col("unidade_estatistica") == "UN") & pl.col("ncm_especifico"))
             .then(pl.col("cif_usd") / pl.col("qtd_estatistica"))
             .alias("preco_cif_usd_unid"),
-            pl.when(pl.col("unidade_estatistica") == "UN")
+            pl.when((pl.col("unidade_estatistica") == "UN") & pl.col("ncm_especifico"))
             .then(pl.col("cif_brl_real") / pl.col("qtd_estatistica"))
             .alias("preco_cif_brl_real_unid"),
             (pl.col("fob_usd") / pl.col("kg")).alias("preco_fob_usd_kg"),
@@ -155,7 +165,6 @@ def importacao_ncm_ano(
 
 def ponte_preco_importacao(
     imp_ano: pl.DataFrame,
-    puf: pl.DataFrame,
     silver: pl.DataFrame,
     period: Period,
     bridge_years: int,
@@ -169,7 +178,7 @@ def ponte_preco_importacao(
     rows = []
     for fam in sorted(cur["familia_macro"].drop_nulls().unique().to_list()):
         g = cur.filter(pl.col("familia_macro") == fam)
-        un = g.filter(pl.col("unidade_estatistica") == "UN")
+        un = g.filter((pl.col("unidade_estatistica") == "UN") & pl.col("ncm_especifico"))
         p = pub.filter(pl.col("familia_macro") == fam)
         itens = sorted(p["codigo_catmat"].unique().to_list())
         comparable = un.height > 0 and p.height > 0
@@ -184,7 +193,9 @@ def ponte_preco_importacao(
                 "familia_macro": fam,
                 "ncms": ", ".join(sorted(g["ncm"].unique().to_list())),
                 "anos_importacao": f"{years[0]}" if len(years) == 1 else f"{years[0]}–{years[-1]}",
-                "unidade_estatistica": "UN" if un.height else "KG",
+                "unidade_estatistica": "UN"
+                if un.height
+                else ("UN (código amplo)" if (g["unidade_estatistica"] == "UN").any() else "KG"),
                 "importacao_cif_usd": float(g["cif_usd"].sum()),
                 "importacao_qtd_unidades": float(un["qtd_estatistica"].sum())
                 if un.height
@@ -208,10 +219,9 @@ def ponte_preco_importacao(
                 "nota": (
                     "Comparação por peça: NCM com unidade estatística em unidades."
                     if comparable
-                    else "Sem comparação direta: a unidade estatística do NCM é kg (ou não há compras públicas da família no catálogo)."
+                    else "Sem comparação direta: a unidade estatística do NCM é kg, o código é amplo demais ou não há compras públicas da família no catálogo."
                 ),
                 "mes_ref": imp_ano["mes_ref"][0],
             }
         )
-    del puf
     return pl.DataFrame(rows, infer_schema_length=None)

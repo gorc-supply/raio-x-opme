@@ -31,7 +31,9 @@ def list_files(client: HttpClient, page_url: str) -> list[str]:
     if env is None:
         return []
     links = re.findall(r'href="([^"]+/view)"', env["body"])
-    return sorted({link.replace("/view", "/@@download/file") for link in links if "compilad" in link})
+    return sorted(
+        {link.replace("/view", "/@@download/file") for link in links if "compilad" in link}
+    )
 
 
 def ingest(settings: Settings, client: HttpClient) -> dict[str, Any]:
@@ -48,11 +50,15 @@ def ingest(settings: Settings, client: HttpClient) -> dict[str, Any]:
         import fastexcel
 
         for sheet in fastexcel.read_excel(path).sheet_names:
-            df = pl.read_excel(path, sheet_name=sheet, engine="calamine", read_options={"header_row": 1})
+            df = pl.read_excel(
+                path, sheet_name=sheet, engine="calamine", read_options={"header_row": 1}
+            )
             if "Código BR" not in df.columns:
                 continue
             hit = df.filter(pl.col("Código BR").cast(pl.Int64, strict=False).is_in(list(codes)))
-            logger.info("BPS {} aba {}: {} linhas, {} do catálogo", name, sheet, df.height, hit.height)
+            logger.info(
+                "BPS {} aba {}: {} linhas, {} do catálogo", name, sheet, df.height, hit.height
+            )
             if hit.height:
                 frames.append(hit.with_columns(pl.lit(sheet).alias("aba")))
     if not frames:

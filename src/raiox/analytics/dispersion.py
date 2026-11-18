@@ -44,16 +44,32 @@ def _add_months(d: date, months: int) -> date:
     return date(y, m, 1)
 
 
-def analysis_period(
-    silver: pl.DataFrame, cfg: AnalysisCfg, snapshot_date: date | None = None
-) -> Period:
-    """Últimos `period_months` meses COMPLETOS com dados (ou a janela fixada no config)."""
+def snapshot_date(silver: pl.DataFrame) -> date:
+    """Data do snapshot mais recente dos dados (não a data de hoje: garante idempotência)."""
+    if "snapshot" in silver.columns:
+        snaps = [str(s)[:10] for s in silver["snapshot"].drop_nulls().unique().to_list()]
+        valid = []
+        for s in snaps:
+            try:
+                valid.append(date.fromisoformat(s))
+            except ValueError:
+                continue
+        if valid:
+            return max(valid)
+    return silver["data_compra"].max()
+
+
+def analysis_period(silver: pl.DataFrame, cfg: AnalysisCfg, snap: date | None = None) -> Period:
+    """Últimos `period_months` meses COMPLETOS com dados (ou a janela fixada no config).
+
+    O mês do snapshot é considerado incompleto e fica de fora.
+    """
     if cfg.period_start and cfg.period_end:
         s = date.fromisoformat(cfg.period_start + "-01")
         e = date.fromisoformat(cfg.period_end + "-01")
         return Period(s, e)
     last = silver["mes"].max()
-    ref = snapshot_date or date.today()
+    ref = snap or snapshot_date(silver)
     current_month = date(ref.year, ref.month, 1)
     if last >= current_month:
         last = _add_months(current_month, -1)
@@ -171,6 +187,8 @@ def dispersao_item(
             "p90_p10_nacional": nat["p90"] / nat["p10"] if nat["p10"] > 0 else None,
             "n_ufs_com_dados": g.filter(pl.col("uf") != "BR").height,
             "n_ufs_elegiveis": elig.height,
+            "item_heterogeneo": (nat["p90"] / nat["p10"] if nat["p10"] > 0 else 0)
+            > cfg.max_p90_p10_homogeneo,
         }
         empty = dict.fromkeys(
             [
@@ -206,18 +224,26 @@ def dispersao_item(
             hi["top_orgao_share"] > cfg.max_top_buyer_share
             or lo["top_orgao_share"] > cfg.max_top_buyer_share
         )
-        if ic_inf > cfg.finding_min_ci_lower and not dominated:
-            rob, why = (
-                "forte",
-                f"IC inferior {ic_inf:.2f} > {cfg.finding_min_ci_lower} e nenhuma UF dominada por um único órgão",
+        heterogeneous = (row["p90_p10_nacional"] or 0) > cfg.max_p90_p10_homogeneo
+        passes = ic_inf > cfg.finding_min_ci_lower
+        if passes and not dominated and not heterogeneous:
+            rob = "forte"
+            why = (
+                f"IC inferior {ic_inf:.2f} > {cfg.finding_min_ci_lower}, nenhuma UF dominada por um "
+                f"único órgão e item homogêneo (P90/P10 nacional {row['p90_p10_nacional']:.1f}×)"
             )
         elif razao > cfg.finding_min_ci_lower and ic_inf > 1.0:
-            why = (
-                "UF extrema com mediana determinada por um único órgão"
-                if dominated
-                else f"IC inferior {ic_inf:.2f} abaixo de {cfg.finding_min_ci_lower}"
-            )
-            rob = "moderado"
+            reasons = []
+            if not passes:
+                reasons.append(f"IC inferior {ic_inf:.2f} abaixo de {cfg.finding_min_ci_lower}")
+            if dominated:
+                reasons.append("UF extrema com mediana determinada por um único órgão")
+            if heterogeneous:
+                reasons.append(
+                    f"item heterogêneo (P90/P10 nacional {row['p90_p10_nacional']:.1f}× > "
+                    f"{cfg.max_p90_p10_homogeneo:.0f}×): a diferença pode refletir mix de marcas e especificações"
+                )
+            rob, why = "moderado", "; ".join(reasons)
         else:
             rob, why = "fraco", "diferença pequena ou IC inclui valores próximos de 1"
         rows.append(
@@ -247,7 +273,7 @@ def dispersao_item(
 def serie_item_mes(silver: pl.DataFrame, cfg: AnalysisCfg) -> pl.DataFrame:
     df = silver.filter(~pl.col("outlier"))
     out = (
-        df.group_by([*ITEM_COLS, "mes"])
+        df.group_by([*ITEM_COLS, "mes"], maintain_order=True)
         .agg(
             pl.len().alias("n_registros"),
             pl.col("id_compra").n_unique().alias("n_compras"),
@@ -263,3 +289,49 @@ def serie_item_mes(silver: pl.DataFrame, cfg: AnalysisCfg) -> pl.DataFrame:
         .sort("codigo_catmat", "mes")
     )
     return out
+
+
+# ------------------------------------------------- compras individuais ----
+def compras_detalhe(
+    silver: pl.DataFrame, period: Period, base_url: str, price_path: str
+) -> pl.DataFrame:
+    """Compras individuais para o painel (CPF já mascarado na silver), com link ao registro
+    na API de Dados Abertos (filtro `idCompra`, verificado na Fase 5)."""
+    link = pl.concat_str(
+        [
+            pl.lit(f"{base_url.rstrip('/')}{price_path}?tipo=codigoItemCatalogo&codigo="),
+            pl.col("codigo_catmat").cast(pl.String),
+            pl.lit("&idCompra="),
+            pl.col("id_compra"),
+            pl.lit("&pagina=1&tamanhoPagina=10"),
+        ]
+    )
+    return (
+        silver.select(
+            "codigo_catmat",
+            "nome_curto",
+            "familia",
+            "id_compra",
+            "id_item_compra",
+            "data_compra",
+            "mes",
+            "uf",
+            "municipio",
+            "nome_uasg",
+            "nome_orgao",
+            "esfera",
+            "fornecedor",
+            "ni_fornecedor",
+            "marca",
+            "quantidade_base",
+            "preco_nominal",
+            "preco_real",
+            "outlier",
+            "mes_ref_deflacao",
+        )
+        .with_columns(
+            pl.col("mes").is_between(period.start, period.end).alias("no_periodo"),
+            link.alias("link_registro"),
+        )
+        .sort("codigo_catmat", "data_compra", "id_compra", "id_item_compra")
+    )

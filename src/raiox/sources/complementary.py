@@ -30,7 +30,9 @@ def ingest(settings: Settings, force: bool = False) -> dict[str, Any]:
                     from raiox.sources import pncp as mod
                 out[name] = mod.ingest(settings, client)
                 if snap:
-                    mark_run(settings, source, client.snapshot, complete=client.stats["failed"] == 0)
+                    mark_run(
+                        settings, source, client.snapshot, complete=client.stats["failed"] == 0
+                    )
         except Exception as exc:  # noqa: BLE001 — complementar nunca derruba o pipeline
             logger.exception("Fonte complementar {} falhou: {!r}", name, exc)
             out[name] = {"error": repr(exc)}

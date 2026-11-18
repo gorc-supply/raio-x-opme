@@ -52,5 +52,7 @@ def ingest(settings: Settings, client: HttpClient) -> dict[str, Any]:
                 records.extend(env["body"].get("resultado", []))
     logger.info("PNCP itens: {} registros", len(records))
     if records:
-        write_bronze(settings, "pncp_itens", client.snapshot, frame_from_records(records, {}), SOURCE, None)
+        write_bronze(
+            settings, "pncp_itens", client.snapshot, frame_from_records(records, {}), SOURCE, None
+        )
     return {"registros": len(records)}

@@ -36,7 +36,9 @@ def _ingest_one(settings: Settings, source: str, force: bool) -> dict[str, Any]:
 
             items = load_catalog(settings)
             if not items:
-                raise PipelineError("config/itens_opme.yaml vazio: rode `raiox catalog build` antes.")
+                raise PipelineError(
+                    "config/itens_opme.yaml vazio: rode `raiox catalog build` antes."
+                )
             counts = compras.ingest(settings, client, items)
         elif source == "comex":
             from raiox.sources import comexstat
@@ -55,7 +57,9 @@ def _ingest_one(settings: Settings, source: str, force: bool) -> dict[str, Any]:
         stats = dict(client.stats)
         complete = stats["failed"] == 0
         if snap:
-            mark_run(settings, source, client.snapshot, complete=complete, counts=counts, stats=stats)
+            mark_run(
+                settings, source, client.snapshot, complete=complete, counts=counts, stats=stats
+            )
     logger.info(
         "Ingestão {} [{}]: {} | rede={} cache={} falhas={}{}",
         source,
@@ -82,7 +86,9 @@ def run_ingest(settings: Settings, sources: list[str], force: bool = False) -> d
         except PipelineError:
             raise
         except Exception as exc:  # noqa: BLE001 — uma fonte não derruba as outras
-            logger.exception("Ingestão de {} falhou: {!r}. Seguindo para a próxima fonte.", src, exc)
+            logger.exception(
+                "Ingestão de {} falhou: {!r}. Seguindo para a próxima fonte.", src, exc
+            )
             results[src] = {"error": repr(exc)}
     return results
 
@@ -131,8 +137,10 @@ def run_transform(settings: Settings) -> dict[str, Any]:
 
     cat_b = read_bronze(settings, "catmat_itens")
     if cat_b.height:
-        cat = cat_b.sort("_snapshot").unique(subset=["codigoItem"], keep="last").drop(
-            "_source", "_fetched_at"
+        cat = (
+            cat_b.sort("_snapshot")
+            .unique(subset=["codigoItem"], keep="last")
+            .drop("_source", "_fetched_at")
         )
         _write(cat, silver / "catmat_itens.parquet")
         counts["catmat_itens"] = cat.height
@@ -207,6 +215,15 @@ def run_analyze(settings: Settings) -> dict[str, int]:
         schemas.FORNECEDORES_ITEM,
     )
 
+    from raiox.state import read_state
+
+    price_path = (read_state(settings, "compras_price_path") or {}).get(
+        "path", settings.compras.price_path_candidates[0]
+    )
+    out["compras_detalhe"] = dispersion.compras_detalhe(
+        comp, period, settings.compras.base_url, price_path
+    )
+
     imp_path = silver_dir / "comex_import.parquet"
     if imp_path.exists():
         imp = pl.read_parquet(imp_path)
@@ -264,7 +281,9 @@ def run_analyze(settings: Settings) -> dict[str, int]:
             "max_share_orgao": cfg.max_top_buyer_share,
         },
     }
-    (gold / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
+    (gold / "meta.json").write_text(
+        json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8"
+    )
     if not settings.offline:
         findings.write_findings_doc(settings, out["achados"], meta)
     return {k: v.height for k, v in out.items()}
