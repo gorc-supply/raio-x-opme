@@ -64,7 +64,7 @@ def normalize_units(df: pl.DataFrame, cfg: AnalysisCfg) -> pl.DataFrame:
         .then(pl.lit("capacidade_ambigua"))
         .when(s.is_in(pack) & ~(c > 0))
         .then(pl.lit("embalagem_sem_capacidade"))
-        .when(s.is_in(pack) & ~m.is_in(piece))
+        .when(s.is_in(pack) & ~m.is_in(piece).fill_null(False))
         .then(pl.lit("embalagem_sem_unidade_medida"))
         .when(~(s.is_in(piece) | s.is_in(pack) | s.is_in(sets)))
         .then(pl.lit("unidade_desconhecida"))

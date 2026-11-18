@@ -21,8 +21,8 @@ class SchemaFailure(RuntimeError):
     pass
 
 
-def _col(dtype, **kw) -> pa.Column:
-    return pa.Column(dtype, coerce=True, **kw)
+def _col(dtype, *checks: pa.Check, **kw) -> pa.Column:
+    return pa.Column(dtype, list(checks) or None, coerce=True, **kw)
 
 
 COMPRAS_SILVER = pa.DataFrameSchema(

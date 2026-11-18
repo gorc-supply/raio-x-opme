@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 02:45 (BRT)
+Última atualização: 2026-11-18 03:30 (BRT)
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -26,14 +26,21 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] Válvulas e stent convencional fora por volume (registrado em DECISOES.md)
 
 ## Fase 3 — Ingestão
-- [ ] Clientes raw + bronze, cache diário, retomada, contagens no log
+- [x] Clientes raw + bronze (compras, comex, bcb, ibge) + complementares (ANVISA)
+- [x] `raiox ingest all`: 25 itens / 4.131 registros; comex 41.283 + 22.109 linhas; IPCA/câmbio 142 meses
+- [x] 2ª execução no mesmo dia: rede=0 (cache); retomada testada (10 páginas apagadas → 10 chamadas)
 
 ## Fase 4 — Transformação e qualidade
-- [ ] Silver validada (pandera), testes unitários, `raiox quality`
+- [x] Silver validada (pandera): 4.054 preços válidos, 77 descartes (73 sem unidade), 103 outliers marcados
+- [x] Testes: unidades, deflação, outliers, CPF, dedup, HTTP, pipeline offline (cobertura 93%)
+- [x] `raiox quality` → data/gold/qualidade.parquet + docs/QUALIDADE.md
+- [x] Fixtures (3,2 MB) e `--offline` de ponta a ponta
 
 ## Fase 5 — Análises
-- [ ] 5.1 preco_item_uf · 5.2 dispersao_item · 5.3 serie_item_mes · 5.4 fornecedores_item
-- [ ] 5.5 importacao_ncm_ano + ponte · 5.6 complementares · 5.7 achados + docs/ACHADOS.md
+- [x] 5.1 preco_item_uf · 5.2 dispersao_item (bootstrap por compra) · 5.3 serie_item_mes · 5.4 fornecedores_item
+- [x] 5.5 importacao_ncm_ano + importacao_origem + ponte (comparável só p/ marca-passo)
+- [x] 5.6 ANVISA ligada; [!] pendente BPS (sem itens) e itens PNCP (timeout); SIGTAP não feito
+- [x] 5.7 achados (82; trava de homogeneidade) + docs/ACHADOS.md + compras_detalhe + DICIONARIO_DADOS.md
 
 ## Fase 6 — Painel Streamlit
 - [ ] Home + 5 páginas, tema, AppTest
