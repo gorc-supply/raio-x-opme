@@ -2,7 +2,7 @@
 
 **Quanto o setor público brasileiro paga por stents, próteses e implantes — e quanto disso depende de importação.**
 
-[![CI](https://github.com/GITHUB_USER/raio-x-opme/actions/workflows/ci.yml/badge.svg)](https://github.com/GITHUB_USER/raio-x-opme/actions/workflows/ci.yml)
+[![CI](https://github.com/gorcxpg-opme/raio-x-opme/actions/workflows/ci.yml/badge.svg)](https://github.com/gorcxpg-opme/raio-x-opme/actions/workflows/ci.yml)
 [![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-0B5D7A.svg)](LICENSE)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-0B5D7A.svg)](https://www.python.org/)
 [![Dados abertos](https://img.shields.io/badge/dados-p%C3%BAblicos-C2410C.svg)](docs/FONTES.md)
@@ -80,7 +80,8 @@ mensal automática via GitHub Actions.
 Requer [uv](https://docs.astral.sh/uv/) e git. Funciona em Windows, Linux e macOS.
 
 ```bash
-git clone https://github.com/GITHUB_USER/raio-x-opme.git && cd raio-x-opme
+git clone https://github.com/gorcxpg-opme/raio-x-opme.git
+cd raio-x-opme
 uv sync
 uv run raiox all            # coleta e processa tudo (~5 min); sem internet: uv run raiox all --offline
 uv run streamlit run app/Home.py
@@ -164,5 +165,5 @@ minimum sample per state, use medians in inflation-adjusted BRL, and report clus
 intervals. Key results (Nov/2026 data): pacemakers are 100% foreign-made by ANVISA registrations and import
 coverage by exports is 0.1%; Brazil imported US$ 100.6M in stents in 2025 versus US$ 2.8M exported; and no
 state-level price gap passed all robustness rules — mostly because a single catalog code often bundles
-different brands and specifications. Run it with `uv sync && uv run raiox all && uv run streamlit run app/Home.py`.
+different brands and specifications. Run it with `uv sync`, then `uv run raiox all`, then `uv run streamlit run app/Home.py`.
 MIT licensed.

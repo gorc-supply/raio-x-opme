@@ -13,7 +13,8 @@
 
 ### Como rodar
 ```bash
-git clone https://github.com/GITHUB_USER/raio-x-opme.git && cd raio-x-opme
+git clone https://github.com/gorcxpg-opme/raio-x-opme.git
+cd raio-x-opme
 uv sync
 uv run raiox all                   # ou: uv run raiox all --offline (só fixtures, sem internet)
 uv run streamlit run app/Home.py   # no seu Windows: uv run python -m streamlit run app/Home.py
@@ -23,7 +24,7 @@ Testes e qualidade: `uv run python -m pytest` · `uv run ruff check .` · `uv ru
 ### Pendências
 | # | Prioridade (bloqueante / importante / opcional) | Fase | O que aconteceu | O que já foi feito | O que o Gabriel precisa fazer |
 |---|---|---|---|---|---|
-| 1 | importante | 0, 9 | Não sei o seu usuário do GitHub: não há `gh` nem remote configurado. | O placeholder `GITHUB_USER` está só em `config/settings.yaml` (`project.repo_url`), no `README.md` (badges e clone) e neste arquivo. | Criar o repositório público, trocar `GITHUB_USER` (`git grep -l GITHUB_USER`) e fazer o `git push`. Depois, `uv run raiox charts` para atualizar o link no carrossel. |
+| 1 | importante | 0, 9 | O repositório ainda não existe no GitHub. | Usuário definido: `gorcxpg-opme`. URL `https://github.com/gorcxpg-opme/raio-x-opme` em `config/settings.yaml` e no `README.md`; carrossel regenerado com o link. | Criar o repositório público `gorcxpg-opme/raio-x-opme`, adicionar o remote e fazer o `git push`. |
 | 2 | importante | 6, 9 | O painel ainda não está publicado. Posts, gráficos e carrossel citam `https://raio-x-opme.streamlit.app`. | Instruções de deploy no README; `requirements.txt` gerado do `uv.lock` e conferido pelo CI. | Publicar no Streamlit Community Cloud (`app/Home.py`, Python 3.12). Se o subdomínio não estiver livre, ajustar `project.dashboard_url` e os posts, depois rodar `uv run raiox charts`. |
 | 3 | importante | 8 | Os workflows nunca rodaram no GitHub; só foram validados localmente (YAML, actionlint e passos do CI). | `ci.yml` faz lint, checa formato e requirements, roda os testes offline e exige cobertura ≥ 70%. `refresh.yml` roda todo dia 6 e sob demanda, preserva a gold se uma fonte falhar e só faz commit se algo mudou. | Depois do push, acompanhar o 1º run do CI. Em *Settings → Actions → General → Workflow permissions*, marcar *Read and write* para o refresh poder fazer commit. Disparar o refresh uma vez à mão. |
 | 4 | importante | 5 | Nenhuma diferença de preço entre UFs passou como "forte": 7 indícios moderados, 12 fracos e 6 itens sem amostra. Os maiores contrastes aparecem em itens cujo código CATMAT mistura marcas (P90/P10 nacional de até 46×). | Trava de homogeneidade declarada e configurável (P90/P10 > 5×). Há gráfico e post explicando. Os indícios moderados estão no painel com a ressalva. | Aceitar o resultado como está (recomendado) ou ampliar a base (pendência 5) antes de buscar manchete por UF. |
@@ -45,6 +46,6 @@ Ficaram **moderados** e não devem virar afirmação em post:
 - **Ponte de importação do marca-passo:** o setor público paga 1,3× o CIF, mas compara agregados diferentes.
 
 ### Próximos passos sugeridos
-1. Trocar `GITHUB_USER`, fazer o `git push`, liberar escrita do `GITHUB_TOKEN` e acompanhar o 1º run do CI (pendências 1 e 3).
+1. Criar o repositório `gorcxpg-opme/raio-x-opme`, fazer o `git push`, liberar escrita do `GITHUB_TOKEN` e acompanhar o 1º run do CI (pendências 1 e 3).
 2. Publicar o painel no Streamlit Community Cloud (`app/Home.py`) e confirmar a URL usada nos posts e no carrossel (pendência 2).
 3. Disparar o refresh mensal uma vez e começar o calendário de posts (`linkedin/posts/CALENDARIO.md`), com o lançamento na semana do deploy.

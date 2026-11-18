@@ -5,8 +5,8 @@ project:
   name: "Raio-X OPME"
   author: "Gabriel Cunha"
   author_full_name: "Gabriel Oliveira da Rocha Cunha"
-  # Troque GITHUB_USER pelo seu usuário do GitHub (ver PENDENCIAS.md).
-  repo_url: "https://github.com/GITHUB_USER/raio-x-opme"
+  # Repositório público do projeto (usado no painel, no carrossel e no User-Agent).
+  repo_url: "https://github.com/gorcxpg-opme/raio-x-opme"
   # Preencha após o deploy no Streamlit Community Cloud (ver PENDENCIAS.md).
   dashboard_url: "https://raio-x-opme.streamlit.app"
   linkedin_url: "https://www.linkedin.com/in/gabriel-cunha-xp"
