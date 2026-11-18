@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 05:20 (BRT)
+Última atualização: 2026-11-18 06:00 (BRT) — **projeto concluído (Fases 0–10)**
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -68,4 +68,9 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] Links internos e externos conferidos (curl)
 
 ## Fase 10 — Auditoria final
-- [ ] Clone limpo, conferência de 5 números, varredura de segredos/CPF/caminhos, relatório
+- [x] Clone limpo: uv sync + raiox all (exit 0, ~4 min) → revelou paginação instável da API → corrigido (coleta por janelas) e re-auditado
+- [x] 5 números do ACHADOS.md conferidos contra o raw com script independente + amostra de 3 compras (docs/ACHADOS.md)
+- [x] Varredura com git grep: sem segredos, sem CPF completo (só valores sintéticos de teste), sem caminhos absolutos, sem e-mail pessoal
+- [x] LGPD reforçada: CPF mascarado também na bronze versionada e nas fixtures
+- [x] Gold idempotente byte a byte (floats estáveis)
+- [x] Relatório final em PENDENCIAS.md
