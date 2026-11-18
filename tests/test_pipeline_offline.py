@@ -68,3 +68,13 @@ def test_pipeline_is_idempotent(offline_gold):
     for name, df in before.items():
         assert df.equals(after[name]), f"{name} mudou entre duas execuções"
     assert meta_before == (gold / "meta.json").read_text(encoding="utf-8")
+
+
+def test_charts_and_carousel_offline(offline_gold):
+    from raiox.pipeline import run_charts
+
+    paths = run_charts(offline_gold)
+    assert len(paths) >= 4
+    out = offline_gold.path("linkedin")
+    assert "offline" in out.parts  # nunca sobrescreve o kit real
+    assert (out / "carrossel" / "raio-x-opme.pdf").stat().st_size > 10_000

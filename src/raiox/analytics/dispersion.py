@@ -14,6 +14,7 @@ from datetime import date
 import numpy as np
 import polars as pl
 
+from raiox import fmt
 from raiox.config import AnalysisCfg
 
 ITEM_COLS = ["codigo_catmat", "nome_curto", "familia", "familia_macro", "unidade_base"]
@@ -229,19 +230,21 @@ def dispersao_item(
         if passes and not dominated and not heterogeneous:
             rob = "forte"
             why = (
-                f"IC inferior {ic_inf:.2f} > {cfg.finding_min_ci_lower}, nenhuma UF dominada por um "
-                f"único órgão e item homogêneo (P90/P10 nacional {row['p90_p10_nacional']:.1f}×)"
+                f"IC inferior {fmt.num(ic_inf, 2)} > {fmt.num(cfg.finding_min_ci_lower, 1)}, nenhuma UF dominada por um "
+                f"único órgão e item homogêneo (P90/P10 nacional {fmt.ratio(row['p90_p10_nacional'])})"
             )
         elif razao > cfg.finding_min_ci_lower and ic_inf > 1.0:
             reasons = []
             if not passes:
-                reasons.append(f"IC inferior {ic_inf:.2f} abaixo de {cfg.finding_min_ci_lower}")
+                reasons.append(
+                    f"IC inferior {fmt.num(ic_inf, 2)} abaixo de {fmt.num(cfg.finding_min_ci_lower, 1)}"
+                )
             if dominated:
                 reasons.append("UF extrema com mediana determinada por um único órgão")
             if heterogeneous:
                 reasons.append(
-                    f"item heterogêneo (P90/P10 nacional {row['p90_p10_nacional']:.1f}× > "
-                    f"{cfg.max_p90_p10_homogeneo:.0f}×): a diferença pode refletir mix de marcas e especificações"
+                    f"item heterogêneo (P90/P10 nacional {fmt.ratio(row['p90_p10_nacional'])} > "
+                    f"{fmt.ratio(cfg.max_p90_p10_homogeneo, 0)}): a diferença pode refletir mix de marcas e especificações"
                 )
             rob, why = "moderado", "; ".join(reasons)
         else:

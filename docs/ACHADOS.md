@@ -10,12 +10,12 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 | 2 | forte | Marca-passos: exportação cobre 0% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
 | 3 | forte | Marca-passos: 100% dos registros só com fabricante estrangeiro | 51 registros vigentes | registros vigentes em 2026-11-18 |
 | 4 | forte | Marca-passo bicameral (dupla câmara): 3 fornecedores = 84% do valor | 31 registros-compra, 5 fornecedores | 11/2024 a 10/2026 |
-| 5 | forte | NCM 90213911: 76% de Estados Unidos | registro censitário do comércio exterior | 2025 |
+| 5 | forte | NCM 90213911: 76% do valor importado veio de um só país (Estados Unidos) | registro censitário do comércio exterior | 2025 |
 | 6 | forte | Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10) | 77 compras, 50 órgãos | 11/2024 a 10/2026 |
 | 7 | forte | Stents: exportação cobre 3% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
 | 8 | forte | Cateteres: 99% dos registros só com fabricante estrangeiro | 102 registros vigentes | registros vigentes em 2026-11-18 |
 | 9 | forte | Cateter balão coronário semicomplacente (30 mm): 3 fornecedores = 77% do valor | 34 registros-compra, 14 fornecedores | 11/2024 a 10/2026 |
-| 10 | forte | NCM 90215000: 37% de Alemanha | registro censitário do comércio exterior | 2025 |
+| 10 | forte | NCM 90215000: 37% do valor importado veio de um só país (Alemanha) | registro censitário do comércio exterior | 2025 |
 
 ## Evidência de cada achado
 
@@ -55,9 +55,9 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços)
 - **Números:** `cr3` = 0.84; `hhi` = 3701.9828; `n_fornecedores` = 5
 
-### 5. NCM 90213911: 76% de Estados Unidos
+### 5. NCM 90213911: 76% do valor importado veio de um só país (Estados Unidos)
 
-> Em 2025, 76% do valor importado em válvulas cardiacas mecânicas (NCM 90213911, US$ 7,1 mi FOB) veio de Estados Unidos. Principais origens: Estados Unidos (76%), Porto Rico (14%), Itália (10%).
+> Em 2025, 76% do valor importado em válvulas cardiacas mecânicas (NCM 90213911, US$ 7,1 mi FOB) teve como origem Estados Unidos. Principais origens: Estados Unidos (76%), Porto Rico (14%), Itália (10%).
 
 - **Tipo:** origem_importacao · **Robustez:** forte (dado censitário oficial)
 - **Base (n):** registro censitário do comércio exterior · **Período:** 2025 · **Unidade:** % do US$ FOB
@@ -100,9 +100,9 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços)
 - **Números:** `cr3` = 0.7719; `hhi` = 2171.9528; `n_fornecedores` = 14
 
-### 10. NCM 90215000: 37% de Alemanha
+### 10. NCM 90215000: 37% do valor importado veio de um só país (Alemanha)
 
-> Em 2025, 37% do valor importado em marca-passos cardíacos, exceto as partes e acessórios (NCM 90215000, US$ 29,0 mi FOB) veio de Alemanha. Principais origens: Alemanha (37%), Malásia (26%), Singapura (18%).
+> Em 2025, 37% do valor importado em marca-passos cardíacos, exceto as partes e acessórios (NCM 90215000, US$ 29,0 mi FOB) teve como origem Alemanha. Principais origens: Alemanha (37%), Malásia (26%), Singapura (18%).
 
 - **Tipo:** origem_importacao · **Robustez:** forte (dado censitário oficial)
 - **Base (n):** registro censitário do comércio exterior · **Período:** 2025 · **Unidade:** % do US$ FOB

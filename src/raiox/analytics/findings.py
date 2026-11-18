@@ -226,7 +226,7 @@ def _trend_findings(comp: pl.DataFrame, s: Settings, mes_ref: str, period: Perio
                 unidade="R$ por unidade (reais)",
                 fonte=FONTE_PRECOS + "; IPCA/BCB",
                 robustez=rob,
-                motivo_robustez=f"IC da razão {lo:.2f}–{hi:.2f}; forte exige IC fora de ±{fc.tendencia_margem:.0%} e ≥ {fc.min_compras_forte} compras em cada janela",
+                motivo_robustez=f"IC da razão {fmt.num(lo, 2)}–{fmt.num(hi, 2)}; forte exige IC fora de ±{fmt.pct(fc.tendencia_margem, 0)} e ≥ {fc.min_compras_forte} compras em cada janela",
                 _magnitude=min(abs(change), 1) * 50,
             )
         )
@@ -342,7 +342,7 @@ def _import_findings(imp: pl.DataFrame, ponte: pl.DataFrame | None, mes_ref: str
             continue
         frase = (
             f"Em {year}, {fmt.pct(r['share_pais_principal'], 0)} do valor importado em {r['descricao_ncm'].lower()} "
-            f"(NCM {r['ncm']}, {fmt.usd_compact(r['fob_usd'])} FOB) veio de {r['pais_principal']}. "
+            f"(NCM {r['ncm']}, {fmt.usd_compact(r['fob_usd'])} FOB) teve como origem {r['pais_principal']}. "
             f"Principais origens: {r['top_paises']}."
         )
         out.append(
@@ -350,7 +350,7 @@ def _import_findings(imp: pl.DataFrame, ponte: pl.DataFrame | None, mes_ref: str
                 id=f"orig_{r['ncm']}",
                 tipo="origem_importacao",
                 familia=r["familia_macro"],
-                titulo=f"NCM {r['ncm']}: {fmt.pct(r['share_pais_principal'], 0)} de {r['pais_principal']}",
+                titulo=f"NCM {r['ncm']}: {fmt.pct(r['share_pais_principal'], 0)} do valor importado veio de um só país ({r['pais_principal']})",
                 frase=frase,
                 numeros={
                     "ano": year,

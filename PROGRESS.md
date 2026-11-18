@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 04:00 (BRT)
+Última atualização: 2026-11-18 04:40 (BRT)
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -50,7 +50,9 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] Servidor real sobe sem erro/aviso; screenshots em docs/img (Playwright + Chrome local)
 
 ## Fase 7 — Kit de LinkedIn
-- [ ] 5 PNGs, carrossel PDF, 5 posts + calendário
+- [x] `raiox charts`: 6 PNGs 1080×1350 (ranking UF, mesmo item 2 UFs, dependência, importação × público, evolução real, heterogeneidade) com selo de robustez
+- [x] Carrossel PDF de 10 páginas (PdfPages)
+- [x] 5 posts (≤ 1.300 caracteres, testados) + calendário; só achados fortes como afirmação
 
 ## Fase 8 — Testes, CI e atualização automática
 - [ ] Cobertura ≥ 70% (transform + analytics), ci.yml, refresh.yml
