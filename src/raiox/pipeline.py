@@ -297,13 +297,24 @@ def run_charts(settings: Settings) -> list[Path]:
 
 
 # =================================================================== ALL ====
-def run_all(settings: Settings, force: bool = False) -> None:
+def run_all(settings: Settings, force: bool = False) -> dict[str, Any]:
+    """Pipeline completo. Retorna o status das fontes; `ok=False` se alguma fonte do núcleo
+    falhou ou ficou incompleta (a CLI sai com código 3 e o workflow preserva a gold anterior)."""
     from raiox.sources.complementary import enabled
 
     extra = ["complementares"] if enabled(settings) else []
-    run_ingest(settings, CORE_SOURCES + extra, force=force)
+    results = run_ingest(settings, CORE_SOURCES + extra, force=force)
+    failed = [
+        s
+        for s in CORE_SOURCES
+        if "error" in results.get(s, {}) or not results.get(s, {}).get("complete", False)
+    ]
     run_transform(settings)
     run_quality(settings)
     run_analyze(settings)
     run_charts(settings)
-    logger.info("Pipeline completo.")
+    if failed:
+        logger.warning("Pipeline concluído, mas com fontes falhas/incompletas: {}", failed)
+    else:
+        logger.info("Pipeline completo.")
+    return {"ok": not failed, "failed_sources": failed, "ingest": results}

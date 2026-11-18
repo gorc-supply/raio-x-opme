@@ -14,7 +14,10 @@ htmlcov/
 
 # Dados intermediários (reconstruíveis pelo pipeline)
 data/raw/
-data/bronze/
+data/bronze/*
+# Histórico append-only dos preços (≈ 270 KB por snapshot): versionado para o workflow mensal acumular.
+!data/bronze/compras_precos/
+!data/bronze/catmat_itens/
 data/silver/
 data/state/
 

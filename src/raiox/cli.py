@@ -156,7 +156,10 @@ def run_all(offline: bool = OfflineOpt, force: bool = ForceOpt) -> None:
     """Pipeline completo: ingest → transform → quality → analyze → charts."""
     from raiox.pipeline import run_all as _run_all
 
-    _run_all(_settings(offline), force=force)
+    status = _run_all(_settings(offline), force=force)
+    if not status["ok"] and not offline:
+        logger.error("Fontes com falha: {}. Saindo com código 3.", status["failed_sources"])
+        raise typer.Exit(code=3)
 
 
 @app.command()

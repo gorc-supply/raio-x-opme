@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 04:40 (BRT)
+Última atualização: 2026-11-18 05:00 (BRT)
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -55,7 +55,10 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] 5 posts (≤ 1.300 caracteres, testados) + calendário; só achados fortes como afirmação
 
 ## Fase 8 — Testes, CI e atualização automática
-- [ ] Cobertura ≥ 70% (transform + analytics), ci.yml, refresh.yml
+- [x] Cobertura 93% em transform + analytics (CI exige ≥ 70%); 58 testes
+- [x] ci.yml: uv sync --frozen, ruff check/format, requirements.txt sincronizado, pytest offline
+- [x] refresh.yml: dia 6, 04:17 UTC + manual; preserva a gold se alguma fonte falhar; commit só se mudou
+- [x] YAMLs validados (PyYAML + actionlint) e passos do CI executados localmente
 
 ## Fase 9 — Documentação e publicação
 - [ ] README, METODOLOGIA, deploy, topics

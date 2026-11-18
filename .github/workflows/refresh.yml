@@ -1,0 +1,60 @@
+name: Atualização mensal dos dados
+
+on:
+  schedule:
+    # Dia 6 de cada mês, 04:17 UTC (madrugada no Brasil). O ComexStat atualiza no início do mês.
+    - cron: "17 4 6 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-dados
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instala o uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Python 3.12 e dependências
+        run: |
+          uv python install 3.12
+          uv sync --frozen
+
+      - name: Pipeline completo (ingest → transform → analyze → charts)
+        id: pipeline
+        continue-on-error: true
+        run: uv run raiox all
+
+      - name: Se alguma fonte falhou, preserva a gold e o kit anteriores
+        if: steps.pipeline.outcome != 'success'
+        run: |
+          echo "::warning::Fonte com falha ou pipeline interrompido; a gold anterior foi mantida."
+          git checkout -- data/gold linkedin docs/ACHADOS.md docs/QUALIDADE.md || true
+          git clean -fd data/gold linkedin || true
+
+      - name: Testes
+        env:
+          RAIOX_OFFLINE: "1"
+        run: uv run pytest -q
+
+      - name: Commit se a gold mudou
+        run: |
+          git config user.name "raio-x-opme-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/gold data/bronze/compras_precos data/bronze/catmat_itens linkedin docs/ACHADOS.md docs/QUALIDADE.md data/reference
+          if git diff --cached --quiet; then
+            echo "Nada mudou."
+          else
+            git commit -m "chore(dados): atualização mensal automática ($(date -u +%Y-%m-%d))"
+            git push
+          fi

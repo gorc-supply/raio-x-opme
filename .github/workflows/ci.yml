@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instala o uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Python 3.12 e dependências (lock congelado)
+        run: |
+          uv python install 3.12
+          uv sync --frozen
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Formatação
+        run: uv run ruff format --check .
+
+      - name: requirements.txt sincronizado com o uv.lock
+        run: |
+          uv export --frozen --no-hashes --no-dev --no-emit-project --format requirements-txt -o /tmp/requirements.txt
+          diff <(grep -v '^#' requirements.txt) <(grep -v '^#' /tmp/requirements.txt)
+
+      - name: Testes (modo offline, só fixtures)
+        env:
+          RAIOX_OFFLINE: "1"
+        run: uv run pytest --cov=src/raiox/transform --cov=src/raiox/analytics --cov-report=term --cov-fail-under=70
