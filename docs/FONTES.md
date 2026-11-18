@@ -150,7 +150,7 @@ stent farmacológico caiu para R$ 844,73 e voltou a R$ 2.034,50 no fim de 2023).
 cada ano, mudanças entre dois janeiros podem não aparecer; os textos dos achados dizem isso.
 
 O SIGTAP é o valor que o SUS **reembolsa** ao prestador por unidade de OPME, não o preço de compra. O mapa
-entre códigos SIGTAP e itens CATMAT está em `config/mapa_sigtap_catmat.yaml` (a validar).
+entre códigos SIGTAP e itens CATMAT está em `config/mapa_sigtap_catmat.yaml` (validado pelo autor em 18/11/2026).
 
 ## TLS
 

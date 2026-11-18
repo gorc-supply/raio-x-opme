@@ -110,5 +110,8 @@ def test_offline_sigtap_bridge(offline_gold):
     serie = pl.read_parquet(gold / "sigtap_serie.parquet")
     assert set(serie["competencia"].unique()) == {"201501", "202611"}
     ach = pl.read_parquet(gold / "achados.parquet").filter(pl.col("tipo") == "ponte_sigtap")
-    # Mapa ainda não validado: nenhum achado de razão preço ÷ tabela pode ser "forte".
-    assert not (ach["robustez"] == "forte").any()
+    # Achado de razão preço ÷ tabela só é "forte" com o mapa validado e n suficiente.
+    forte = ach.filter(pl.col("robustez") == "forte")
+    validated = bool(ponte["mapa_validado"].all())
+    assert validated or forte.is_empty()
+    assert (forte["n"] >= offline_gold.findings.min_compras_forte).all()

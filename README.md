@@ -138,7 +138,7 @@ Lista completa em [docs/METODOLOGIA.md](docs/METODOLOGIA.md#11-limitações-conh
 - [ ] Itens de contratações PNCP (Lei 14.133) quando o endpoint estabilizar — amplia estados e municípios.
 - [ ] Comparação "mesma marca, estados diferentes" para separar preço de mix de produtos.
 - [ ] Banco de Preços em Saúde (BPS) completo, se houver base aberta com OPME.
-- [x] Tabela SIGTAP (valor de referência SUS) × preço praticado (mapa SIGTAP × CATMAT a validar).
+- [x] Tabela SIGTAP (valor de referência SUS) × preço praticado (mapa SIGTAP × CATMAT validado).
 - [ ] Mais itens no catálogo à medida que o histórico acumula.
 
 ## Autor

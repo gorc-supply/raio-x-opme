@@ -137,7 +137,8 @@ dados; por isso está declarado e é configurável.
   tabela de compatibilidade do SIGTAP (qual OPME pode ser cobrada em qual procedimento). Cada par tem
   confiança **alta** (mesmo dispositivo e componente), **média** (o código SIGTAP agrupa coisas que o
   CATMAT separa, como "inclui parafusos") ou **baixa** (correspondência aproximada). Na dúvida, o item fica
-  sem par. O mapa precisa ser validado pelo autor (`validado_por_gabriel`).
+  sem par. O mapa foi validado pelo autor par a par em 18/11/2026 (`validado_por_gabriel: true`; registro
+  em `docs/validacao_sigtap.xlsx`). Sem essa validação, nenhum achado de razão passa de "moderado".
 - **Comparação:** mediana paga no período de análise (sem outliers, R$ reais) ÷ valor de tabela da
   competência mais recente, com IC 95% por bootstrap das compras.
 - **Leitura:** acima de 1× (IC todo acima), o reembolso não cobre a compra e a diferença indica

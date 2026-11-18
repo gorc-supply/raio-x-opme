@@ -12,10 +12,10 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 | 4 | forte | Marca-passo bicameral (dupla câmara): 3 fornecedores = 84% do valor | 31 registros-compra, 5 fornecedores | 11/2024 a 10/2026 |
 | 5 | forte | NCM 90213911: 76% do valor importado veio de um só país (Estados Unidos) | registro censitário do comércio exterior | 2025 |
 | 6 | forte | Tabela SUS, endoprótese de aorta (SIGTAP 07.02.04.030-4): valor real caiu 47% desde 01/2015 | tabela oficial (sem amostragem) | 01/2015 a 11/2026 |
-| 7 | forte | Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10) | 77 compras, 50 órgãos | 11/2024 a 10/2026 |
-| 8 | forte | Stents: exportação cobre 3% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
-| 9 | forte | Cateteres: 99% dos registros só com fabricante estrangeiro | 102 registros vigentes | registros vigentes em 2026-11-18 |
-| 10 | forte | Cateter balão coronário semicomplacente (30 mm): 3 fornecedores = 77% do valor | 34 registros-compra, 14 fornecedores | 11/2024 a 10/2026 |
+| 7 | forte | Prótese de joelho — componente patelar, 3 pinos: preço praticado = 2,0× a Tabela SUS | 48 compras, 34 órgãos | 11/2024 a 10/2026; SIGTAP 11/2026 |
+| 8 | forte | Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10) | 77 compras, 50 órgãos | 11/2024 a 10/2026 |
+| 9 | forte | Stents: exportação cobre 3% da importação | registro censitário do comércio exterior (sem amostragem) | 2025 |
+| 10 | forte | Cateteres: 99% dos registros só com fabricante estrangeiro | 102 registros vigentes | registros vigentes em 2026-11-18 |
 
 ## Evidência de cada achado
 
@@ -73,7 +73,16 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** SIGTAP/DATASUS (Tabela Unificada do SUS); IPCA/BCB
 - **Números:** `codigo_sigtap` = 0702040304; `valor_nominal_inicio` = 14000.0; `valor_nominal_fim` = 14000.0; `valor_real_inicio` = 26249.8693; `valor_real_fim` = 14000.0; `variacao` = -0.4667
 
-### 7. Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10)
+### 7. Prótese de joelho — componente patelar, 3 pinos: preço praticado = 2,0× a Tabela SUS
+
+> Prótese de joelho — componente patelar, 3 pinos (CATMAT 434822): mediana de R$ 681,81 por unidade nas compras públicas (48 compras de 34 órgãos, 11/2024 a 10/2026, R$ de out/2026), contra R$ 345,46 na Tabela SUS (SIGTAP 07.02.03.024-4, competência 11/2026): o preço praticado é 2,0× o valor de tabela (IC 95%: 1,5× a 2,2×). O valor de tabela mudou durante o período (era R$ 148,57 na competência 01/2024). O SIGTAP é o valor que o SUS reembolsa ao prestador, não o preço de compra: preço acima da tabela indica defasagem do valor de tabela, não conduta de quem compra.
+
+- **Tipo:** ponte_sigtap · **Robustez:** forte (48 compras; IC 95% da razão 1,54–2,21 (forte exige ≥ 30 compras e IC fora de ±10%))
+- **Base (n):** 48 compras, 34 órgãos · **Período:** 11/2024 a 10/2026; SIGTAP 11/2026 · **Unidade:** R$ por unidade
+- **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços); SIGTAP/DATASUS (Tabela Unificada do SUS); IPCA/BCB
+- **Números:** `codigo_sigtap` = 0702030244; `valor_sigtap` = 345.46; `mediana_preco` = 681.806; `razao` = 1.9736; `ic_inf` = 1.5361; `ic_sup` = 2.209; `n_compras` = 48; `n_orgaos` = 34; `mapa_validado` = True
+
+### 8. Placa bloqueada LCP p/ calcâneo (titânio): mesmo código CATMAT, preços 13,4× diferentes (P90/P10)
 
 > Sob o mesmo código CATMAT 440305 (Placa bloqueada LCP p/ calcâneo (titânio)), os 10% mais caros pagaram ao menos R$ 3.910,24 por unidade e os 10% mais baratos até R$ 292,11: 13,4× de dispersão. O código abriga marcas e especificações diferentes, o que limita a comparação direta de preços. Base: 77 compras de 50 órgãos, 11/2024 a 10/2026, R$ de out/2026, sem outliers.
 
@@ -82,7 +91,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços)
 - **Números:** `p10` = 292.1111; `p90` = 3910.2427; `mediana` = 1203.9835; `p90_p10` = 13.3862; `n_compras` = 77; `n_orgaos` = 50; `item_heterogeneo` = True
 
-### 8. Stents: exportação cobre 3% da importação
+### 9. Stents: exportação cobre 3% da importação
 
 > Em 2025, o Brasil importou US$ 100,6 mi (FOB) em stents (NCM 90219012) e exportou US$ 2,8 mi: as exportações cobriram 2,8% das importações.
 
@@ -91,7 +100,7 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Fonte:** ComexStat/MDIC
 - **Números:** `ano` = 2025; `import_fob_usd` = 100601115.0; `export_fob_usd` = 2803784.0; `cobertura` = 0.0279; `ncms` = 90219012
 
-### 9. Cateteres: 99% dos registros só com fabricante estrangeiro
+### 10. Cateteres: 99% dos registros só com fabricante estrangeiro
 
 > Cateteres: 99% dos 102 registros vigentes na ANVISA têm apenas fabricante(s) estrangeiro(s). Principais países fabricantes: CHINA, REPÚBLICA POPULAR (35%), ESTADOS UNIDOS DA AMÉRICA (19%), ÍNDIA (9%), HOLANDA (PAÍSES BAIXOS) (7%). Registro não mede volume vendido: é um indicador de dependência tecnológica (dados de 2026-11-18).
 
@@ -99,15 +108,6 @@ Robustez: **forte** = passa em todas as regras da seção 8 (só estes vão para
 - **Base (n):** 102 registros vigentes · **Período:** registros vigentes em 2026-11-18 · **Unidade:** % dos registros
 - **Fonte:** ANVISA (dados abertos, produtos para saúde)
 - **Números:** `registros_vigentes` = 102; `share_so_estrangeiro` = 0.9902; `share_com_fabricante_nacional` = 0.0098
-
-### 10. Cateter balão coronário semicomplacente (30 mm): 3 fornecedores = 77% do valor
-
-> Os 3 maiores fornecedores responderam por 77% do valor comprado de Cateter balão coronário semicomplacente (30 mm) (14 fornecedores no total; HHI 2.172), de 11/2024 a 10/2026. Concentração alta não indica irregularidade: pode refletir poucos fabricantes com registro no país.
-
-- **Tipo:** concentracao_fornecedores · **Robustez:** forte (base de 34 compras (forte exige ≥ 30))
-- **Base (n):** 34 registros-compra, 14 fornecedores · **Período:** 11/2024 a 10/2026 · **Unidade:** % do valor em R$
-- **Fonte:** Compras.gov.br (API de Dados Abertos, pesquisa de preços)
-- **Números:** `cr3` = 0.7719; `hhi` = 2171.9528; `n_fornecedores` = 14
 
 ## Todos os achados
 

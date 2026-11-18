@@ -8,8 +8,9 @@ import polars as pl
 import pytest
 
 from raiox.analytics.dispersion import Period
-from raiox.analytics.findings import sigtap_note
+from raiox.analytics.findings import _sigtap_findings, sigtap_note
 from raiox.analytics.sigtap_bridge import format_code, parse_mapping, ponte_sigtap_preco
+from raiox.config import get_settings
 from raiox.sources import sigtap
 
 # Layouts reais (cabeçalhos copiados dos ZIPs de 01/2015 e 11/2026): VL_SH mudou de 10 para 12.
@@ -171,3 +172,21 @@ def test_sigtap_note_follows_the_direction_of_the_difference():
     assert "defasagem" in sigtap_note(1.2, 1.8)
     assert "cobre" in sigtap_note(0.2, 0.4)
     assert "em linha" in sigtap_note(0.9, 1.1)
+
+
+@pytest.mark.parametrize(("validated", "expected"), [(False, "moderado"), (True, "forte")])
+def test_ratio_finding_is_forte_only_with_validated_mapping(validated, expected):
+    sv = _sigtap_silver()
+    comp = _purchases([1500.0] * 40 + [99999.0])  # 40 compras, IC bem acima de 1,1
+    period = Period(date(2025, 11, 1), date(2026, 10, 1))
+    data = _mapping()
+    data["validado_por_gabriel"] = validated
+    ponte = ponte_sigtap_preco(sv, comp, period, parse_mapping(data), 200, 1, 0.95)
+    ach = [
+        a
+        for a in _sigtap_findings(ponte, get_settings(offline=True), "out/2026")
+        if a["tipo"] == "ponte_sigtap"
+    ]
+    assert len(ach) == 1
+    assert ach[0]["robustez"] == expected
+    assert ("ainda não validado" in ach[0]["motivo_robustez"]) is (not validated)
