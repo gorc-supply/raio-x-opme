@@ -1,0 +1,482 @@
+# Catálogo curado de itens OPME — gerado por `uv run raiox catalog build`.
+# nome_curto e nota_comparabilidade podem ser editados à mão: são preservados ao regerar.
+# n_compras = compras distintas (idCompra) na janela de contagem.
+gerado_em: '2026-11-18'
+janela_contagem: 2024-11-01 em diante (24 meses)
+criterios:
+  min_compras: 20
+  share_minimo_unidade_dominante: 0.8
+  max_itens_por_familia: 4
+  max_itens: 25
+itens:
+- codigo_catmat: 614825
+  nome_curto: Cateter balão coronário não complacente (15 mm)
+  familia: Cateter balão
+  familia_macro: Cateteres
+  descricao_oficial: 'CATETER BALÃO P/ ANGIOPLASTIA CORONARIANA, MATERIAL: NÃO COMPLACENTE , DIÂMETRO BALÃO: CERCA DE  1,0
+    A 6,0 MM, COMPRIMENTO BALÃO: CERCA DE 15 MM, MARCADOR: RADIOPACO , COMPRIMENTO CATETER: CERCA DE 140 CM, COMPATIBILIDADE:
+    P/ FIO GUIA CERCA DE 0,014" , ESTERILIDADE: ESTÉRIL, USO ÚNICO'
+  ncm: '90183929'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.975
+  n_compras: 43
+  n_registros: 79
+  n_orgaos: 17
+  n_ufs: 12
+  codigo_pdm: 30163
+  nome_pdm: CATETER BALÃO P/ ANGIOPLASTIA CORONARIANA
+  origem: termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 614825 em 'UN' (98% dos registros nessa unidade na contagem).
+- codigo_catmat: 614820
+  nome_curto: Cateter balão coronário semicomplacente (30 mm)
+  familia: Cateter balão
+  familia_macro: Cateteres
+  descricao_oficial: 'CATETER BALÃO P/ ANGIOPLASTIA CORONARIANA, MATERIAL: SEMI COMPLACENTE , DIÂMETRO BALÃO: CERCA DE  1,0
+    A 6,0 MM, COMPRIMENTO BALÃO: CERCA DE 30 MM, MARCADOR: RADIOPACO , COMPRIMENTO CATETER: CERCA DE 140 CM, COMPATIBILIDADE:
+    P/ FIO GUIA CERCA DE 0,014" , ESTERILIDADE: ESTÉRIL, USO ÚNICO'
+  ncm: '90183929'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.977
+  n_compras: 34
+  n_registros: 44
+  n_orgaos: 16
+  n_ufs: 12
+  codigo_pdm: 30163
+  nome_pdm: CATETER BALÃO P/ ANGIOPLASTIA CORONARIANA
+  origem: termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 614820 em 'UN' (98% dos registros nessa unidade na contagem).
+- codigo_catmat: 480767
+  nome_curto: Marca-passo bicameral (dupla câmara)
+  familia: Marca-passo
+  familia_macro: Marca-passos
+  descricao_oficial: 'MARCA-PASSO CARDÍACO IMPLANTÁVEL, CONFIGURAÇÃO DO SISTEMA: BICAMERAL EPICÁRDICO IS-1 , MATERIAL CARCAÇA:
+    LIGA METÁLICA , SENSOR P/ ADAPTAÇÃO FREQUÊNCIA CARDÍACA: SENSORES ACELERÔMETRO E FISIOLÓGICO , AUTOMATICIDADE DE ESTIMULAÇÃO
+    E DETECÇÃO: AUTOCAPTURA , MONITORAMENTO REMOTO DO PACIENTE: TELEMEDICINA , LONGEVIDADE: VIDA ÚTIL PROJETADA MÍNIMO 5 ANOS
+    , COMPATÍVEL: CONDICIONADO MRI'
+  ncm: '90215000'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 31
+  n_registros: 31
+  n_orgaos: 19
+  n_ufs: 15
+  codigo_pdm: 19943
+  nome_pdm: MARCA-PASSO CARDÍACO IMPLANTÁVEL
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 480767 em 'UN' (98% dos registros nessa unidade na contagem). Configuração
+    do sistema (bicameral) é parte do CATMAT; não misturar com unicameral.
+- codigo_catmat: 480755
+  nome_curto: Marca-passo unicameral (câmara única)
+  familia: Marca-passo
+  familia_macro: Marca-passos
+  descricao_oficial: 'MARCA-PASSO CARDÍACO IMPLANTÁVEL, CONFIGURAÇÃO DO SISTEMA: UNICAMERAL EPICÁRDICO IS-1 , MATERIAL CARCAÇA:
+    LIGA METÁLICA , SENSOR P/ ADAPTAÇÃO FREQUÊNCIA CARDÍACA: SENSORES ACELERÔMETRO E FISIOLÓGICO , AUTOMATICIDADE DE ESTIMULAÇÃO
+    E DETECÇÃO: AUTOCAPTURA , MONITORAMENTO REMOTO DO PACIENTE: TELEMEDICINA , LONGEVIDADE: VIDA ÚTIL PROJETADA MÍNIMO 5 ANOS
+    , COMPATÍVEL: CONDICIONADO MRI'
+  ncm: '90215000'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 26
+  n_registros: 26
+  n_orgaos: 16
+  n_ufs: 12
+  codigo_pdm: 19943
+  nome_pdm: MARCA-PASSO CARDÍACO IMPLANTÁVEL
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 480755 em 'UN' (98% dos registros nessa unidade na contagem). Configuração
+    do sistema (unicameral) é parte do CATMAT; não misturar com bicameral.
+- codigo_catmat: 438905
+  nome_curto: Haste intramedular umeral de titânio, canulada, com tampão
+  familia: Hastes intramedulares
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'HASTE INTRAMEDULAR UMERAL, MATERIAL: TITÂNIO , FIXAÇÃO: BLOQUEADA , ESTRUTURA: CANULADA, COM PARAFUSO
+    TAMPÃO , TIPO USO: USO ÚNICO, NÃO ESTÉRIL , APRESENTAÇÃO: EMBALAGEM UNITÁRIA'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 36
+  n_registros: 41
+  n_orgaos: 26
+  n_ufs: 13
+  codigo_pdm: 7497
+  nome_pdm: HASTE INTRAMEDULAR UMERAL
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 438905 em 'UN' (99% dos registros nessa unidade na contagem).
+- codigo_catmat: 438050
+  nome_curto: Haste intramedular umeral de titânio, canulada
+  familia: Hastes intramedulares
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'HASTE INTRAMEDULAR UMERAL, MATERIAL: TITÂNIO , FIXAÇÃO: BLOQUEADA , ESTRUTURA: CANULADA , TIPO USO:
+    USO ÚNICO, NÃO ESTÉRIL , APRESENTAÇÃO: EMBALAGEM UNITÁRIA'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 35
+  n_registros: 55
+  n_orgaos: 23
+  n_ufs: 9
+  codigo_pdm: 7497
+  nome_pdm: HASTE INTRAMEDULAR UMERAL
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 438050 em 'UN' (100% dos registros nessa unidade na contagem).
+- codigo_catmat: 436621
+  nome_curto: Parafuso cortical de bloqueio 3,5 mm (titânio)
+  familia: Parafusos ortopédicos
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'PARAFUSO ÓSSEO - PEQUENOS E GRANDES FRAGMENTOS, MATERIAL: TITÂNIO , TIPO FIXAÇÃO: P/ FIXAÇÃO RÍGIDA
+    , TIPO: CORTICAL , MODELO: BLOQUEIO , MODELO ROSCA: ROSCA TOTAL , DIÂMETRO: CERCA DE 3,5 MM'
+  ncm: '90211020'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.973
+  n_compras: 122
+  n_registros: 300
+  n_orgaos: 48
+  n_ufs: 15
+  codigo_pdm: 14173
+  nome_pdm: PARAFUSO ÓSSEO - PEQUENOS E GRANDES FRAGMENTOS
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 436621 em 'UN' (98% dos registros nessa unidade na contagem). Parafusos
+    são vendidos por unidade; comprimento varia dentro do mesmo CATMAT.
+- codigo_catmat: 443323
+  nome_curto: Parafuso cortical de bloqueio 4,5 mm (aço inox)
+  familia: Parafusos ortopédicos
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'PARAFUSO ÓSSEO - PEQUENOS E GRANDES FRAGMENTOS, MATERIAL: AÇO INOXIDÁVEL , TIPO FIXAÇÃO: P/ FIXAÇÃO
+    RÍGIDA , TIPO: CORTICAL , MODELO: BLOQUEIO , ADICIONAIS: AUTOROSQUEANTE , MODELO ROSCA: ROSCA TOTAL , DIÂMETRO: CERCA
+    DE 4,5 MM'
+  ncm: '90211020'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.986
+  n_compras: 97
+  n_registros: 145
+  n_orgaos: 50
+  n_ufs: 18
+  codigo_pdm: 14173
+  nome_pdm: PARAFUSO ÓSSEO - PEQUENOS E GRANDES FRAGMENTOS
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 443323 em 'UN' (98% dos registros nessa unidade na contagem). Parafusos
+    são vendidos por unidade; comprimento varia dentro do mesmo CATMAT.
+- codigo_catmat: 453982
+  nome_curto: Contraparafuso de compressão p/ haste bloqueada (titânio)
+  familia: Parafusos ortopédicos
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'PARAFUSO ÓSSEO - PEQUENOS E GRANDES FRAGMENTOS, MATERIAL: TITÂNIO , TIPO: COMPRESSÃO, CONTRAPARAFUSO
+    , MODELO: P/ PARAFUSO CANULADO DESLIZANTE DE HASTE BLOQUEADA'
+  ncm: '90211020'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.991
+  n_compras: 81
+  n_registros: 222
+  n_orgaos: 40
+  n_ufs: 16
+  codigo_pdm: 14173
+  nome_pdm: PARAFUSO ÓSSEO - PEQUENOS E GRANDES FRAGMENTOS
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 453982 em 'UN' (97% dos registros nessa unidade na contagem).
+- codigo_catmat: 440305
+  nome_curto: Placa bloqueada LCP p/ calcâneo (titânio)
+  familia: Placas ortopédicas
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'PLACA ORTOPÉDICA - PEQUENOS E GRANDES FRAGMENTOS, MATERIAL: TITÂNIO , TIPO FIXAÇÃO: FIXAÇÃO BLOQUEADA
+    - LCP , MODELO: P/ CALCÂNEO , DIÂMETRO FUROS: P/ PARAFUSO CERCA DE 3,5 MM'
+  ncm: '90211020'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.989
+  n_compras: 78
+  n_registros: 87
+  n_orgaos: 50
+  n_ufs: 18
+  codigo_pdm: 10834
+  nome_pdm: PLACA ORTOPÉDICA - PEQUENOS E GRANDES FRAGMENTOS
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 440305 em 'UN' (98% dos registros nessa unidade na contagem). Tamanho/lado
+    da placa varia dentro do mesmo CATMAT.
+- codigo_catmat: 443904
+  nome_curto: Placa de tensão p/ olécrano, 6 furos (titânio)
+  familia: Placas ortopédicas
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'PLACA ORTOPÉDICA - PEQUENOS E GRANDES FRAGMENTOS, MATERIAL: TITÂNIO , TIPO FIXAÇÃO: FIXAÇÃO BLOQUEADA
+    - LCP , FORMATO: ANATÔMICA , MODELO: PLACA DE TENSÃO PARA OLÉCRANO , QUANTIDADE FUROS: 6 FUROS , DIÂMETRO FUROS: P/ PARAFUSO
+    CERCA DE 2,7 MM'
+  ncm: '90211020'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.949
+  n_compras: 71
+  n_registros: 79
+  n_orgaos: 41
+  n_ufs: 13
+  codigo_pdm: 10834
+  nome_pdm: PLACA ORTOPÉDICA - PEQUENOS E GRANDES FRAGMENTOS
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 443904 em 'UN' (96% dos registros nessa unidade na contagem).
+- codigo_catmat: 442887
+  nome_curto: Placa volar p/ rádio distal, parafuso 2,5 mm (titânio)
+  familia: Placas ortopédicas
+  familia_macro: Placas, parafusos e hastes
+  descricao_oficial: 'PLACA ORTOPÉDICA P/ MINI E MICRO FRAGMENTOS, MATERIAL: TITÂNIO , TIPO: VOLAR, P/ DISTAL DE RÁDIO , DIÂMETRO:
+    P/ PARAFUSO CERCA DE 2,5 MM, TIPO FIXAÇÃO: FIXAÇÃO RÍGIDA, BLOQUEADA'
+  ncm: '90211020'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.988
+  n_compras: 61
+  n_registros: 86
+  n_orgaos: 33
+  n_ufs: 13
+  codigo_pdm: 10814
+  nome_pdm: PLACA ORTOPÉDICA P/ MINI E MICRO FRAGMENTOS
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 442887 em 'UN' (99% dos registros nessa unidade na contagem). Tamanho/lado
+    da placa varia dentro do mesmo CATMAT.
+- codigo_catmat: 443802
+  nome_curto: Prótese de joelho de revisão — haste tibial/femoral (titânio)
+  familia: Prótese de joelho
+  familia_macro: Próteses articulares
+  descricao_oficial: 'PRÓTESE DE JOELHO, TIPO CIRURGIA: CIRURGIA REVISÃO , COMPONENTE: COMPONENTE HASTE TIBIAL / FEMORAL ,
+    MATERIAL: TITÂNIO , TIPO FIXAÇÃO: CIMENTAÇÃO BIOLÓGICA , ESTERILIDADE: ESTÉRIL, USO ÚNICO'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 54
+  n_registros: 86
+  n_orgaos: 38
+  n_ufs: 13
+  codigo_pdm: 6519
+  nome_pdm: PRÓTESE DE JOELHO
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 443802 em 'UN' (100% dos registros nessa unidade na contagem). Componente
+    de revisão; comprimento da haste varia dentro do CATMAT.
+- codigo_catmat: 455372
+  nome_curto: Prótese de joelho — componente patelar, 1 a 3 pinos
+  familia: Prótese de joelho
+  familia_macro: Próteses articulares
+  descricao_oficial: 'PRÓTESE DE JOELHO, COMPONENTE: COMPONENTE PATELAR , MATERIAL: POLIETILENO , TIPO ESTABILIZAÇÃO: COM
+    1 A 3 PINOS , ESTERILIDADE: ESTÉRIL, USO ÚNICO'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 53
+  n_registros: 71
+  n_orgaos: 27
+  n_ufs: 12
+  codigo_pdm: 6519
+  nome_pdm: PRÓTESE DE JOELHO
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 455372 em 'UN' (100% dos registros nessa unidade na contagem). Item
+    distinto do 434822 no CATMAT; os dois não são somados.
+- codigo_catmat: 434822
+  nome_curto: Prótese de joelho — componente patelar, 3 pinos
+  familia: Prótese de joelho
+  familia_macro: Próteses articulares
+  descricao_oficial: 'PRÓTESE DE JOELHO, COMPONENTE: COMPONENTE PATELAR , MATERIAL: POLIETILENO , TIPO ESTABILIZAÇÃO: COM
+    03 PINOS , ESTERILIDADE: ESTÉRIL, USO ÚNICO'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 51
+  n_registros: 63
+  n_orgaos: 36
+  n_ufs: 13
+  codigo_pdm: 6519
+  nome_pdm: PRÓTESE DE JOELHO
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 434822 em 'UN' (100% dos registros nessa unidade na contagem). Item
+    distinto do 455372 no CATMAT; os dois não são somados.
+- codigo_catmat: 455552
+  nome_curto: Prótese de quadril — componente acetabular modular 46 mm
+  familia: Prótese de quadril
+  familia_macro: Próteses articulares
+  descricao_oficial: 'PRÓTESE DE QUADRIL, ESTRURURA: MODULAR , MATERIAL: TITÂNIO , COMPONENTE: COMPONENTE ACETABULAR , TIPO
+    FIXAÇÃO: FIXAÇÃO BIOLÓGICA , MODELO: INSERTO EXTERNO , SUPERFÍCIE: REVESTIMENTO POROSO , DIÂMETRO EXTERNO: CERCA DE 46
+    MM'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 69
+  n_registros: 85
+  n_orgaos: 35
+  n_ufs: 13
+  codigo_pdm: 17998
+  nome_pdm: PRÓTESE DE QUADRIL
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 455552 em 'UN' (100% dos registros nessa unidade na contagem).
+- codigo_catmat: 455344
+  nome_curto: Prótese de quadril — parafuso acetabular 6,5 mm (titânio)
+  familia: Prótese de quadril
+  familia_macro: Próteses articulares
+  descricao_oficial: 'PRÓTESE DE QUADRIL, MATERIAL: TITÂNIO , COMPONENTE: PARAFUSO ACETABULAR , DIÂMETRO: CERCA DE 6,5 MM'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.973
+  n_compras: 65
+  n_registros: 74
+  n_orgaos: 27
+  n_ufs: 7
+  codigo_pdm: 17998
+  nome_pdm: PRÓTESE DE QUADRIL
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 455344 em 'UN' (97% dos registros nessa unidade na contagem).
+- codigo_catmat: 455390
+  nome_curto: Prótese de quadril — parafuso acetabular 6,5 mm (aço inox)
+  familia: Prótese de quadril
+  familia_macro: Próteses articulares
+  descricao_oficial: 'PRÓTESE DE QUADRIL, MATERIAL: AÇO INOXIDÁVEL , COMPONENTE: PARAFUSO ACETABULAR , DIÂMETRO: CERCA DE
+    6,5 MM'
+  ncm: '90213190'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.987
+  n_compras: 61
+  n_registros: 79
+  n_orgaos: 32
+  n_ufs: 12
+  codigo_pdm: 17998
+  nome_pdm: PRÓTESE DE QUADRIL
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 455390 em 'UN' (99% dos registros nessa unidade na contagem).
+- codigo_catmat: 616180
+  nome_curto: Endoprótese de aorta abdominal bifurcada (corpo principal)
+  familia: Endoprótese de aorta
+  familia_macro: Próteses vasculares
+  descricao_oficial: 'ENDOPRÓTESE DE AORTA, APLICAÇÃO: ABDOMINAL, CORPO PRINCIPAL , FORMATO: BIFURCADA , TIPO: STENT RECOBERTO
+    , MATERIAL PLATAFORMA: LIGA METÁLICA , SISTEMA ENTREGA: AUTO EXPANSÍVEL , ESTERILIDADE: ESTéRIL'
+  ncm: '90213980'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.978
+  n_compras: 87
+  n_registros: 178
+  n_orgaos: 38
+  n_ufs: 17
+  codigo_pdm: 30188
+  nome_pdm: ENDOPRÓTESE DE AORTA
+  origem: termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 616180 em 'UN' (98% dos registros nessa unidade na contagem). Sistema
+    de alto valor; comprimento e diâmetro variam dentro do CATMAT.
+- codigo_catmat: 616183
+  nome_curto: Endoprótese de aorta torácica reta (corpo principal)
+  familia: Endoprótese de aorta
+  familia_macro: Próteses vasculares
+  descricao_oficial: 'ENDOPRÓTESE DE AORTA, APLICAÇÃO: TORÁCICA, CORPO PRINCIPAL , FORMATO: RETA , TIPO: STENT RECOBERTO ,
+    MATERIAL PLATAFORMA: LIGA METÁLICA , SISTEMA ENTREGA: AUTO EXPANSÍVEL , ESTERILIDADE: ESTéRIL'
+  ncm: '90213980'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.964
+  n_compras: 87
+  n_registros: 168
+  n_orgaos: 36
+  n_ufs: 15
+  codigo_pdm: 30188
+  nome_pdm: ENDOPRÓTESE DE AORTA
+  origem: termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 616183 em 'UN' (97% dos registros nessa unidade na contagem). Sistema
+    de alto valor; comprimento e diâmetro variam dentro do CATMAT.
+- codigo_catmat: 616179
+  nome_curto: Endoprótese de aorta — extensão ilíaca
+  familia: Endoprótese de aorta
+  familia_macro: Próteses vasculares
+  descricao_oficial: 'ENDOPRÓTESE DE AORTA, APLICAÇÃO: EXTENSÃO ILÍACA , FORMATO: RETA / CÔNICA , TIPO: STENT RECOBERTO ,
+    MATERIAL PLATAFORMA: LIGA METÁLICA , SISTEMA ENTREGA: AUTO EXPANSÍVEL , ESTERILIDADE: ESTéRIL'
+  ncm: '90213980'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.958
+  n_compras: 74
+  n_registros: 165
+  n_orgaos: 35
+  n_ufs: 18
+  codigo_pdm: 30188
+  nome_pdm: ENDOPRÓTESE DE AORTA
+  origem: termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 616179 em 'UN' (96% dos registros nessa unidade na contagem).
+- codigo_catmat: 476772
+  nome_curto: Stent coronário farmacológico 2,25 × até 40 mm
+  familia: Stent coronário farmacológico
+  familia_macro: Stents
+  descricao_oficial: 'ENDOPRÓTESE CORONÁRIA, TIPO: STENT FARMACOLÓGICO , REVESTIMENTO: BIOLIMUS, EVEROLIMUS, SIROLIMUS OU
+    ZOTAROLIMUS , MATERIAL PLATAFORMA: LIGA METÁLICA , DIMENSÃO: CERCA DE 2,25 X ATÉ 40 MM , ESPESSURA HASTE: HASTE MENOR
+    OU IGUAL A 120 MICROM, MODELO: PERMANENTE, EXPANSÍVEL POR BALÃO , ESTERILIDADE: ESTÉRIL'
+  ncm: '90219012'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.981
+  n_compras: 30
+  n_registros: 54
+  n_orgaos: 14
+  n_ufs: 6
+  codigo_pdm: 19894
+  nome_pdm: ENDOPRÓTESE CORONÁRIA
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 476772 em 'UN' (98% dos registros nessa unidade na contagem).
+- codigo_catmat: 476771
+  nome_curto: Stent coronário farmacológico 2,0 × até 40 mm
+  familia: Stent coronário farmacológico
+  familia_macro: Stents
+  descricao_oficial: 'ENDOPRÓTESE CORONÁRIA, TIPO: STENT FARMACOLÓGICO , REVESTIMENTO: BIOLIMUS, EVEROLIMUS, SIROLIMUS OU
+    ZOTAROLIMUS , MATERIAL PLATAFORMA: LIGA METÁLICA , DIMENSÃO: CERCA DE 2,0 X ATÉ 40 MM , ESPESSURA HASTE: HASTE MENOR OU
+    IGUAL A 120 MICROM, MODELO: PERMANENTE, EXPANSÍVEL POR BALÃO , ESTERILIDADE: ESTÉRIL'
+  ncm: '90219012'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.957
+  n_compras: 27
+  n_registros: 47
+  n_orgaos: 13
+  n_ufs: 10
+  codigo_pdm: 19894
+  nome_pdm: ENDOPRÓTESE CORONÁRIA
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 476771 em 'UN' (96% dos registros nessa unidade na contagem).
+- codigo_catmat: 476904
+  nome_curto: Stent de carótida reto (não farmacológico)
+  familia: Stent vascular periférico
+  familia_macro: Stents
+  descricao_oficial: 'ENDOPRÓTESE VASCULAR PERIFÉRICA, MODELO: CARÓTIDA, RETO , TIPO: STENT NÃO FARMACOLÓGICO , MATERIAL PLATAFORMA:
+    LIGA METÁLICA , DIÂMETRO: CERCA DE 4 A 12 X 20 A 60 MM, SISTEMA ENTREGA: AUTO EXPANSÍVEL , ESTERILIDADE: ESTÉRIL'
+  ncm: '90219012'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 1.0
+  n_compras: 44
+  n_registros: 49
+  n_orgaos: 26
+  n_ufs: 15
+  codigo_pdm: 19896
+  nome_pdm: ENDOPRÓTESE VASCULAR PERIFÉRICA
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 476904 em 'UN' (100% dos registros nessa unidade na contagem).
+- codigo_catmat: 476903
+  nome_curto: Stent de carótida cônico (não farmacológico)
+  familia: Stent vascular periférico
+  familia_macro: Stents
+  descricao_oficial: 'ENDOPRÓTESE VASCULAR PERIFÉRICA, MODELO: CARÓTIDA, CÔNICO , TIPO: STENT NÃO FARMACOLÓGICO , MATERIAL
+    PLATAFORMA: LIGA METÁLICA , DIÂMETRO: CERCA DE 5 A 10 X 20 A 40 MM, SISTEMA ENTREGA: AUTO EXPANSÍVEL , ESTERILIDADE: ESTÉRIL'
+  ncm: '90219012'
+  ncm_origem: catmat
+  unidade_dominante: UN
+  share_unidade_dominante: 0.975
+  n_compras: 36
+  n_registros: 40
+  n_orgaos: 22
+  n_ufs: 13
+  codigo_pdm: 19896
+  nome_pdm: ENDOPRÓTESE VASCULAR PERIFÉRICA
+  origem: ncm+termo
+  nota_comparabilidade: Comparação restrita ao CATMAT 476903 em 'UN' (98% dos registros nessa unidade na contagem).

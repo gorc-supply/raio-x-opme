@@ -96,6 +96,7 @@ comex:
   pause_s: 3.0
   # NCMs validados contra a tabela NCM do ComexStat na Fase 1 (ver docs/FONTES.md).
   # "historico" = código vigente antes de revisão da NCM, mantido para continuidade da série.
+  # "especifico: false" = código amplo/residual: nunca usado para preço implícito por peça.
   ncms:
     - {ncm: "90219012", familia: "Stents", descricao: "Implantes expansíveis (stents)", historico: false}
     - {ncm: "90219081", familia: "Stents", descricao: "Implantes expansíveis (stents) — código usado até 2020", historico: true}
@@ -106,7 +107,10 @@ comex:
     - {ncm: "90213911", familia: "Válvulas cardíacas", descricao: "Válvulas cardíacas mecânicas", historico: false}
     - {ncm: "90213919", familia: "Válvulas cardíacas", descricao: "Outras válvulas cardíacas", historico: false}
     - {ncm: "90213930", familia: "Próteses vasculares", descricao: "Próteses de artérias vasculares revestidas", historico: false}
-    - {ncm: "90219019", familia: "Outros implantáveis", descricao: "Outros aparelhos implantáveis (residual, usar com cautela)", historico: false}
+    - {ncm: "90219019", familia: "Outros implantáveis", descricao: "Outros aparelhos implantáveis (residual, usar com cautela)", historico: false, especifico: false}
+    # Incluídos porque o CATMAT dos itens selecionados aponta para eles (Fase 2). São códigos amplos.
+    - {ncm: "90183929", familia: "Cateteres", descricao: "Outras sondas, cateteres e cânulas (amplo)", historico: false, especifico: false}
+    - {ncm: "90213980", familia: "Outras próteses", descricao: "Outros artigos e aparelhos de prótese (residual)", historico: false, especifico: false}
 
 bcb:
   base_url: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.{code}/dados"

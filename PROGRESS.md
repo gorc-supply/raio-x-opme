@@ -1,6 +1,6 @@
 # PROGRESS — Raio-X OPME
 
-Última atualização: 2026-11-18 02:30 (BRT)
+Última atualização: 2026-11-18 02:45 (BRT)
 
 Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendente` (ver PENDENCIAS.md)
 
@@ -21,7 +21,9 @@ Legenda: `[ ]` a fazer · `[~]` em andamento · `[x]` concluído · `[!] pendent
 - [x] http.py: retry, rate limit, cache, paginação, TLS certifi→truststore→ICP-Brasil (testado)
 
 ## Fase 2 — Catálogo curado
-- [ ] `raiox catalog build` e config/itens_opme.yaml (12–25 itens, ≥ 4 famílias)
+- [x] `raiox catalog build` (descoberta por NCM + termos em 4.754 PDMs; contagem por PDM em 24 meses)
+- [x] config/itens_opme.yaml: 25 itens, 10 famílias (7 macro), nomes curtos curados; candidatos em data/reference/catalogo_candidatos.csv
+- [x] Válvulas e stent convencional fora por volume (registrado em DECISOES.md)
 
 ## Fase 3 — Ingestão
 - [ ] Clientes raw + bronze, cache diário, retomada, contagens no log

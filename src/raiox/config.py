@@ -90,6 +90,7 @@ class NcmCfg(BaseModel):
     familia: str
     descricao: str
     historico: bool = False
+    especifico: bool = True
 
 
 class ComexCfg(BaseModel):
