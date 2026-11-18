@@ -27,3 +27,8 @@ Registro curto de toda escolha não trivial feita durante a construção (data �
 | 2026-11-18 | Nomes curtos curados à mão no YAML (preservados ao regerar) | Nome automático | O nome automático era pouco legível para o painel e os posts. |
 | 2026-11-18 | Incluídos NCMs 9018.39.29 (cateteres, amplo) e 9021.39.80 (outras próteses, residual) com `especifico: false` | Ignorar | O CATMAT dos itens selecionados aponta para eles (prompt: incluir cateter só se o mapeamento indicar). Por serem amplos, nunca geram preço por peça. |
 | 2026-11-18 | Duas camadas de família: `familia` (fina, p/ painel) e `familia_macro` (p/ importação e gráficos) | Uma só | A importação só existe no nível de NCM, que é mais agregado que o CATMAT. |
+| 2026-11-18 | Retomada por snapshot: `data/state/<fonte>_run.json` guarda o snapshot em andamento; páginas já no raw vêm do cache | Checkpoint por número de página | Mais simples e cobre queda em qualquer ponto (testado: 10 páginas apagadas → só 10 chamadas de rede). |
+| 2026-11-18 | `--force` cria um snapshot novo (`AAAA-MM-DD_N`) em vez de sobrescrever o raw do dia | Sobrescrever | Regra "raw nunca é sobrescrito". |
+| 2026-11-18 | Ingestão sequencial com rate limit por host (1 req/s no Compras; 0,2 req/s no ComexStat) | ThreadPool com 2–3 workers | O rate limit já é o gargalo; sequencial é mais previsível e gentil com a API. Ingestão completa levou ~4 min. |
+| 2026-11-18 | ANVISA (produtos para saúde) ligada como complementar; BPS e itens PNCP desligados | — | ANVISA baixou e classificou 2.240 linhas OPME; BPS compilado não contém os itens; PNCP deu timeout. |
+| 2026-11-18 | Leitura de XLSX do BPS com `fastexcel` (calamine) | openpyxl | Mais rápido; o BPS publica XLSX, não CSV como dizia o prompt. |

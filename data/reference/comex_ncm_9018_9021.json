@@ -1,0 +1,562 @@
+[
+ {
+  "noNCM": "Lancetas para vacinação e cautérios",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183930"
+ },
+ {
+  "noNCM": "Outros instrumentos semelhantes a seringas, agulhas, catéteres, etc",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183990"
+ },
+ {
+  "noNCM": "Artigo para fístula arteriovenosa, composto de agulha, base de fixação tipo borboleta, tubo plástico com conector e obturador",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183991"
+ },
+ {
+  "noNCM": "Outros instrumentos semelhantes a seringas, agulhas, catéteres, etc",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183999"
+ },
+ {
+  "noNCM": "Aparelhos dentários de brocar, mesmo combinados numa base comum com outros equipamentos dentários",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184100"
+ },
+ {
+  "noNCM": "Brocas para odontologia, de carboneto de tungstênio (volfrâmio)",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184911"
+ },
+ {
+  "noNCM": "Brocas para odontologia, de aço-vanádio",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184912"
+ },
+ {
+  "noNCM": "Brocas para odontologia, de outras matérias",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184919"
+ },
+ {
+  "noNCM": "Limas para odontologia",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184920"
+ },
+ {
+  "noNCM": "Aparelhos operando por \"laser\" para tratamento bucal",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184930"
+ },
+ {
+  "noNCM": "Aparelhos que operem por projeção cinética de partículas, para tratamento bucal",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184940"
+ },
+ {
+  "noNCM": "Aparelhos para desenho e construção de peças cerâmicas para restaurações dentárias, computadorizados",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184991"
+ },
+ {
+  "noNCM": "Outros instrumentos e aparelhos para odontologia",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90184999"
+ },
+ {
+  "noNCM": "Instrumentos e aparelhos para oftalmologia",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90185000"
+ },
+ {
+  "noNCM": "Cateteres de poli(cloreto de vinila), para embolectomia arterial",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183922"
+ },
+ {
+  "noNCM": "Cateteres de poli(cloreto de vinila), para termodiluição",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183923"
+ },
+ {
+  "noNCM": "Cateteres intravenosos periféricos, de poliuretano ou de copolímero de etileno-tetrafluoretileno (ETFE)",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183924"
+ },
+ {
+  "noNCM": "Outras sondas, catéteres e cânulas",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183929"
+ },
+ {
+  "noNCM": "Aparelhos destinados a procedimentos cirúrgicos assistidos por robótica",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189097"
+ },
+ {
+  "noNCM": "Partes e acessórios de artigos/aparelhos para compensar deficiência",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219099"
+ },
+ {
+  "noNCM": "Oclusores interauriculares constituídos por uma malha de fios de níquel e titânio preenchida com tecido de poliéster, mesmo apresentados com seu respectivo cateter",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219013"
+ },
+ {
+  "noNCM": "Oclusores interauriculares constituídos por uma malha de fios de níquel e titânio preenchida com tecido de poliéster, mesmo apresentados com seu respectivo cateter",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219082"
+ },
+ {
+  "noNCM": "Outros aparelhos para compensar deficiências ou enfermidades",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219089"
+ },
+ {
+  "noNCM": "Partes e acessórios de marca-passos cardíacos",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219091"
+ },
+ {
+  "noNCM": "Partes e acessórios de aparelhos para facilitar a audição dos surdos",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219092"
+ },
+ {
+  "noNCM": "Sondas vesicais estéreis de poliuretano, com revestimento hidrofílico, de uso intermitente, apresentadas em embalagens com solução salina ",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183925"
+ },
+ {
+  "noNCM": "Aparelhos para medida da pressão arterial que contenham mercúrio",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189061"
+ },
+ {
+  "noNCM": "Implantes expansíveis (stents), mesmo montados sobre cateter do tipo balão",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219012"
+ },
+ {
+  "noNCM": "Cateteres intravenosos periféricos, de plástico",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183926"
+ },
+ {
+  "noNCM": "Outros aparelhos para medida da pressão arterial",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189069"
+ },
+ {
+  "noNCM": "Agulhas ponta de lápis, do tipo das utilizadas em anestesia epidural ou raquidiana",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90183213"
+ },
+ {
+  "noNCM": "Outros artigos e aparelhos de prótese",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213080"
+ },
+ {
+  "noNCM": "Aparelhos de cintilografia",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181400"
+ },
+ {
+  "noNCM": "Scanner de tomografia por emissão de posítrons (PET - Positron Emission Tomography)",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181410"
+ },
+ {
+  "noNCM": "Câmaras gama",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181420"
+ },
+ {
+  "noNCM": "Outros aparelhos de cintilografia",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181490"
+ },
+ {
+  "noNCM": "Endoscópios",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181910"
+ },
+ {
+  "noNCM": "Audiômetros",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181920"
+ },
+ {
+  "noNCM": "Câmaras gama",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181930"
+ },
+ {
+  "noNCM": "Outros aparelhos de eletrodiagnóstico",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181980"
+ },
+ {
+  "noNCM": "Partes de aparelhos de eletrodiagnóstico",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181990"
+ },
+ {
+  "noNCM": "Aparelhos de raios ultravioleta ou infravermelhos",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90182000"
+ },
+ {
+  "noNCM": "Aparelhos de raios ultravioleta ou infravermelhos, para cirurgia, que operem por laser",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90182010"
+ },
+ {
+  "noNCM": "Outros aparelhos para tratamento bucal, que operem por laser",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90182020"
+ },
+ {
+  "noNCM": "Outros aparelhos de raios ultravioleta ou infravermelho",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90182090"
+ },
+ {
+  "noNCM": "Seringas, mesmo com agulhas, de plástico, de capacidade inferior ou igual a 2 cm3",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183111"
+ },
+ {
+  "noNCM": "Outras seringas, mesmo com agulhas, de plástico",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183119"
+ },
+ {
+  "noNCM": "Seringas, mesmo com agulhas, de outras matérias",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183190"
+ },
+ {
+  "noNCM": "Agulhas tubulares de metal, gengivais",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90183211"
+ },
+ {
+  "noNCM": "Agulhas tubulares de metal, de aço cromo-níquel, bisel trifacetado e diâmetro exterior superior ou igual a 1,6 mm, do tipo das utilizadas com bolsas de sangue",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90183212"
+ },
+ {
+  "noNCM": "Outras agulhas tubulares de metal",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90183219"
+ },
+ {
+  "noNCM": "Agulhas para suturas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90183220"
+ },
+ {
+  "noNCM": "Outras agulhas",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183910"
+ },
+ {
+  "noNCM": "Próteses articulares, femurais",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211110"
+ },
+ {
+  "noNCM": "Próteses articulares, miolétricas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211120"
+ },
+ {
+  "noNCM": "Outras próteses articulares",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211190"
+ },
+ {
+  "noNCM": "Artigos e aparelhos ortopédicos",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211910"
+ },
+ {
+  "noNCM": "Artigos e aparelhos para fraturas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211920"
+ },
+ {
+  "noNCM": "Partes e acessórios de artigos e aparelhos de ortopedia, articulares",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211991"
+ },
+ {
+  "noNCM": "Outras partes e acessórios de próteses articulares/aparelhos ortopédicos",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211999"
+ },
+ {
+  "noNCM": "Dentes artificiais de acrílico",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90212110"
+ },
+ {
+  "noNCM": "Dentes artificiais, exceto de acrílico",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90212190"
+ },
+ {
+  "noNCM": "Outros artigos e aparelhos de prótese dentária",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90212900"
+ },
+ {
+  "noNCM": "Válvulas cardíacas mecânicas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213011"
+ },
+ {
+  "noNCM": "Válvulas cardíacas, exceto as mecânicas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213019"
+ },
+ {
+  "noNCM": "Lentes intraoculares",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213020"
+ },
+ {
+  "noNCM": "Próteses de artérias vasculares revestidas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213030"
+ },
+ {
+  "noNCM": "Próteses mamárias não implantáveis",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213040"
+ },
+ {
+  "noNCM": "Sondas, cateteres e cânulas, de borracha",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90183921"
+ },
+ {
+  "noNCM": "Partes de próteses modulares substituição de membros superiores/inferiores",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213091"
+ },
+ {
+  "noNCM": "Partes e acessórios de outros artigos e aparelhos de prótese",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213099"
+ },
+ {
+  "noNCM": "Próteses articulares femurais",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213110"
+ },
+ {
+  "noNCM": "Próteses articulares mioelétricas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213120"
+ },
+ {
+  "noNCM": "Outras próteses articulares",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213190"
+ },
+ {
+  "noNCM": "Válvulas cardiacas mecânicas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213911"
+ },
+ {
+  "noNCM": "Outras válvulas cardíacas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213919"
+ },
+ {
+  "noNCM": "Lentes intraoculares",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213920"
+ },
+ {
+  "noNCM": "Próteses de artérias vasculares revestidas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213930"
+ },
+ {
+  "noNCM": "Próteses mamárias não implantáveis",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213940"
+ },
+ {
+  "noNCM": "Outros artigos e aparelhos de prótese",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213980"
+ },
+ {
+  "noNCM": "Partes de próteses modulares que substituem membros superiores ou inferiores",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213991"
+ },
+ {
+  "noNCM": "Outras partes/acessórios de artigos e aparelhos de prótese",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90213999"
+ },
+ {
+  "noNCM": "Aparelhos para facilitar a audição dos surdos, exceto as partes e acessórios",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90214000"
+ },
+ {
+  "noNCM": "Marca-passos cardíacos, exceto as partes e acessórios",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90215000"
+ },
+ {
+  "noNCM": "Cardiodesfibriladores automáticos",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219011"
+ },
+ {
+  "noNCM": "Outros aparelhos implantáveis orgânicos, para compensar defeito/incapacidade",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219019"
+ },
+ {
+  "noNCM": "Outros aparelhos para compensar deficiências ou enfermidades",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219080"
+ },
+ {
+  "noNCM": "Implantes expansíveis (stents), mesmo montados sobre cateter do tipo balão",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90219081"
+ },
+ {
+  "noNCM": "Microscópios binoculares, dos tipos utilizados em cirurgia oftalmológica",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90185010"
+ },
+ {
+  "noNCM": "Outros instrumentos e aparelhos de oftalmologia",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90185090"
+ },
+ {
+  "noNCM": "Outros instrumentos e aparelhos para transfusão de sangue ou infusão intravenosa",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189010"
+ },
+ {
+  "noNCM": "Litotritores por onda de choque",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189031"
+ },
+ {
+  "noNCM": "Litotomos e outros litotritores",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189039"
+ },
+ {
+  "noNCM": "Rins artificiais",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189040"
+ },
+ {
+  "noNCM": "Aparelhos de diatermia",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189050"
+ },
+ {
+  "noNCM": "Incubadoras para bebês",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189091"
+ },
+ {
+  "noNCM": "Aparelhos para medida da pressão arterial",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189092"
+ },
+ {
+  "noNCM": "Aparelhos para terapia intra-uretral por micro-ondas (TUMT), próprios para o tratamento de afecções prostáticas, computadorizados",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189093"
+ },
+ {
+  "noNCM": "Endoscópio",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189094"
+ },
+ {
+  "noNCM": "Grampos e clipes, seus aplicadores e extratores",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189095"
+ },
+ {
+  "noNCM": "Desfibriladores externos que operem unicamente em modo automático (AED - Automatic External Defibrillator)",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189096"
+ },
+ {
+  "noNCM": "Outros instrumentos e aparelhos para medicina, cirurgia, etc",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189099"
+ },
+ {
+  "noNCM": "Eletrocardiógrafos",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181100"
+ },
+ {
+  "noNCM": "Ecógrafos com análise espectral doppler",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181210"
+ },
+ {
+  "noNCM": "Outros aparelhos de eletrodiagnóstico varredura ultra-sônica",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181290"
+ },
+ {
+  "noNCM": "Aparelhos de diagnóstico por visualização de ressonância magnética",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90181300"
+ },
+ {
+  "noNCM": "Artigos e aparelhos ortopédicos",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211010"
+ },
+ {
+  "noNCM": "Artigos e aparelhos para fraturas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211020"
+ },
+ {
+  "noNCM": "Partes e acessórios de artigos/aparelhos de ortopedia/articulação",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211091"
+ },
+ {
+  "noNCM": "Outras partes e acessórios de aparelhos de ortopedia/fraturas",
+  "unit": "QUILOGRAMA LIQUIDO",
+  "coNcm": "90211099"
+ },
+ {
+  "noNCM": "Bisturis elétricos",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189021"
+ },
+ {
+  "noNCM": "Outros bisturis",
+  "unit": "NUMERO (UNIDADE)",
+  "coNcm": "90189029"
+ }
+]

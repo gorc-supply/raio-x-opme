@@ -77,11 +77,11 @@ def ingest_ibge(offline: bool = OfflineOpt, force: bool = ForceOpt) -> None:
 
 
 @ingest_app.command("complementares")
-def ingest_complementary(force: bool = ForceOpt) -> None:
-    """Fontes complementares habilitadas em settings.yaml (BPS, PNCP, ANVISA, SIGTAP)."""
+def ingest_complementary(offline: bool = OfflineOpt, force: bool = ForceOpt) -> None:
+    """Fontes complementares habilitadas em settings.yaml (ANVISA, BPS, itens PNCP)."""
     from raiox.pipeline import run_ingest
 
-    run_ingest(_settings(False), ["complementares"], force=force)
+    run_ingest(_settings(offline), ["complementares"], force=force)
 
 
 @ingest_app.command("all")

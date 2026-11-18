@@ -145,6 +145,10 @@ analysis:
   finding_min_ci_lower: 1.5
   # Uma UF é "dominada" se um único órgão comprador (UASG) responde por mais que esta fração das compras.
   max_top_buyer_share: 0.5
+  # Trava de homogeneidade: se os preços do mesmo CATMAT variam mais que isto no país (P90/P10),
+  # o código abriga produtos diferentes (marca/especificação) e a diferença entre UFs não vira
+  # achado "forte". Itens tecnicamente homogêneos ficaram abaixo de 3,6× (ver docs/DECISOES.md).
+  max_p90_p10_homogeneo: 5.0
   # Concentração: quantos maiores entram no CR.
   top_n_concentration: 3
   # Série mensal: mínimo de registros no mês para publicar a mediana.
@@ -159,8 +163,20 @@ analysis:
   unit_aliases_set: ["KIT", "CJ", "CONJ", "CONJUNTO", "JG", "JOGO", "SISTEMA"]
 
 findings:
-  max_findings: 30
+  max_findings: 120
   top_for_docs: 10
+  # Achados que não são razão entre UFs (dispersão nacional, tendência, concentração):
+  # "forte" exige ao menos min_compras_forte compras distintas; "moderado", min_compras_moderado.
+  min_compras_forte: 30
+  min_compras_moderado: 15
+  # Tendência real: compara a mediana dos primeiros N meses do histórico com os últimos N meses.
+  janela_tendencia_meses: 24
+  # Variação real só é "forte" se o IC bootstrap da razão ficar todo acima de 1+x ou abaixo de 1-x.
+  tendencia_margem: 0.10
+  # Dispersão nacional (P90/P10) mínima para virar achado.
+  p90_p10_minimo: 2.0
+  # Concentração: CR3 mínimo de fornecedores para virar achado.
+  cr3_minimo: 0.6
 
 charts:
   width_px: 1080
@@ -171,13 +187,16 @@ charts:
 # Fontes complementares (Fase 5.6). Cada uma fica atrás de um flag.
 complementary:
   bps:
+    # Desligado: as bases compiladas 2023–2024 não contêm nenhum CATMAT do catálogo (ver PENDENCIAS.md).
     enabled: false
     page_url: "https://www.gov.br/saude/pt-br/acesso-a-informacao/banco-de-precos/bases-anuais-compiladas"
   pncp_itens:
+    # Desligado: o endpoint deu 504/timeout na Fase 1 (ver PENDENCIAS.md).
     enabled: false
     window_days: 31
   anvisa:
-    enabled: false
+    enabled: true
     base_url: "https://dados.anvisa.gov.br/dados/"
   sigtap:
+    # Não implementado (opcional na especificação; ver PENDENCIAS.md).
     enabled: false

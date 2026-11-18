@@ -134,6 +134,7 @@ class AnalysisCfg(BaseModel):
     ci_level: float
     finding_min_ci_lower: float
     max_top_buyer_share: float
+    max_p90_p10_homogeneo: float
     top_n_concentration: int
     min_obs_month: int
     bridge_years: int
@@ -145,6 +146,12 @@ class AnalysisCfg(BaseModel):
 class FindingsCfg(BaseModel):
     max_findings: int
     top_for_docs: int
+    min_compras_forte: int
+    min_compras_moderado: int
+    janela_tendencia_meses: int
+    tendencia_margem: float
+    p90_p10_minimo: float
+    cr3_minimo: float
 
 
 class ChartsCfg(BaseModel):
