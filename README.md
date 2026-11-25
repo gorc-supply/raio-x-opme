@@ -1,175 +1,162 @@
+**English** · [Português](README.pt-BR.md)
+
 # Raio-X OPME
 
-**Quanto o setor público brasileiro paga por stents, próteses e implantes — e quanto disso depende de importação.**
+**What Brazil's public sector pays for stents, prostheses and implants — and how much of that depends on imports.**
+
+Read the data story: [What Brazil's public sector pays for implants](https://gorc-supply.github.io/stories/opme-prices.html)
 
 [![CI](https://github.com/gorcxpg-opme/raio-x-opme/actions/workflows/ci.yml/badge.svg)](https://github.com/gorcxpg-opme/raio-x-opme/actions/workflows/ci.yml)
-[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-0B5D7A.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-0B5D7A.svg)](LICENSE)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-0B5D7A.svg)](https://www.python.org/)
-[![Dados abertos](https://img.shields.io/badge/dados-p%C3%BAblicos-C2410C.svg)](docs/FONTES.md)
+[![Open data](https://img.shields.io/badge/data-public-C2410C.svg)](docs/FONTES.md)
 
-![Painel do Raio-X OPME: página inicial com indicadores e achados](docs/img/painel_home.png)
+![Raio-X OPME dashboard: home page with indicators and findings](docs/img/painel_home.png)
 
 <details>
-<summary>Mais telas do painel (desktop, celular e modo escuro)</summary>
+<summary>More dashboard screens (desktop, mobile and dark mode)</summary>
 
-| Página | Desktop (1440 px) | Celular (390 px) |
+| Page | Desktop (1440 px) | Mobile (390 px) |
 |---|---|---|
-| Preços por UF | ![Mapa coroplético e distribuição por UF](docs/img/painel_precos_uf.png) | ![Preços por UF no celular](docs/img/painel_precos_uf_mobile.png) |
-| Explorar item | ![Distribuição, série real, fornecedores e compras](docs/img/painel_explorar.png) | ![Explorar item no celular](docs/img/painel_explorar_mobile.png) |
-| Importação | ![Série, balança comercial, origens e ANVISA](docs/img/painel_importacao.png) | ![Importação no celular](docs/img/painel_importacao_mobile.png) |
-| Tabela SUS × preço | ![Razão preço pago ÷ Tabela SUS e evolução do valor de tabela](docs/img/painel_tabela_sus.png) | ![Tabela SUS no celular](docs/img/painel_tabela_sus_mobile.png) |
-| Início (modo escuro) | ![Página inicial no modo escuro](docs/img/painel_home_dark.png) | ![Página inicial no celular, modo escuro](docs/img/painel_home_mobile_dark.png) |
+| Prices by state | ![Choropleth map and distribution by state](docs/img/painel_precos_uf.png) | ![Prices by state on mobile](docs/img/painel_precos_uf_mobile.png) |
+| Explore item | ![Distribution, real-terms series, suppliers and purchases](docs/img/painel_explorar.png) | ![Explore item on mobile](docs/img/painel_explorar_mobile.png) |
+| Imports | ![Series, trade balance, origins and ANVISA](docs/img/painel_importacao.png) | ![Imports on mobile](docs/img/painel_importacao_mobile.png) |
+| SUS table × price | ![Price paid ÷ SUS table ratio and table value over time](docs/img/painel_tabela_sus.png) | ![SUS table on mobile](docs/img/painel_tabela_sus_mobile.png) |
+| Home (dark mode) | ![Home page in dark mode](docs/img/painel_home_dark.png) | ![Home page on mobile, dark mode](docs/img/painel_home_mobile_dark.png) |
 
 </details>
 
-## O que este projeto responde
+## What this project answers
 
-1. **Quanto o setor público paga** por itens de OPME (órteses, próteses e materiais especiais) como stents,
-   próteses articulares, placas e parafusos, marca-passos, endopróteses e cateteres?
-2. **O mesmo item custa mais caro em alguns estados?** Com que confiança dá para afirmar isso?
-3. **Quanto o país depende de importação** nesses itens — e de quais países?
+1. **How much does the public sector pay** for OPME items (orthoses, prostheses and special materials) such as stents,
+   joint prostheses, plates and screws, pacemakers, endoprostheses and catheters?
+2. **Does the same item cost more in some states?** How confidently can we say so?
+3. **How dependent is the country on imports** for these items — and from which countries?
 
-## Principais achados
+## Key findings
 
-Dados coletados em 18/11/2026. Compras de 11/2024 a 10/2026, em R$ de out/2026 (IPCA). Só achados de
-robustez **forte** ([critérios](docs/METODOLOGIA.md)).
+Data collected on November 18, 2026. Purchases from Nov 2024 to Oct 2026, in Oct 2026 BRL (IPCA). Only findings with
+**strong** robustness ([criteria](docs/METODOLOGIA.md)).
 
-1. **Marca-passos dependem 100% de fabricantes estrangeiros.** Os 51 registros vigentes na ANVISA têm apenas
-   fabricante estrangeiro; em 2025 o Brasil importou US$ 29,0 mi (FOB) e exportou US$ 34,6 mil (0,1%).
-   *Fontes: ANVISA; ComexStat/MDIC.*
-2. **Stents: para cada US$ 100 importados, US$ 2,80 exportados.** Em 2025: US$ 100,6 mi de importação contra
-   US$ 2,8 mi de exportação; 97% dos 133 registros vigentes só têm fabricante estrangeiro.
-   *Fontes: ComexStat/MDIC; ANVISA.*
-3. **O mesmo código de catálogo esconde preços muito diferentes.** O parafuso cortical de bloqueio 4,5 mm
-   (CATMAT 443323) teve P10 de R$ 24 e P90 de R$ 766 por unidade (96 compras, 50 órgãos). Em 11 dos 25 itens,
-   P90/P10 passa de 5×: comparar estados nesses itens mede o mix de marcas, não o preço.
-   *Fonte: Compras.gov.br.*
+1. **Pacemakers depend 100% on foreign manufacturers.** The 51 active ANVISA registrations list only a
+   foreign manufacturer; in 2025 Brazil imported US$ 29.0 million (FOB) and exported US$ 34.6 thousand (0.1%).
+   *Sources: ANVISA; ComexStat/MDIC.*
+2. **Stents: for every US$ 100 imported, US$ 2.80 exported.** In 2025: US$ 100.6 million in imports against
+   US$ 2.8 million in exports; 97% of the 133 active registrations list only a foreign manufacturer.
+   *Sources: ComexStat/MDIC; ANVISA.*
+3. **The same catalog code hides very different prices.** The 4.5 mm cortical locking screw
+   (CATMAT 443323) had a P10 of R$ 24 and a P90 of R$ 766 per unit (96 purchases, 50 agencies). In 11 of the 25 items,
+   P90/P10 exceeds 5×: comparing states on these items measures the brand mix, not the price.
+   *Source: Compras.gov.br.*
 
-E um resultado que vale como achado: **nenhuma diferença de preço entre UFs passou em todas as regras**
-para ser chamada de forte (7 indícios moderados, 12 fracos, 6 itens sem amostra). Detalhes em
+And one result that counts as a finding: **no price gap between states (UFs) passed every rule**
+needed to be called strong (7 moderate signals, 12 weak, 6 items without enough sample). Details in
 [docs/ACHADOS.md](docs/ACHADOS.md).
 
-## Painel
+## Dashboard
 
-**https://raio-x-opme.streamlit.app** — mapa por UF, distribuição de preços, série real, fornecedores,
-compras individuais com link para o registro, importação, Tabela SUS × preço praticado e metodologia. O painel só lê `data/gold/` e
-`data/reference/`: não chama nenhuma API.
+**https://raio-x-opme.streamlit.app** — map by state, price distribution, real-terms series, suppliers,
+individual purchases with a link to the record, imports, SUS table × price paid and methodology. The dashboard only reads `data/gold/` and
+`data/reference/`: it does not call any API.
 
-## Como funciona
+## How it works
 
 ```mermaid
 flowchart LR
-    subgraph Fontes abertas
-        A[Compras.gov.br<br/>preços + CATMAT]
-        B[ComexStat<br/>importação/exportação]
-        C[BCB<br/>IPCA e câmbio]
-        D[IBGE<br/>UFs e malha]
-        E[ANVISA<br/>registros]
-        F[SIGTAP/DATASUS<br/>Tabela SUS]
+    subgraph Open sources
+        A[Compras.gov.br<br/>prices + CATMAT]
+        B[ComexStat<br/>imports/exports]
+        C[BCB<br/>IPCA and exchange rate]
+        D[IBGE<br/>states and boundaries]
+        E[ANVISA<br/>registrations]
+        F[SIGTAP/DATASUS<br/>SUS table]
     end
-    A & B & C & D & E & F --> R[(raw<br/>JSON por snapshot)]
-    R --> BZ[(bronze<br/>Parquet fiel à fonte)]
-    BZ --> S[(silver<br/>limpo, unidades, CPF mascarado,<br/>outliers, R$ constantes)]
-    S --> G[(gold<br/>preço por UF, dispersão com IC,<br/>séries, importação, achados)]
-    G --> P[Painel Streamlit]
-    G --> L[Kit LinkedIn<br/>PNG + PDF]
-    K[catálogo curado<br/>config/itens_opme.yaml] --> A
+    A & B & C & D & E & F --> R[(raw<br/>JSON per snapshot)]
+    R --> BZ[(bronze<br/>Parquet true to the source)]
+    BZ --> S[(silver<br/>clean, units, masked CPF,<br/>outliers, constant BRL)]
+    S --> G[(gold<br/>price by state, dispersion with CI,<br/>series, imports, findings)]
+    G --> P[Streamlit dashboard]
+    G --> L[LinkedIn kit<br/>PNG + PDF]
+    K[curated catalog<br/>config/itens_opme.yaml] --> A
 ```
 
-Validação com `pandera` na silver e na gold (falha de schema derruba o pipeline), cliente HTTP com retry,
-rate limit, cache diário e retomada, modo offline com amostras reais (`data/fixtures/`) e atualização
-mensal automática via GitHub Actions.
+Validation with `pandera` on silver and gold (a schema failure stops the pipeline), HTTP client with retry,
+rate limiting, daily cache and resume, offline mode with real samples (`data/fixtures/`) and automatic
+monthly refresh via GitHub Actions.
 
-## Como rodar (4 comandos)
+## How to run (4 commands)
 
-Requer [uv](https://docs.astral.sh/uv/) e git. Funciona em Windows, Linux e macOS.
+Requires [uv](https://docs.astral.sh/uv/) and git. Works on Windows, Linux and macOS.
 
 ```bash
 git clone https://github.com/gorcxpg-opme/raio-x-opme.git
 cd raio-x-opme
 uv sync
-uv run raiox all            # coleta e processa tudo (~5 min); sem internet: uv run raiox all --offline
+uv run raiox all            # collects and processes everything (~5 min); without internet: uv run raiox all --offline
 uv run streamlit run app/Home.py
 ```
 
-Outros comandos: `uv run raiox --help`, `uv run pytest`, `uv run ruff check .`, `uv run raiox catalog build`.
+Other commands: `uv run raiox --help`, `uv run pytest`, `uv run ruff check .`, `uv run raiox catalog build`.
 
-> **Windows com Smart App Control:** se o Windows bloquear `streamlit.exe` ou `pytest.exe`, use
-> `uv run python -m streamlit run app/Home.py` e `uv run python -m pytest`. O efeito é o mesmo.
+> **Windows with Smart App Control:** if Windows blocks `streamlit.exe` or `pytest.exe`, use
+> `uv run python -m streamlit run app/Home.py` and `uv run python -m pytest`. The effect is the same.
 
-### Publicar o painel (Streamlit Community Cloud, gratuito)
+### Publish the dashboard (Streamlit Community Cloud, free)
 
-1. Faça o push do repositório para o GitHub (público).
-2. Em [share.streamlit.io](https://share.streamlit.io), *Create app* → selecione o repositório, branch `main`
-   e o arquivo principal **`app/Home.py`**.
-3. Em *Advanced settings*, escolha **Python 3.12**. As dependências vêm do `requirements.txt` (gerado do
-   `uv.lock` e conferido pelo CI).
-4. Escolha o subdomínio `raio-x-opme` (ou outro e atualize `project.dashboard_url` em `config/settings.yaml`).
+1. Push the repository to GitHub (public).
+2. On [share.streamlit.io](https://share.streamlit.io), *Create app* → select the repository, branch `main`
+   and the main file **`app/Home.py`**.
+3. Under *Advanced settings*, choose **Python 3.12**. Dependencies come from `requirements.txt` (generated from
+   `uv.lock` and checked by CI).
+4. Choose the subdomain `raio-x-opme` (or another one, and update `project.dashboard_url` in `config/settings.yaml`).
 
-## Fontes e licenças
+## Sources and licenses
 
-| Fonte | Uso | Licença/termos |
+| Source | Use | License/terms |
 |---|---|---|
-| [Compras.gov.br — API de Dados Abertos](https://dadosabertos.compras.gov.br/swagger-ui/index.html) | Preços praticados e catálogo CATMAT | Dados abertos (Decreto nº 8.777/2016) |
-| [ComexStat/MDIC](https://comexstat.mdic.gov.br) | Importação e exportação por NCM | Dados abertos |
-| [Banco Central — SGS](https://www3.bcb.gov.br/sgspub) | IPCA (433) e câmbio (3698) | Dados abertos |
-| [IBGE — API de localidades e malhas](https://servicodados.ibge.gov.br/api/docs/localidades) | UFs e malha territorial | Dados abertos |
-| [ANVISA — dados abertos](https://dados.anvisa.gov.br/dados/) | Registros de produtos para saúde | Dados abertos |
-| [SIGTAP/DATASUS — Tabela Unificada](http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp) | Valor de tabela SUS para OPME (2015–2026) | CC BY 3.0 |
+| [Compras.gov.br — Open Data API](https://dadosabertos.compras.gov.br/swagger-ui/index.html) | Prices paid and CATMAT catalog | Open data (Decree No. 8,777/2016) |
+| [ComexStat/MDIC](https://comexstat.mdic.gov.br) | Imports and exports by NCM | Open data |
+| [Central Bank — SGS](https://www3.bcb.gov.br/sgspub) | IPCA (433) and exchange rate (3698) | Open data |
+| [IBGE — localities and boundaries API](https://servicodados.ibge.gov.br/api/docs/localidades) | States and territorial boundaries | Open data |
+| [ANVISA — open data](https://dados.anvisa.gov.br/dados/) | Health product registrations | Open data |
+| [SIGTAP/DATASUS — Unified Table](http://sigtap.datasus.gov.br/tabela-unificada/app/download.jsp) | SUS table value for OPME (2015–2026) | CC BY 3.0 |
 
-Código sob licença [MIT](LICENSE). Dados pertencem às fontes; cite-as ao reutilizar. Detalhes técnicos de
-cada endpoint em [docs/FONTES.md](docs/FONTES.md); colunas das tabelas em
+Code under the [MIT](LICENSE) license. The data belongs to its sources; cite them when reusing it. Technical details of
+each endpoint in [docs/FONTES.md](docs/FONTES.md); table columns in
 [docs/DICIONARIO_DADOS.md](docs/DICIONARIO_DADOS.md).
 
-## Limitações
+## Limitations
 
-- Cobre só compras registradas no Compras.gov.br (federal e parte de estados e municípios).
-- O mesmo código CATMAT pode abrigar marcas e especificações diferentes; por isso há uma trava de
-  homogeneidade antes de qualquer comparação entre estados.
-- Amostras por UF são pequenas: a maioria dos itens tem poucas UFs comparáveis.
-- Importação de implantes é medida em kg (exceto marca-passos), o que impede preço por peça.
-- Diferença de preço **não** é sinônimo de irregularidade: volume, prazo, logística, consignação,
-  especificação e urgência explicam boa parte da variação.
+- Covers only purchases recorded in Compras.gov.br (federal and part of states and municipalities).
+- The same CATMAT code can hold different brands and specifications; that is why there is a
+  homogeneity check before any comparison between states.
+- Samples per state are small: most items have few comparable states.
+- Implant imports are measured in kg (except pacemakers), which rules out a price per piece.
+- A price gap is **not** a synonym for irregularity: volume, delivery time, logistics, consignment,
+  specification and urgency explain much of the variation.
 
-Lista completa em [docs/METODOLOGIA.md](docs/METODOLOGIA.md#11-limitações-conhecidas).
+Full list in [docs/METODOLOGIA.md](docs/METODOLOGIA.md#11-limitações-conhecidas).
 
 ## Roadmap
 
-- [ ] Itens de contratações PNCP (Lei 14.133) quando o endpoint estabilizar — amplia estados e municípios.
-- [ ] Comparação "mesma marca, estados diferentes" para separar preço de mix de produtos.
-- [ ] Banco de Preços em Saúde (BPS) completo, se houver base aberta com OPME.
-- [x] Tabela SIGTAP (valor de referência SUS) × preço praticado (mapa SIGTAP × CATMAT validado).
-- [ ] Mais itens no catálogo à medida que o histórico acumula.
+- [ ] Items from PNCP procurements (Law 14,133) once the endpoint stabilizes — widens coverage of states and municipalities.
+- [ ] "Same brand, different states" comparison to separate price from product mix.
+- [ ] Full Banco de Preços em Saúde (BPS, health price database), if there is an open dataset with OPME.
+- [x] SIGTAP table (SUS reference value) × price paid (SIGTAP × CATMAT map validated).
+- [ ] More items in the catalog as the history builds up.
 
-## Autor
+## Author
 
-**Gabriel Cunha** — Supply Chain & Operations, com vivência em OPME.
+**Gabriel Cunha** — Supply Chain & Operations, with hands-on OPME experience.
 [LinkedIn](https://www.linkedin.com/in/gabriel-cunha-xp)
 
-Sugestões e críticas à metodologia são muito bem-vindas (abra uma *issue*).
+Suggestions and criticism of the methodology are very welcome (open an *issue*).
 
 <details>
-<summary>Para colar no GitHub (descrição e topics)</summary>
+<summary>To paste into GitHub (description and topics)</summary>
 
-**Descrição curta:** Quanto o setor público brasileiro paga por stents, próteses e implantes: pipeline aberto + painel com preços por UF, dispersão com IC e dependência de importação.
+**Short description:** What Brazil's public sector pays for stents, prostheses and implants: open pipeline + dashboard with prices by state, dispersion with CI and import dependence.
 
 **Topics:** `opme` `compras-publicas` `dados-abertos` `saude-publica` `supply-chain` `streamlit` `polars` `duckdb` `data-engineering` `brazil` `healthcare` `procurement` `open-data`
 
 </details>
-
----
-
-## English summary
-
-**Raio-X OPME** is an open-source data pipeline and dashboard on what Brazil's public sector pays for
-implantable medical devices (stents, joint prostheses, plates and screws, pacemakers, endoprostheses,
-catheters), how prices vary across states, and how dependent the country is on imports. It pulls only
-open, no-auth sources (Compras.gov.br open-data API, ComexStat, Central Bank, IBGE, ANVISA), builds a
-raw → bronze → silver → gold lakehouse with Polars/DuckDB and pandera validation, and publishes a Streamlit
-dashboard plus LinkedIn-ready charts. Price comparisons only use the same catalog code and unit, require a
-minimum sample per state, use medians in inflation-adjusted BRL, and report cluster-bootstrap confidence
-intervals. Key results (Nov/2026 data): pacemakers are 100% foreign-made by ANVISA registrations and import
-coverage by exports is 0.1%; Brazil imported US$ 100.6M in stents in 2025 versus US$ 2.8M exported; and no
-state-level price gap passed all robustness rules — mostly because a single catalog code often bundles
-different brands and specifications. Run it with `uv sync`, then `uv run raiox all`, then `uv run streamlit run app/Home.py`.
-MIT licensed.
